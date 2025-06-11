@@ -1,8 +1,57 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+/* ==================== Theme Variables ==================== */
+:root {
+    --bg-main: #F0F4F9;
+    --bg-hover: #E2E7EB;
+    --text-main: #202123;
+    --text-muted: #575b5f;
+    --scroll-track: #1e293b00;
+    --scroll-thumb: #333537;
+    --scroll-thumb-hover: #64748b;
+    --tooltip-bg: #202123;
+    --border-color: #e0e0e0;
 }
 
+body.dark {
+    --bg-main: #1b1c1d;
+    --bg-hover: #2b2d2e;
+    --text-main: #a2a9b0;
+    --text-muted: #cbd5e1;
+    --scroll-track: #1e293b;
+    --scroll-thumb: #4a5568;
+    --scroll-thumb-hover: #64748b;
+    --tooltip-bg: #282a2c;
+    --border-color: #4a5050;
+}
+
+/* ==================== Global ==================== */
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scroll-track);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scroll-thumb-hover);
+}
+
+/* Links & Lists */
 ul {
     list-style: none;
     padding: 0;
@@ -11,70 +60,10 @@ ul {
 }
 
 a {
-
     text-decoration: none;
 }
 
-.main-content {
-    width: 80px;
-    height: 100vh;
-    background-color: #F0F4F9;
-    padding: 20px 16px;
-    transition: width 0.3s;
-    position: relative;
-}
-
-.main-content:hover {
-     width: 260px;
-}
-
-.main-content.pinned {
-    width: 260px;
-}
-
-#openBtn,
-#search-icon {
-    width: 100%;
-    height: 100%;
-    font-size: 18px;
-    background: none;
-    border: none;
-    color: #202123;
-    cursor: pointer;
-    border-radius: 50%;
-    background-color: #F0F4F9;
-    padding: 0;
-}
-
-.main-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.main-inner-left,
-.main-inner-right {
-    width: 40px;
-    height: 40px;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-
-#openBtn:hover {
-    background-color: #E2E7EB;
-}
-
-#search-icon:hover {
-    background-color: #E2E7EB;
-}
-
-.search-grey {
-    color: #A1A3A6 !important;
-}
-
+/* ==================== Material Icons ==================== */
 .material-icons,
 .material-symbols-outlined {
     font-family: 'Material Icons';
@@ -91,6 +80,97 @@ a {
     -webkit-font-smoothing: antialiased;
 }
 
+/* ==================== Main Content Sidebar ==================== */
+.main-content {
+    width: 5%;
+    height: 100vh;
+    background-color: #282a2c;
+    color: var(--text-main);
+    padding: 20px 16px 0;
+    transition: width 0.3s;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+
+}
+
+.main-content:hover,
+.main-content.pinned {
+    width: 21%;
+}
+.add-width, .gemini-data {
+    width: 95% !important;
+}
+
+.remove-width {
+    width: 79%;
+}
+
+.gemini-header {
+   width: 100%;
+}
+
+.main-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.main-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-inner-left,
+.main-inner-right {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.main-content:hover .main-inner-right,
+.main-content.pinned .main-inner-right {
+    display: flex;
+}
+
+.main-content:not(:hover):not(.pinned) .main-inner-right {
+    display: none;
+}
+
+.main-content:not(:hover):not(.pinned) .diamond {
+    display: none;
+}
+
+/* ==================== Buttons ==================== */
+#openBtn,
+#search-icon {
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0;
+}
+
+#openBtn:hover,
+#search-icon:hover {
+    background-color: #353739;
+}
+
+.search-grey {
+    color: #A1A3A6 !important;
+}
+
+/* ==================== Drawer List ==================== */
 .drawer {
     padding-top: 30px;
 }
@@ -101,52 +181,40 @@ a {
     display: flex;
     align-items: center;
     gap: 20px;
-    color: #575b5f;
+    color: var(--text-muted);
     cursor: pointer;
+    position: relative;
+    white-space: nowrap;
 }
-
 
 .drawer-data li:hover {
-       background-color: #E2E7EB;
+    background-color: #353739;
 }
 
-.main-content:not(:hover):not(.pinned) .drawer-data li  {
-   padding: 12px 0 12px; 
-   justify-content: center;
+.main-content:not(:hover):not(.pinned) .drawer-data li {
+    padding: 12px 0;
+    justify-content: center;
 }
 
+.main-content:not(:hover):not(.pinned) .drawer-data span {
+    display: none;
+}
 
 .main-content:hover .drawer-data span,
 .main-content.pinned .drawer-data span {
-    display: inline-block ;
+    display: inline-block;
 }
 
-.main-content:not(:hover):not(.pinned) .drawer-data span  {
-    display: none;
-}
-
-.main-content:hover .main-inner-right,
-.main-content.pinned .main-inner-right {
-    display: flex; 
-}
-
-.main-content:not(:hover):not(.pinned) .main-inner-right {
-    display: none;
-}
-
-.main-content:not(:hover):not(.pinned) .diamond {
-    display: none ;
-}
-
-.expand, 
-.collapse, 
+/* ==================== Tooltip & Labels ==================== */
+.expand,
+.collapse,
 .keep-menu-expanded,
-.search-span{
+.search-span,
+.new-chat,
+.expore,
+.seting-span {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -30px;
-    background: #202123;
+    background: var(--tooltip-bg);
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
@@ -155,18 +223,41 @@ a {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s, visibility 0.2s;
-    z-index: 10;
     pointer-events: none;
+    z-index: 10;
 }
 
+/* Tooltip positions */
+.expand,
+.collapse,
+.keep-menu-expanded,
+.search-span {
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
+.new-chat,
+.expore,
+.seting-span {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+}
+
+/* Show tooltips */
 .main-inner-left:hover .collapse,
 .main-inner-left:hover .keep-menu-expanded,
-.main-inner-right:hover .search-span{
+.main-inner-right:hover .search-span,
+.drawer-data li:hover .new-chat,
+.drawer-data li:hover .seting-span,
+.drawer-data li:hover .expore {
     opacity: 1;
     visibility: visible;
 }
 
+/* Expand/Collapse Toggle Visibility */
 .main-content:not(.pinned) .collapse,
 .main-content:not(.pinned) .keep-menu-expanded,
 .main-content.pinned .expand {
@@ -175,80 +266,153 @@ a {
 
 .main-content.pinned .main-inner-left:hover .collapse {
     display: block;
-     opacity: 1;
-    visibility: visible;
-     top: 100%;
-    left: 100%;
 }
 
-.main-content.pinned .main-inner-left:hover .keep-menu-expanded {
-    display: none;
-   
-}
-
+.main-content.pinned .main-inner-left:hover .keep-menu-expanded,
 .main-content.pinned .main-inner-left:hover .expand {
     display: none;
 }
-
 
 .main-content:not(:hover):not(.pinned) .main-inner-left:hover .expand {
     display: block;
 }
 
-
-
 .main-content .main-inner-left:hover .keep-menu-expanded {
- display: block;
-     opacity: 1;
-    visibility: visible;
-     top: 100%;
+    display: block;
+    top: 100%;
     left: 170%;
 }
 
-.drawer-data li {
-    position: relative; 
+/* ==================== Bottom Settings Area ==================== */
+.setting-help {
+    padding: 12px 0;
+    border-top: 1px solid var(--border-color);
+
+
 }
 
-.new-chat,
-.expore, 
-.seting-span {
-    position: absolute;
-    left: 100%; 
-    top: 50%;
-    transform: translateY(-50%);
-    background: #202123;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
+.setting-help .drawer-data {
+    position: relative;
+}
+
+/* ==================== Utility Classes ==================== */
+.border-border-4a5050 {
+    border: 1px solid var(--border-color) !important;
+}
+
+#model-dropdown {
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s, visibility 0.2s;
-    margin-left: 10px; 
-    z-index: 10;
+    transform: scale(0.5);
+    transform-origin: top left;
+    transition: all 0.1s cubic-bezier(0.33, 1, 0.68, 1);
+    display: block !important;
     pointer-events: none;
 }
 
-.drawer-data li:hover .new-chat,
-.drawer-data li:hover .seting-span,
-.drawer-data li:hover .expore {
+#model-dropdown.show {
     opacity: 1;
-    visibility: visible;
+    transform: scale(1);
+    pointer-events: auto;
 }
 
-.main-content:not(:hover):not(.pinned) .drawer-data li > span:not(.new-chat):not(.expore):not(.seting-span) {
-    display: none;
-}
-
-.main-content:hover .drawer-data li > span:not(.new-chat):not(.expore):not(.seting-span),
-.main-content.pinned .drawer-data li > span:not(.new-chat):not(.expore):not(.seting-span) {
+.dropdown-wrapper {
+    position: relative;
     display: inline-block;
 }
 
-.setting-help {
+.dropdown-toggle {
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.dropdown-menu {
     position: absolute;
-    bottom: 30px;
-    width: 100%;
-    
+    bottom: 100%;
+    left: 50%;
+    background-color: #202124;
+    border: 1px solid #3c4043;
+    border-radius: 8px;
+    width: 300px;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    padding: 10px 0;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-menu li {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-menu li:hover {
+    background-color: #303134;
+    border-radius: 0;
+}
+
+.submenu .arrow {
+    font-size: 16px;
+    color: #ccc;
+}
+
+.dot {
+    background-color: #00aaff;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.location-info {
+    padding: 12px 16px;
+    border-top: 1px solid #3c4043;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.location-info a {
+    color: #8ab4f8;
+    text-decoration: none;
+}
+
+.location-info a:hover {
+    text-decoration: underline;
+}
+
+.setting-help.setingbackgroundChange .drawer-data>li {
+    background-color: #1F3760;
+}
+
+.theme-options, .help-options {
+    position: absolute;
+    top: -10%;
+    left: 100%;
+    display: none;
+    background:#282a2c;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.theme-options li , .help-options li{
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+#helpOptions:hover .help-options , #themeOptions:hover .theme-options {
+    display: block;
+        background-color:#202124;
 }
