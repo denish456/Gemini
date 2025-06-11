@@ -2,59 +2,160 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Gemini</title>
-    <!-- Tailwind CSS CDN -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Google Gemini </title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit_square" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,0,0,0&icon_names=diamond" />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
     <link rel="stylesheet" href="./Gemini.css">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
 </head>
 
+<body class="flex dark">
+    <div class="main-content" id="main-content">
+        <div class="main-scroll-area">
+            <div class="main-inner">
+                <div class="main-inner-left">
+                    <button id="openBtn">☰</button>
+                    <span class="expand">Expand menu</span>
+                    <span class="collapse">Collapse menu</span>
+                    <span class="keep-menu-expanded">Keep menu expanded</span>
+                </div>
 
-<body class="bg-[#1b1c1d] text-white min-h-screen flex flex-col items-center justify-center">
-    <!-- Header -->
-    <header class="fixed top-0 w-full p-2 shadow-md flex items-center justify-between bg-[#1b1c1d] border-[#4a5050]">
-        <div class="relative">
-            <h1 class="text-2xl text-white">Gemini</h1>
+                <div class="main-inner-right">
+                    <button class="material-icons" id="search-icon">search</button>
+                    <span class="search-span">Search</span>
+                </div>
+            </div>
+
+            <div class="drawer" id="drawer">
+                <ul class="drawer-data ">
+                    <li>
+                        <a class="material-symbols-outlined">edit_square</a>
+                        <span>New Chat</span>
+                        <span class="new-chat">New Chat</span>
+                    </li>
+                    <li class="diamond">
+                        <a class="material-symbols-outlined">diamond</a>
+                        <span>Explore Gems</span>
+                        <span class="expore">Explore Gems</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="setting-help" id="setting-help">
+            <ul class="drawer-data">
+                <li class="dropdown-toggle" onclick="toggleDropdown()">
+                    <a class="material-symbols-outlined">settings</a>
+                    <span>Setting & Help</span>
+                    <span class="seting-span">Setting & Help</span>
+                </li>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <ul>
+                        <li>
+                            <span class="material-symbols-outlined">history</span>
+                            Activity
+                        </li>
+                        <li>
+                            <span class="material-symbols-outlined"> person </span>
+                            Saved info
+                            <span class="dot"></span>
+                        </li>
+                        <li>
+                            <span class="material-symbols-outlined"> extension</span>
+                            Apps
+                        </li>
+                        <li>
+                            <span class="material-symbols-outlined">link </span>
+                            Your public links
+                        </li>
+                        <li class="submenu" id="themeOptions">
+                            <span class="material-symbols-outlined">light_mode</span>
+                            Theme
+                            <ul class="theme-options">
+                                <li>System</li>
+                                <li>Light</li>
+                                <li>Dark ✔</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <span class="material-symbols-outlined"> feedback</span>
+                            Send feedback
+                        </li>
+                        <li class="submenu" id="helpOptions">
+                            <span class="material-symbols-outlined"> quiz </span>
+                            Help
+                            <ul class="help-options">
+                                <li><span class="material-symbols-outlined">
+                                        help
+                                    </span>Help Center</li>
+                                <li><span class="material-symbols-outlined">
+                                        privacy_tip
+                                    </span>
+                                    Privacy
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="location-info">
+                        <div>Nana Varachha, Surat, Gujarat, India</div>
+                        <div><a href="#">From your IP address</a> • <a href="#">Update location</a></div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <div class="gemini-data relative">
+        <div class="z-10 gemini-header sticky top-0 right-0 p-2 flex items-center justify-between  border-[#4a5050] bg-[#1b1c1d]">
             <div class="relative">
-                <button id="model-toggle"
-                    class="bg-[#282a2c] hover:bg-[#393b3d] mt-1 rounded-full flex items-center w-[100px] h-6 text-[#9a9b9c] font-medium text-sm">
-                    <span class="pl-2">2.5 Flash</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
-                        fill="#9A9B9C">
-                        <path d="M0 0h24v24H0V0z" fill="none" />
-                        <path d="M7 10l5 5 5-5H7z" />
-                    </svg>
-                </button>
+                <h1 class="text-2xl text-white">Gemini</h1>
+                <div class="relative">
+                    <button id="model-toggle"
+                        class="bg-[#282a2c] hover:bg-[#393b3d] mt-1 rounded-full flex items-center justify-center w-[100px] h-6 text-[#9a9b9c] font-medium text-sm">
+                        <span class="pl-2 font-semibold">2.5 Flash</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                            fill="#9A9B9C">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M7 10l5 5 5-5H7z" />
+                        </svg>
+                    </button>
 
-                <!-- Model Selection Dropdown -->
-                <div id="model-dropdown"
-                    class=" absolute left-0 top-full mt-2 w-[315px] bg-[#1e1f20] rounded-xl shadow-lg z-50 py-2">
-                    <div class="px-4 py-2 text-sm font-medium text-[#9a9b9c]">Choose your model</div>
+                    <!-- Model Selection Dropdown -->
+                    <div id="model-dropdown"
+                        class="hidden absolute left-0 top-full mt-1 w-[315px] bg-[#282a2c] rounded-xl shadow-lg z-50 py-2">
+                        <div class="px-4 py-2 text-sm font-medium text-[#9a9b9c]">Choose your model</div>
 
-                    <div class="px-5 py-3 hover:bg-[#393b3d] cursor-pointer">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-[#e3e3e3]">2.5 Flash</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="#34a853">
-                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                            </svg>
+                        <div class="px-5 py-3 hover:bg-[#393b3d] cursor-pointer">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-[#e3e3e3]">2.5 Flash</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="#34a853">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                            </div>
+                            <div class="text-xs text-[#e3e3e3] mt-">Fast all-around help</div>
                         </div>
-                        <div class="text-xs text-[#e3e3e3] mt-">Fast all-around help</div>
-                    </div>
 
-                    <div class="px-5 py-2 hover:bg-[#393b3d] cursor-pointer">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-[#e3e3e3]">2.5 Pro (preview)</span>
+                        <div class="px-5 py-2 hover:bg-[#393b3d] cursor-pointer">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-[#e3e3e3]">2.5 Pro (preview)</span>
+                            </div>
+                            <div class="text-xs text-[#e3e3e3] ">Reasoning, math & code</div>
                         </div>
-                        <div class="text-xs text-[#e3e3e3] ">Reasoning, math & code</div>
-                    </div>
-                    <div class="px-5 py-2 hover:bg-[#393b3d] cursor-pointer">
-                        <div class="">
+                        <!-- <div class="px-5 py-2 hover:bg-[#393b3d] cursor-pointer"> -->
+                        <div class="px-5 py-2 hover:bg-[#393b3d] cursor-pointer">
                             <div class="flex justify-between items-center">
                                 <span class="text-xs text-[#e3e3e3]">Personalization (preview)</span>
                             </div>
@@ -62,119 +163,196 @@
                         </div>
 
                         <!-- <div class="border-t border-[#4a5050] mx-3 my-1"></div> -->
-                        <div class="justify-center flex items-center">
-                            <div class="py-2 py- hover:bg-[#393b3d] cursor-pointer">
+                        <div class="px-5 pb-3 justify-center flex items-center">
+                            <div class="cursor-pointer">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs text-white">Upgrade to Google AI Pro</span>
                                 </div>
                                 <div class="text-xs  ">Get our most capable models & features</div>
                             </div>
-                            <div class="pl-3">
+                            <div class="pl-5">
                                 <button
                                     class="h-9 bg-[#3d3f42] hover:bg-[#4c4e51] rounded-full justify-center flex items-center text-sm text-[#ccdbf4] font-semibold w-[100px] ">
                                     Upgrade
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex space-x-2 items-center">
-            <button
-                class="w-20 h-9 bg-[#3d3f42] hover:bg-[#4c4e51] rounded-md justify-center flex items-center text-xs w-[120px] mr-3">
-                <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_red_4ed1cbfcbc6c9e84c31b987da73fc4168aec8445.svg"
-                    class="pr-2 w-6 h-6" alt="">
-                Upgrade
-            </button>
-            <span class="w-8 h-8 bg-[#78909c] rounded-full justify-center flex items-center">d</span>
-        </div>
-    </header>
-
-    <!-- Chat Interface -->
-    <div class="w-full justify-center flex">
-        <div
-            class="w-full mt-[80px] max-w-[50rem] shadow-2xl flex flex-col h-[840px] overflow-hidden bg-[#1b1c1d] rounded-xl">
-
-            <!-- Chat History -->
-            <div id="chat-history" class="flex-grow p-6 overflow-y-auto space-y-4">
-                <div class="flex justify-start">
-                    <div class="bg-gray-700 text-gray-200 p-3 rounded-lg max-w-[80%] shadow-sm">
-                        <span class="font-bold text-blue-300">Gemini:</span> Hello! How can I assist you today?
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>
 
-            <!-- Input Area -->
-            <div class="p-2 pb-12 static bottom-0">
-                <div class="relative border border-[#4a5050] rounded-2xl bg-[#1b1c1d] px-3 pt-3 text-[#9a9b9c] pb-12">
-                    <textarea id="user-input" placeholder="Ask Gemini"
-                        class="w-full text-sm md:text-base font-medium text-gray-100 bg-transparent resize-none overflow-y-auto max-h-[150px] focus:outline-none"
-                        oninput="autoResize(this)"></textarea>
+            <div class="flex space-x-2 items-center">
+                <button
+                    class="h-9 bg-[#3d3f42] hover:bg-[#4c4e51] rounded-md flex items-center justify-center text-xs font-semibold text-white px-6 mr-3">
+                    <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_red_4ed1cbfcbc6c9e84c31b987da73fc4168aec8445.svg"
+                        class="w-4 h-4 mr-2" alt="">
+                    Upgrade
+                </button>
 
-                    <!-- Buttons Row -->
-                    <div class="absolute left-3 right-3 flex justify-between items-center">
-                        <div class="flex gap-2 text-sm items-center">
-                            <!-- Add Attachment Button -->
-                            <div
-                                class="group h-10 rounded-full px-2 py-1 flex items-center hover:bg-[#262829] font-medium">
-                                <span class="material-icons-outlined">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
-                                        width="24px" fill="#9A9B9C">
-                                        <path d="M0 0h24v24H0V0z" fill="none" />
-                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                                    </svg>
-                                </span>
+                <div class="relative ">
+                    <!-- Profile Button -->
+                    <button id="profile-button"
+                        class="w-8 h-8 bg-[#78909c] rounded-full flex items-center justify-center text-white font-medium">
+                        d
+                    </button>
+
+                    <!-- Profile Dropdown (matches image exactly) -->
+                    <div id="profile-dropdown"
+                        class="hidden absolute right-4 top-14 w-[400px] bg-[#282a2c] text-gray-800 rounded-3xl shadow-xl z-50 overflow-hidden">
+                        <!-- Email section -->
+                        <div class="px-4 pt-5 pb-2 text-center">
+                            <div class="text-sm text-white font-medium">denish.kalathiyainfotech@gmail.com</div>
+                        </div>
+
+                        <!-- Profile section -->
+                        <div class="px-4 py-4 flex flex-col items-center cursor-pointer group" id="profile-pic-wrapper">
+                            <div id="profile-pic-wrapper" class="relative cursor-pointer group">
+                                <div id="profile-circle"
+                                    class="w-[75px] h-[75px] bg-[#78909c] rounded-full flex items-center justify-center text-white text-4xl font-medium mb-2 overflow-hidden">
+                                    d
+                                </div>
+
+                                <!-- Hidden File Input -->
+                                <input type="file" id="profile-img-upload" accept="image/*" class="hidden" />
+
+                                <!-- Camera Icon -->
                                 <div
-                                    class="absolute hidden group-hover:block top-full mt-2 left-0 bg-[#898989] text-white text-xs px-3 py-2 rounded whitespace-nowrap">
-                                    Add files
+                                    class="w-6 h-6 bottom-[4px] left-[53px] absolute bg-black rounded-full items-center justify-center flex pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
+                                        width="20px" fill="#e3e3e3">
+                                        <path
+                                            d="M480-264q72 0 120-49t48-119q0-69-48-118.5T480-600q-72 0-120 49.5t-48 119q0 69.5 48 118.5t120 49Zm0-72q-42 0-69-28.13T384-433q0-39.9 27-67.45Q438-528 480-528t69 27.55q27 27.55 27 67.45 0 40.74-27 68.87Q522-336 480-336ZM168-144q-29 0-50.5-21.5T96-216v-432q0-29 21.5-50.5T168-720h120l72-96h240l72 96h120q29.7 0 50.85 21.5Q864-677 864-648v432q0 29-21.15 50.5T792-144H168Zm0-72h624v-432H636l-72.1-96H396l-72 96H168v432Zm312-217Z" />
+                                    </svg>
                                 </div>
                             </div>
-
-                            <!-- Deep Research Button with Hover Text BELOW -->
-                            <div
-                                class="group h-10 rounded-full px-2 py-1 flex items-center hover:bg-[#262829] font-medium relative">
-                                <span class="material-icons-outlined pr-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 20 20"
-                                        height="20px" viewBox="0 0 20 20" width="20px" fill="#9A9B9C">
-                                        <rect fill="none" height="20" width="20" />
-                                        <path
-                                            d="M17.85,8.5h-1.54c-0.48-2.03-1.93-3.68-3.82-4.48V4.5C12.5,5.33,11.83,6,11,6H9v1c0,0.55-0.45,1-1,1H7v2h1v2H7L3.64,8.64 C3.55,9.08,3.5,9.53,3.5,10c0,3.58,2.92,6.5,6.5,6.5V18c-4.42,0-8-3.58-8-8s3.58-8,8-8C13.91,2,17.15,4.8,17.85,8.5z M18,16.44 l-1.06,1.06l-2.56-2.56c-0.54,0.35-1.19,0.56-1.88,0.56C10.57,15.5,9,13.93,9,12s1.57-3.5,3.5-3.5S16,10.07,16,12 c0,0.69-0.21,1.34-0.56,1.88L18,16.44z M14.5,12c0-1.1-0.9-2-2-2s-2,0.9-2,2s0.9,2,2,2S14.5,13.1,14.5,12z" />
-                                    </svg>
-                                </span>
-                                Deep Research
-                                <div
-                                    class="absolute hidden group-hover:block top-full mt-2 left-0 bg-[#898989] text-white text-xs px-3 py-2 rounded whitespace-nowrap">
-                                    Get in-depth answers
-                                </div>
-                            </div>
-
-                            <!-- Canvas Button with Hover Text BELOW -->
-                            <div
-                                class="group h-10 rounded-full px-2 py-1 flex items-center hover:bg-[#262829] font-medium relative">
-                                <span class="material-icons-outlined pr-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24"
-                                        width="20px" fill="#9A9B9C">
-                                        <path d="M0 0h24v24H0V0z" fill="none" />
-                                        <path
-                                            d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zm-7-2h2v-3h3V9h-3V6h-2v3h-3v2h3z" />
-                                    </svg>
-                                </span>
-                                Canvas
-                                <div
-                                    class="absolute hidden group-hover:block top-full mt-2 left-0 bg-[#898989] text-white text-xs px-3 py-2 rounded whitespace-nowrap">
-                                    Create docs and apps
-                                </div>
+                            <div class="text-center">
+                                <div class="font-medium text-xl text-white">Hi, denish.!</div>
+                                <button
+                                    class="text-sm text-[#a5c4f6] hover:bg-[#a8c7fa14] mt-2 py-2 font-semibold border rounded-full px-5 border-[#8e918f]">Manage
+                                    your Google Account</button>
                             </div>
                         </div>
 
-                        <button id="send-button"
-                            class="px-3 py-2 bg-blue-600 text-sm text-white rounded-md hover:bg-blue-700 transition-all duration-200 shadow-md">Send</button>
+                        <!-- Menu items -->
+                        <div class="flex justify-center items-center gap-[2px]">
+                            <div
+                                class="px-4 text-white items-center py-4 text-sm justify-start flex text-gray-700 hover:bg-[#37393b] rounded-s-full cursor-pointer bg-[#1b1b1b] text-center w-[45%]">
+                                <div class="w-6 h-6 bg-[#282a2c] rounded-full items-center justify-center flex mr-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                        width="24px" fill="#a5c4f6">
+                                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                                    </svg>
+                                </div>
+                                Add account
+                            </div>
+                            <div
+                                class="px-4 text-white py-4 items-center text-sm justify-start flex text-gray-700 hover:bg-[#37393b] rounded-e-full cursor-pointer bg-[#1b1b1b] text-center w-[45%]">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                    class="mr-2" width="24px" fill="#e3e3e3">
+                                    <path
+                                        d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+                                </svg>
+                                Sign out
+                            </div>
+                        </div>
+
+                        <!-- Footer links -->
+                        <div class="px-4 py-4 flex justify-center items-center text-xs text-white ">
+                            <a href="#" class="hover:bg-[#37393b] mr-1 rounded-md p-2">Privacy Policy</a>
+                            <span class="text-[5px]"> ● </span>
+                            <a href="#" class="hover:bg-[#37393b] ml-1 rounded-md p-2">Terms of Service</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Chat Interface -->
+        <div class="gemini-details bottom-0 sticky  justify-center flex h-[100vh]">
+            <div class="w-full max-w-[50rem] mt-[80px]  flex flex-col  overflow-hidden bg-[#1b1c1d] rounded-xl">
+
+                <!-- Chat History -->
+                <div id="chat-history" class="flex-grow p-6 overflow-y-auto space-y-4">
+                    <div class="flex justify-start">
+                        <div class="bg-gray-700 text-gray-200 p-3 rounded-lg max-w-[80%] shadow-sm">
+                            <span class="font-bold text-blue-300">Gemini:</span> Hello! How can I assist you today?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-2 pb-12 static bottom-0">
+                    <div
+                        class="relative border border-[#4a5050] rounded-3xl bg-[#1b1c1d] px-3 pt-3 text-[#9a9b9c] pb-12">
+                        <textarea id="user-input" placeholder="Ask Gemini"
+                            class="w-full text-sm md:text-base font-medium text-gray-100 bg-transparent resize-none overflow-y-auto max-h-[150px] focus:outline-none"
+                            oninput="autoResize(this)"></textarea>
+
+                        <!-- Buttons Row -->
+                        <div class="absolute left-3 right-3 flex justify-between items-center">
+                            <div class="flex gap-2 text-sm items-center">
+                                <!-- Add Attachment Button -->
+                                <div
+                                    class="group h-10 rounded-full px-2 py-1 flex items-center hover:bg-[#262829] font-medium relative">
+                                    <span class="material-icons-outlined">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24"
+                                            width="24px" fill="#9A9B9C">
+                                            <path d="M0 0h24v24H0V0z" fill="none" />
+                                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                                        </svg>
+                                    </span>
+                                    <div
+                                        class="absolute opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-1 transform transition-all duration-300 top-full mt-2 left-0 bg-[#b7b4b4] font-normal text-black text-xs px-3 py-2 rounded whitespace-nowrap">
+                                        add file
+                                    </div>
+                                </div>
+
+                                <!-- Deep Research Button with Hover Text BELOW -->
+                                <div
+                                    class="group h-10 rounded-full px-2 py-1 flex items-center hover:bg-[#262829] font-medium relative">
+                                    <span class="material-icons-outlined pr-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 20 20"
+                                            height="20px" viewBox="0 0 20 20" width="20px" fill="#9A9B9C">
+                                            <rect fill="none" height="20" width="20" />
+                                            <path
+                                                d="M17.85,8.5h-1.54c-0.48-2.03-1.93-3.68-3.82-4.48V4.5C12.5,5.33,11.83,6,11,6H9v1c0,0.55-0.45,1-1,1H7v2h1v2H7L3.64,8.64 C3.55,9.08,3.5,9.53,3.5,10c0,3.58,2.92,6.5,6.5,6.5V18c-4.42,0-8-3.58-8-8s3.58-8,8-8C13.91,2,17.15,4.8,17.85,8.5z M18,16.44 l-1.06,1.06l-2.56-2.56c-0.54,0.35-1.19,0.56-1.88,0.56C10.57,15.5,9,13.93,9,12s1.57-3.5,3.5-3.5S16,10.07,16,12 c0,0.69-0.21,1.34-0.56,1.88L18,16.44z M14.5,12c0-1.1-0.9-2-2-2s-2,0.9-2,2s0.9,2,2,2S14.5,13.1,14.5,12z" />
+                                        </svg>
+                                    </span>
+                                    Deep Research
+                                    <div
+                                        class="absolute opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-1 transform transition-all duration-300 top-full mt-2 left-0 bg-[#b7b4b4] font-normal text-black text-xs px-3 py-2 rounded whitespace-nowrap">
+                                        Get in-depth answers
+                                    </div>
+                                </div>
+
+                                <!-- Canvas Button with Hover Text BELOW -->
+                                <div
+                                    class="group h-10 rounded-full px-2 py-1 flex items-center hover:bg-[#262829] font-medium relative">
+                                    <span class="material-icons-outlined pr-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24"
+                                            width="20px" fill="#9A9B9C">
+                                            <path d="M0 0h24v24H0V0z" fill="none" />
+                                            <path
+                                                d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zm-7-2h2v-3h3V9h-3V6h-2v3h-3v2h3z" />
+                                        </svg>
+                                    </span>
+                                    Canvas
+                                    <div
+                                        class="absolute opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-1 transform transition-all duration-300 top-full mt-2 left-0 bg-[#b7b4b4] font-normal text-black text-xs px-3 py-2 rounded whitespace-nowrap">
+                                        Create docs and apps
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button id="send-button"
+                                class="px-3 py-2 bg-blue-600 text-sm text-white rounded-md hover:bg-blue-700 transition-all duration-200 shadow-md">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <script src="./JS/Gemini.js"></script>
