@@ -114,7 +114,7 @@ function loadChatSession(chatId) {
     }
 }
 
-// Creates a new chat session
+
 function createNewChat() {
     saveCurrentChatSession();
 
@@ -155,12 +155,7 @@ if (!window.kebabOutsideClickInitialized) {
     window.kebabOutsideClickInitialized = true;
 }
 
-
-
-
-
-
-let showAllChats = false; // default state
+let showAllChats = false; 
 
 function renderRecentChats() {
     if (!recentChatsUl) return;
@@ -275,7 +270,7 @@ function renderRecentChats() {
         recentChatsUl.appendChild(li);
     });
 
-    renderViewToggle(data.chats.length); // 👇 Add this at the end
+    renderViewToggle(data.chats.length); 
 }
 
 function renderViewToggle(totalChats) {
@@ -289,7 +284,7 @@ function renderViewToggle(totalChats) {
             showAllChats = !showAllChats;
             renderRecentChats();
         });
-        recentChatsUl.parentElement.appendChild(toggleBtn); // Make sure UL is wrapped in a div
+        recentChatsUl.parentElement.appendChild(toggleBtn); 
     }
 
     if (totalChats <= 5) {
@@ -302,18 +297,18 @@ function renderViewToggle(totalChats) {
 
 
 
-// Global document click listener to close kebab dropdowns
+
 document.addEventListener('click', (e) => {
     document.querySelectorAll('.kebab-dropdown').forEach(dropdown => {
-        // Check if the click was outside this dropdown AND not on its corresponding kebab button
-        const kebabButton = dropdown.previousElementSibling; // Assuming direct sibling
+        
+        const kebabButton = dropdown.previousElementSibling; 
         if (!dropdown.classList.contains('hidden') && !dropdown.contains(e.target) && (!kebabButton || !kebabButton.contains(e.target))) {
             dropdown.classList.add('hidden');
         }
     });
 });
 
-// Adds a message to the chat history display
+
 function addMessage(text, isUser, imageUrl = null, autoScroll = true) {
     if (!chatHistoryDiv) return;
 
@@ -373,7 +368,7 @@ function getResponse() {
     return responses[Math.floor(Math.random() * responses.length)];
 }
 
-// Send function with guaranteed execution
+
 function sendMessage() {
     const message = userInput.value.trim();
     const imageUrl = hasImage && previewImg.src ? previewImg.src : null;
@@ -445,7 +440,7 @@ function sendMessage() {
 }
 
 
-// Auto-resize textarea
+
 function autoResize(textarea) {
     if (textarea) {
         textarea.style.height = 'auto';
@@ -453,9 +448,9 @@ function autoResize(textarea) {
     }
 }
 
-// Event listeners and initial setup for DOMContentLoaded
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Assign elements here
+    
     openBtn = document.getElementById('openBtn');
     mainContent = document.getElementById('main-content');
     search_icon = document.getElementById('search-icon');
@@ -475,19 +470,19 @@ document.addEventListener('DOMContentLoaded', function () {
     triggerUpload = document.getElementById('trigger-upload');
     recentChatsUl = document.getElementById('recent-chats');
     greetingDiv = document.getElementById('greeting');
-    plusButton = document.getElementById('plus-button'); // Assigned here
-    plusDropdown = document.getElementById('plus-dropdown'); // Assigned here
+    plusButton = document.getElementById('plus-button'); 
+    plusDropdown = document.getElementById('plus-dropdown'); 
 
-    // Initial load logic
+    
     const chatData = getChatData();
     if (chatData.chats.length > 0 && chatData.activeChatId) {
         loadChatSession(chatData.activeChatId);
     } else {
         createNewChat();
     }
-    renderRecentChats(); // Always render recent chats on load
+    renderRecentChats(); 
 
-    // General event listeners (with null checks)
+    
     if (openBtn) {
         openBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -540,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Plus button dropdown toggle
+    
     if (plusButton && plusDropdown) {
         plusButton.addEventListener('click', function (e) {
             e.stopPropagation();
@@ -553,7 +548,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Image upload trigger
+    
     if (triggerUpload && fileInput) {
         triggerUpload.addEventListener('click', (e) => {
             e.preventDefault();
@@ -576,7 +571,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Model and Profile dropdowns
+    
     const modelToggle = document.getElementById('model-toggle');
     const modelDropdown = document.getElementById('model-dropdown');
     if (modelToggle && modelDropdown) {
@@ -607,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function () {
         profileDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
     }
 
-    // Profile image upload
+    
     const profileInput = document.getElementById("profile-img-upload");
     const profileCircle = document.getElementById("profile-circle");
     if (profileCircle && profileInput) {
@@ -638,7 +633,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Theme management
+    
     function toggleTheme(theme) {
         const body = document.body;
         body.classList.remove('light', 'dark');
@@ -683,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (localStorage.getItem('theme') === 'system') { toggleTheme('system'); }
     });
 
-    // Sidebar hover/leave logic for desktop
+    
     if (mainContent && geminiData) {
         mainContent.addEventListener('mouseenter', () => {
             if (window.innerWidth >= 768) { /* Handled by CSS :hover */ }
@@ -700,7 +695,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Function to toggle settings dropdown (already exists and works)
+
 function toggleDropdown() {
     const menu = document.getElementById('dropdownMenu');
     if (menu) {
