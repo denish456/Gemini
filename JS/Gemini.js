@@ -100,7 +100,9 @@ function loadChatSession(chatId) {
     if (chatToLoad) {
         currentChatId = chatId;
         chatHistoryDiv.innerHTML = '';
-        greetingDiv.style.display = 'none';
+        if (greetingDiv) {
+            greetingDiv.style.display = 'none';
+        }
 
         // Ensure loaded messages are added instantly, not typed
         chatToLoad.messages.forEach(msg => {
@@ -123,6 +125,7 @@ function loadChatSession(chatId) {
     }
 }
 
+
 // Creates a new chat session
 function createNewChat() {
     saveCurrentChatSession();
@@ -135,7 +138,9 @@ function createNewChat() {
     if (previewContainer) previewContainer.classList.add("hidden");
     if (fileInput) fileInput.value = '';
     hasImage = false;
-    greetingDiv.style.display = 'flex';
+    if (greetingDiv) {
+        greetingDiv.style.display = 'flex';
+    }
 
     if (sendIconContainer) {
         sendIconContainer.innerHTML = `
@@ -166,21 +171,20 @@ if (!window.kebabOutsideClickInitialized) {
 }
 
 // Renders the list of recent chats in the sidebar
- 
+
 let showAllChats = false; // default state
- 
 function renderRecentChats() {
 
     if (!recentChatsUl) return;
- 
+
     recentChatsUl.innerHTML = '';
 
     const data = getChatData();
- 
+
     data.chats.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
- 
+
     const chatsToShow = showAllChats ? data.chats : data.chats.slice(0, 5);
- 
+
     chatsToShow.forEach(chat => {
 
         const li = document.createElement('li');
@@ -188,37 +192,24 @@ function renderRecentChats() {
         li.dataset.chatId = chat.id;
 
         li.classList.add(
-
             'flex', 'items-center', 'gap-4', 'cursor-pointer',
 
             'text-ellipsis', 'relative', 'group'
-
         );
- 
+
         if (chat.id === data.activeChatId) {
-
             li.classList.add('active-chat');
-
         }
- 
+
         const icon = document.createElement('a');
-
         icon.className = 'material-symbols-outlined text-xl flex-shrink-0';
-
         icon.textContent = 'chat_bubble';
- 
         const span = document.createElement('span');
-
         span.textContent = chat.title || "Untitled Chat";
-
         span.classList.add('flex-grow', 'text-ellipsis');
- 
         li.appendChild(icon);
-
         li.appendChild(span);
- 
         const kebabMenuWrapper = document.createElement('div');
-
         kebabMenuWrapper.className = 'kebab-menu-wrapper absolute right-2 top-1/2 -translate-y-1/2 flex items-center z-20';
 
         kebabMenuWrapper.innerHTML = `
@@ -239,35 +230,27 @@ function renderRecentChats() {
 <button class="block w-full text-left px-3 py-1">Delete</button>
 </li>
 </ul>
-
         `;
 
         li.appendChild(kebabMenuWrapper);
- 
         const kebabButton = kebabMenuWrapper.querySelector('.kebab-button');
-
         const kebabDropdown = kebabMenuWrapper.querySelector('.kebab-dropdown');
- 
+
         kebabButton.addEventListener('click', (e) => {
 
             e.stopPropagation();
-
             document.querySelectorAll('.kebab-dropdown').forEach(dropdown => {
-
                 if (dropdown !== kebabDropdown) {
-
                     dropdown.classList.add('hidden');
-
                 }
-
             });
 
             kebabDropdown.classList.toggle('hidden');
 
         });
- 
+
         const [pinBtn, renameBtn, deleteBtn] = kebabDropdown.querySelectorAll('button');
- 
+
         pinBtn.addEventListener('click', () => {
 
             console.log('Pin clicked for chat:', chat.id);
@@ -275,7 +258,7 @@ function renderRecentChats() {
             kebabDropdown.classList.add('hidden');
 
         });
- 
+
         renameBtn.addEventListener('click', () => {
 
             const newTitle = prompt('Enter new name for chat:', chat.title);
@@ -287,110 +270,66 @@ function renderRecentChats() {
                 let chatToRename = data.chats.find(c => c.id === chat.id);
 
                 if (chatToRename) {
-
                     chatToRename.title = newTitle.trim();
-
                     setChatData(data);
-
                     renderRecentChats();
-
                 }
-
             }
 
             kebabDropdown.classList.add('hidden');
-
         });
- 
+
         deleteBtn.addEventListener('click', () => {
 
             if (confirm('Are you sure you want to delete this chat?')) {
-
                 let data = getChatData();
-
                 data.chats = data.chats.filter(c => c.id !== chat.id);
 
                 if (data.activeChatId === chat.id) {
-
                     data.activeChatId = null;
-
                 }
-
                 setChatData(data);
-
                 renderRecentChats();
 
                 if (currentChatId === chat.id || data.chats.length === 0) {
-
                     createNewChat();
-
                 }
-
             }
-
             kebabDropdown.classList.add('hidden');
-
         });
- 
+
         li.addEventListener('click', (e) => {
-
             if (!kebabMenuWrapper.contains(e.target)) {
-
                 loadChatSession(chat.id);
-
             }
-
         });
- 
         recentChatsUl.appendChild(li);
-
     });
- 
-    renderViewToggle(data.chats.length); // 👇 Add this at the end
-
+    renderViewToggle(data.chats.length); 
 }
- 
+
 function renderViewToggle(totalChats) {
 
     let toggleBtn = document.getElementById('view-toggle-btn');
- 
+
     if (!toggleBtn) {
-
         toggleBtn = document.createElement('button');
-
         toggleBtn.id = 'view-toggle-btn';
-
         toggleBtn.className = 'text-sm text-blue-500 mt-2 ml-2';
-
         toggleBtn.addEventListener('click', () => {
-
             showAllChats = !showAllChats;
-
             renderRecentChats();
-
         });
-
         recentChatsUl.parentElement.appendChild(toggleBtn); // Make sure UL is wrapped in a div
-
     }
- 
     if (totalChats <= 5) {
-
         toggleBtn.style.display = 'none';
-
     } else {
-
         toggleBtn.textContent = showAllChats ? 'View Less' : 'View More';
-
         toggleBtn.style.display = 'block';
-
     }
-
 }
- 
- 
 
-// Global document click listener to close kebab dropdowns
 document.addEventListener('click', (e) => {
     document.querySelectorAll('.kebab-dropdown').forEach(dropdown => {
         // Check if the click was outside this dropdown AND not on its corresponding kebab button
@@ -406,7 +345,9 @@ document.addEventListener('click', (e) => {
 function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDisplay = false) {
     if (!chatHistoryDiv) return;
 
-    greetingDiv.style.display = 'none';
+    if (greetingDiv && greetingDiv.style.display !== 'none') {
+        greetingDiv.style.display = 'none';
+    }
 
     const messageDiv = document.createElement('div');
     messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
@@ -786,6 +727,11 @@ function autoResize(textarea) {
     }
 }
 
+   
+
+
+
+
 // Event listeners and initial setup for DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
     // Assign elements here
@@ -880,7 +826,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Plus button dropdown toggle
     if (plusButton && plusDropdown) {
         plusButton.addEventListener('click', function (e) {
             e.stopPropagation();
@@ -893,7 +838,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Image upload trigger
     if (triggerUpload && fileInput) {
         triggerUpload.addEventListener('click', (e) => {
             e.preventDefault();
@@ -916,7 +860,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Model and Profile dropdowns
     const modelToggle = document.getElementById('model-toggle');
     const modelDropdown = document.getElementById('model-dropdown');
     if (modelToggle && modelDropdown) {
@@ -978,7 +921,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Theme management
     function toggleTheme(theme) {
         const body = document.body;
         body.classList.remove('light', 'dark');
@@ -1023,7 +965,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (localStorage.getItem('theme') === 'system') { toggleTheme('system'); }
     });
 
-    // Sidebar hover/leave logic for desktop
     if (mainContent && geminiData) {
         mainContent.addEventListener('mouseenter', () => {
             if (window.innerWidth >= 768) { /* Handled by CSS :hover */ }
@@ -1039,7 +980,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // LLM Feature Button Event Listeners
     if (summarizeChatButton) {
         summarizeChatButton.addEventListener('click', summarizeChatHistory);
     }
@@ -1057,7 +997,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// Function to toggle settings dropdown (already exists and works)
 function toggleDropdown() {
     const menu = document.getElementById('dropdownMenu');
     if (menu) {
@@ -1077,34 +1016,12 @@ document.addEventListener('click', function (e) {
     }
 });
 
-// The micIcon and sendIcon variable declarations are still missing if they exist in HTML.
-// Assuming they are present with IDs 'mic-icon' and 'send-icon' respectively.
-// If micIcon element is not in HTML, this code will throw an error.
-// Based on the provided HTML, `sendIcon` should refer to the span with id="send-icon"
-// and there is no explicit `mic-icon`. The HTML shows a microphone icon inside the send-button.
-// Let's refine these references to avoid potential errors if elements are missing.
-
 const textarea = document.getElementById("user-input");
 const sendButtonElement = document.getElementById("send-button"); // The button itself
 const sendIconElement = document.getElementById("send-icon"); // The span inside the button
 
-// Assuming micIcon is represented by the initial state of the send-button's icon
-// and the send-button itself has an icon for sending.
-// The user provided code uses `micIcon.classList` and `sendIcon.classList`
-// but the HTML only defines `send-icon` as a span inside a button.
-// Let's re-evaluate how `micIcon` and `sendIcon` are supposed to work visually based on HTML.
-// The provided HTML doesn't have an element with `id="mic-icon"`.
-// The microphone icon is directly inside the send-button.
-// This implies the `sendIcon` is the *container* for the icon, and its content changes.
-
 textarea.addEventListener("input", () => {
     const hasText = textarea.value.trim().length > 0;
-
-    // The current HTML structure has the microphone icon inside a span with id="send-icon"
-    // and the button itself is send-button.
-    // The previous JS assumed separate micIcon and sendIcon elements to show/hide.
-    // Let's adjust to reflect the actual HTML: The 'send-button' toggles between a mic and send icon.
-    // It seems the intent is that the send-button should transform its icon.
 
     if (hasText) {
         // Change icon to send (paper plane)
@@ -1135,3 +1052,4 @@ textarea.addEventListener("input", () => {
         }
     }
 });
+
