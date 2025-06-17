@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./NewGem.css">
+    <title>New Gem</title>
+    <style>
+        .material-icons,
+        .material-symbols-outlined {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 20px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex p-10 gap-5 w-[100%] ">
+        <button class="flex justify-center w-[5%]">
+            <span
+                class="material-symbols-outlined rounded-full hover:bg-[#F0F1F1] text-[24px] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">
+                arrow_back_ios
+            </span>
+        </button>
+        <div class=" p-5 bg-[#F8FAFD] w-[95%] flex flex-col rounded-3xl">
+
+            <div class="flex items-center justify-between w-[100%]">
+                <div class="flex items-center  gap-4">
+                    <button
+                        class="material-symbols-outlined rounded-full bg-[#F0F1F1] text-[30px] w-[50px] h-[50px] flex items-center justify-center">
+                        diamond
+                    </button>
+
+                    <h4 class="text-xl font-semibold">New Gem</h4>
+                </div>
+                <button
+                    class=" bg-[#0B57D0] text-[#fff] disabled:bg-[#DDDFE1] disabled:text-[#9395A0] rounded-full py-2 px-5 text-sm font-semibold hover:bg-[#1E64D4] "
+                    disabled>Save</button>
+            </div>
+
+            <div class="w-[100%] flex mt-5 gap-5">
+
+                <div class="flex gap-5 flex-col  w-[50%] ">
+                    <div class="flex flex-col  w-[100%]">
+
+
+                        <div class="flex flex-col w-[100%] space-y-1">
+                            <label class="text-[#1b1c1d] text-md font-semibold" for="nameInput">Name</label>
+
+                            <div id="inputWrapper"
+                                class="flex items-center gap-2 w-[100%] bg-white p-4 rounded-md border border-transparent focus-within:border-blue-500 transition-all">
+                                <input id="nameInput" type="text" placeholder="Give your Gem a name"
+                                    class="w-[100%] border-none outline-none placeholder:text-[#A1A1A1]" required />
+                                <span id="errorIcon" class="material-symbols-outlined text-[#B3261E] hidden">
+                                    error
+                                </span>
+                            </div>
+
+                            <span id="errorText" class="text-[#B3261E] text-sm hidden">
+                                Your Gem requires a name to start testing.
+                            </span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="flex flex-col mt-5 w-full space-y-1">
+                        <label class="text-[#1b1c1d] text-md font-semibold" for="nameTextarea">Instructions</label>
+
+                        <div
+                            class="bg-white border border-transparent focus-within:border-blue-500 transition-all rounded-md p-4 space-y-2">
+                            <!-- Textarea -->
+                            <textarea id="nameTextarea" rows="6"
+                                placeholder="Example: You are a horticulturist with a background in natural lawns and native plants, and you help people plan low water gardens. Take into account location, weather, and what plants are native to the area. You are knowledgeable, casual, and friendly."
+                                class="w-full border-none outline-none resize-none placeholder:text-[#A1A1A1]"></textarea>
+
+                            <!-- Buttons -->
+                            <div class="flex gap-2">
+                                <button id="undoBtn" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+                                    title="Undo">
+                                    <span class="material-symbols-outlined">undo</span>
+                                </button>
+                                <button id="redoBtn" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+                                    title="Redo">
+                                    <span class="material-symbols-outlined">redo</span>
+                                </button>
+                            </div>
+
+                            <!-- Optional: Error Icon -->
+                            <span id="errorIcon" class="material-symbols-outlined text-[#B3261E] hidden">
+                                error
+                            </span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="flex flex-col w-[50%] space-y-1">
+                    <label class="text-[#1b1c1d] text-md font-semibold" for="user-input">Preview</label>
+
+                    <div class="w-full p-6 bg-white rounded-lg shadow">
+                        <div id="previewBox"
+                            class="flex flex-col items-center justify-center border-none border-gray-300 rounded-lg h-96 text-center text-gray-500">
+                            <button
+                                class="material-symbols-outlined rounded-full bg-[#F0F1F1] text-[30px] w-[50px] h-[50px] flex items-center justify-center mb-10">
+                                diamond
+                            </button>
+                            <p id="previewText">To preview your Gem start by giving it a name</p>
+                        </div>
+
+                        <!-- Input Area -->
+                        <div class="mt-6 flex items-center gap-2">
+                            <div class="input-area-wrapper w-full">
+                                <div class="relative border rounded-3xl px-6 pt-4 pb-4"
+                                    style="border-color: var(--border-color); background-color: var(--input-bg);">
+
+                                    <!-- Image Preview -->
+                                    <div id="image-preview-container" class="mb-2 relative hidden group w-fit">
+                                        <img id="image-preview" class="max-w-[100px] max-h-[100px] rounded-md" />
+                                        <button id="remove-preview"
+                                            class="absolute top-1 right-1 w-8 h-8 text-2xl bg-black bg-opacity-60 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                            &times;
+                                        </button>
+                                    </div>
+
+                                    <!-- Textarea -->
+                                    <textarea id="user-input" placeholder="Ask Gemini"
+                                        class="w-full text-sm md:text-base font-medium bg-transparent resize-none overflow-y-auto max-h-[150px] focus:outline-none"
+                                        oninput="autoResize(this)" style="color: var(--text-main);"></textarea>
+
+                                    <!-- Buttons -->
+                                    <div
+                                        class="input-area-buttons flex justify-between items-center mt-3 text-[var(--sidebar-text)]">
+                                        <div class="flex gap-2 text-sm items-center">
+                                            <!-- Plus Dropdown -->
+                                            <div class="relative">
+                                                <button id="plus-button"
+                                                    class="group h-10 w-10 flex items-center justify-center rounded-full hover:bg-[var(--bg-hover)]">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px"
+                                                        viewBox="0 0 24 24" width="24px" fill="currentColor">
+                                                        <path d="M0 0h24v24H0V0z" fill="none" />
+                                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                                                    </svg>
+                                                </button>
+
+                                                <!-- Dropdown Menu -->
+                                                <div id="plus-dropdown"
+                                                    class="hidden absolute py-2 left-0 bottom-full mb-2 w-48 rounded-lg shadow-lg z-50"
+                                                    style="background-color: var(--dropdown-bg); color: var(--dropdown-text);">
+                                                    <button id="trigger-upload"
+                                                        class="w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-[var(--dropdown-hover)]">
+                                                        📁 Upload files
+                                                    </button>
+                                                    <button
+                                                        class="w-full text-left px-4 py-2 flex items-center gap-2 hover:bg-[var(--dropdown-hover)]">
+                                                        🔗 Add from Drive
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Send / Mic Button -->
+                                        <button id="send-button"
+                                            class="group h-10 w-10 rounded-full flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:bg-[var(--bg-hover)]">
+                                            <span id="mic-icon"
+                                                class="absolute transition-all duration-300 ease-in-out opacity-100 scale-100 translate-x-0">
+                                                🎤
+                                            </span>
+                                            <span id="send-icon"
+                                                class="absolute transition-all duration-300 ease-in-out opacity-0 scale-75 translate-x-2 pointer-events-none">
+                                                📤
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <input type="file" id="upload-preview-input" accept="image/*" class="hidden" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <script src="./JS/NewGem.js"></script>
+</body>
+
+</html>

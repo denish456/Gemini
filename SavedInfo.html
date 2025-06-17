@@ -4,17 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    
+    <title>Saved info</title>
+     <!-- <link rel="icon" href="https://www.gstatic.com/lamda/images/gemini_favicon_f069958c85030456e93de685481c559f160ea06b.png" type="image/png"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
  
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="./SavedInfo.css">
+   
 </head>
  
 <body>
  
- 
+
     <div class="container relative">
         <div class="info">
             <div class="flex items-center justify-between">
@@ -25,7 +29,7 @@
                             info
                         </span>
                         <div id="gemini-tool-show"
-                            class="w-[200px] bg-[#E3E3E3] text-[#272727] text-xs p-1 rounded-md absolute top-[100%] left-0 hidden">
+                            class="w-[200px] bg-[#E3E3E3] text-[#272727] text-xs p-1 rounded-md absolute top-[100%] left-0 hidden rounded-md shadow-lg">
                             <p>Info is saved until you delete it. You can turn this off at any time.<a rel="stylesheet"
                                     class="underline"
                                     href="https://support.google.com/gemini/answer/15637730?visit_id=638853915152956665-2686517658&p=saved_info&rd=1"
@@ -33,14 +37,14 @@
                         </div>
                     </div>
                 </h3>
- 
- 
+
+
                 <label class="switch">
                     <input id="switch-box" type="checkbox" checked>
                     <span class="slider round "></span>
                 </label>
             </div>
-            <p class="text-xl text-[#A2A9B0] mt-5 mb-8 w-[80%]">Share info about your life and preferences to get more
+            <p id="info-p" class="text-xl text-[#A2A9B0] mt-5 mb-8 lg:w-[80%] w-full">Share info about your life and preferences to get more
                 helpful responses. Add new info here or ask Gemini to remember something during a chat.
             </p>
             <div class="flex mb-8 justify-between items-center">
@@ -49,41 +53,41 @@
                         class="bg-[#A8C7FA] text-[#0842A0] text-md hover:bg-[#9BBBEF] py-2 px-5 rounded-3xl font-semibold  flex gap-2 disabled:bg-[#3A3A3A] disabled:text-[#7C7C7C]"><span
                             class="font-semibold ">+</span>Add</button>
                     <button id="example-info"
-                        class=" text-[#A8C7FA] border text-md hover:bg-[#30373F] py-2 px-5 rounded-3xl font-semibold">Show
+                        class=" text-[#A8C7FA] border border-[#A8C7FA] text-md hover:bg-[#30373F] py-2 px-5 rounded-3xl font-semibold">Show
                         examples
                     </button>
                 </div>
- 
+
                 <div id="all-delete"></div>
- 
+
             </div>
- 
+
             <div id="savedData"></div>
- 
+
         </div>
- 
- 
- 
+
+
+
         <form id="saveinfo-form"
-            class="bg-[#1F1F1F] w-[40%] p-5 rounded-2xl mt-8top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden ">
+            class="bg-[#1F1F1F] lg:w-[40%] z-[999]     md:w-[60%] sm:w-[80%] w-[90%] p-5 rounded-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden rounded-2xl shadow-lg">
             <h3 class="text-[#fff] text-2xl "> What do you want Gemini to remember?</h3>
- 
+
             <textarea id="message"
-                class="w-full mt-8 font-semibold bg-[#424548] h-64 p-3 border text-lg text-[#a2a9b0]   border-[#a2a9b0]-300 rounded-xl focus:outline-none focus:ring focus:border-[#A8C7FA] focus:ring-[#A8C7FA]-500 resize-none textarea"
+                class="w-full mt-8 font-semibold bg-[#424548] h-64 p-3 border text-lg text-[#a2a9b0]  border-[#a2a9b0]-300 rounded-xl focus:outline-none focus:ring focus:border-[#A8C7FA] focus:ring-[#A8C7FA]-500 resize-none textarea"
                 name="textarea" placeholder="For example, “I prefer short, concise responses”"></textarea>
- 
+
             <div class="flex gap-2 justify-end mt-8">
                 <button id="saveform-cancle" type="reset"
-                    class=" text-[#A8C7FA] text-md hover:bg-[#30373F] py-2 px-3 rounded-3xl font-semibold">Cancle</button>
+                    class=" text-[#A8C7FA] text-md hover:bg-[#30373F] py-2 px-3 rounded-3xl font-semibold">Cancel</button>
                 <button id="submitBtn" type="submit"
                     class=" bg-[#A8C7FA] text-[#0842A0] px-6 py-2 rounded-3xl disabled:bg-[#3A3A3A] disabled:text-[#7C7C7C] "
                     disabled>Submit</button>
             </div>
- 
+
         </form>
- 
+
         <form action="" id="example-form"
-            class="bg-[#1F1F1F] w-[30%] pt-5 px-8 pb-6  rounded-2xl mt-8top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden">
+            class="bg-[#1F1F1F] lg:w-[30%] z-[999] md:w-[50%] sm:w-[70%] w-[85%] pt-5 px-8 pb-6  rounded-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden rounded-2xl shadow-lg">
             <div class="flex justify-between items-center mb-8">
                 <h3 class="text-[#fff] text-2xl ">Examples</h3>
                 <span id="example-close-icon" class="cursor-pointer material-symbols-outlined">
@@ -103,15 +107,15 @@
                     class=" text-[#A8C7FA] text-md hover:bg-[#30373F] py-2 px-3 rounded-3xl font-semibold ">Close</button>
             </div>
         </form>
- 
+
     </div>
- 
+
     <div id="deleteModal"
-        class="bg-[#1F1F1F] pt-5 w-[40%] px-8 pb-6 rounded-2xl mt-8 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden z-50">
+        class="bg-[#1F1F1F] pt-5 lg:w-[40%] md:w-[60%] sm:w-[80%] w-[90%] px-8 pb-6 rounded-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden z-50 rounded-2xl shadow-lg">
         <div class="flex justify-between items-center mb-8">
             <h3 class="text-[#fff] text-2xl">Delete info?</h3>
         </div>
-       
+
         <div class="flex justify-end mt-8">
             <button id="cancel-delete-btn"
                 class="text-[#A8C7FA] text-md hover:bg-[#30373F] py-2 px-3 rounded-3xl font-semibold">Cancel</button>
@@ -119,13 +123,13 @@
                 class="text-[#A8C7FA] text-md hover:bg-[#30373F] py-2 px-3 rounded-3xl font-semibold">Delete</button>
         </div>
     </div>
- 
+
     <div id="deleteAllModal"
-        class="bg-[#1F1F1F] pt-5 w-[40%] px-8 pb-6 rounded-2xl mt-8 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden z-50">
+        class="bg-[#1F1F1F] pt-5 lg:w-[40%] md:w-[60%] sm:w-[80%] w-[90%] px-8 pb-6 rounded-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden z-50 rounded-2xl shadow-lg">
         <div class="flex justify-between items-center mb-8">
             <h3 class="text-[#fff] text-2xl">Delete info?</h3>
         </div>
-        <p class="text-[#A2A9B0]">Everything Gemini has saved about you and your preferences will be permanently
+        <p class="text-[#A2A9B0] mb-4">Everything Gemini has saved about you and your preferences will be permanently
             deleted. You can still ask Gemini to save new info, unless you turn off this feature.</p>
         <div class="flex justify-end mt-8">
             <button id="confirm-delete-all"
@@ -133,7 +137,7 @@
                 all</button>
             <button id="cancel-delete-all"
                 class="text-[#A8C7FA] text-md hover:bg-[#30373F] py-2 px-3 rounded-3xl font-semibold">Cancel</button>
- 
+
         </div>
     </div>
  

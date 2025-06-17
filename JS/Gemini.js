@@ -8,6 +8,14 @@ let plusButton, plusDropdown, summarizeChatButton, suggestQuestionsButton,
 let currentChatId = null; // Stores the ID of the currently active chat
 let hasImage = false; // Moved to global to be consistent with other flags
 
+
+// Highlight active sidebar link based on current page
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      if (link.getAttribute('href') === window.location.pathname.split('/').pop()) {
+        link.classList.add('active');
+      }
+    });
+
 // Helper to generate unique IDs (simple timestamp-based)
 function generateUniqueId() {
     return 'chat-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
@@ -998,23 +1006,42 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function toggleDropdown() {
-    const menu = document.getElementById('dropdownMenu');
-    if (menu) {
+    const menu = document.getElementById('dropdownMenu'); 
+
+    if (menu && mainContent && setting_help) {
+        // Toggle menu display
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+
+        // Only for desktop
         if (window.innerWidth >= 768) {
             mainContent.classList.toggle('pinned');
             setting_help.classList.toggle('setingbackgroundChange');
+
+            // Check if 'pinned' was removed, then hide dropdown
+            if (!mainContent.classList.contains('pinned')) {
+                menu.style.display = 'none';
+            }
         }
     }
 }
+
 document.addEventListener('click', function (e) {
     const dropdown = document.getElementById('dropdownMenu');
     const button = document.querySelector('.dropdown-toggle');
-    if (dropdown && button && !dropdown.contains(e.target) && !button.contains(e.target)) {
+    const setting_help = document.getElementById('setting-help');
+
+    if (dropdown && button && setting_help && 
+        !dropdown.contains(e.target) && 
+        !button.contains(e.target)) {
         dropdown.style.display = 'none';
         setting_help.classList.remove('setingbackgroundChange');
+
+        if (mainContent) {
+            mainContent.classList.remove('pinned');
+        }
     }
 });
+
 
 const textarea = document.getElementById("user-input");
 const sendButtonElement = document.getElementById("send-button"); // The button itself

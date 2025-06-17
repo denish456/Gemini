@@ -178,8 +178,8 @@ const Display = async (event) => {
             }
  
             print += `
-                <div class="bg-[#282A2C] w-full py-3 px-4 mb-1 flex items-center justify-between ${borderRadius}">
-                    <p class="text-md text-[#A2A9B0]">${v.message}</p>
+                <div class=" saveshowdata bg-[#282A2C] w-full py-3 px-4 mb-1  flex items-center justify-between ${borderRadius}">
+                    <p class="text-md text-[#A2A9B0] break-words">${v.message}</p>
                     <div class="relative">
                         <span id="action-ED-${index}" onClick="handleActionBtn(${index})"
                             class="material-symbols-outlined rounded-full hover:bg-[#353739] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">more_vert</span>

@@ -15,7 +15,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="style.css">
-
     <link rel="stylesheet" href="./Gemini.css">
 </head>
 
@@ -24,7 +23,7 @@
         <div class="backdrop" id="backdrop"></div>
 
         <div class="flex w-[100%] ">
-            <div class="main-content" id="main-content">
+            <nav class="main-content" id="main-content" role="navigation" aria-label="Main Sidebar Navigation">
                 <div class="main-scroll-area">
                     <div class="main-inner">
                         <div class="main-inner-left">
@@ -32,7 +31,6 @@
                             <span class="expand">Expand menu</span>
                             <span class="collapse">Collapse menu</span>
                         </div>
-
                         <div class="main-inner-right">
                             <button class="material-icons" id="search-icon">search</button>
                             <span class="search-span">Search</span>
@@ -40,16 +38,18 @@
                     </div>
 
                     <div class="drawer" id="drawer">
-                        <ul class="drawer-data ">
-                            <li id="new-chat-button">
-                                <a class="material-symbols-outlined">edit_square</a>
-                                <span>New Chat</span>
-                                <span class="new-chat">New Chat</span>
+                        <ul class="drawer-data">
+                            <li class="items-center">
+                                <a href="Gemini.html" class="sidebar-link">
+                                    <span class="material-symbols-outlined">edit_square</span>
+                                    <span>New Chat</span>
+                                </a>
                             </li>
-                            <li class="diamond">
-                                <a class="material-symbols-outlined">diamond</a>
-                                <span>Explore Gems</span>
-                                <span class="expore">Explore Gems</span>
+                            <li>
+                                <a href="NewGem.html" class="sidebar-link">
+                                    <span class="material-symbols-outlined">diamond</span>
+                                    <span>Explore Gems</span>
+                                </a>
                             </li>
                         </ul>
 
@@ -74,10 +74,12 @@
                                     <span class="material-symbols-outlined">history</span>
                                     Activity
                                 </li>
-                                <li>
-                                    <span class="material-symbols-outlined"> person </span>
-                                    Saved info
-                                    <span class="dot"></span>
+                                <li class="items-center">
+                                    <a href="SavedInfo.html">
+                                        <span class="material-symbols-outlined"> person </span>
+                                        <span>Saved info</span>
+                                    </a>
+                                    <!-- <span class="dot"></span> -->
                                 </li>
                                 <li>
                                     <span class="material-symbols-outlined"> extension</span>
@@ -124,7 +126,9 @@
                         </div>
                     </ul>
                 </div>
-            </div>
+            </nav>
+
+
             <div class="z-10 gemini-header p-2 flex items-center justify-between">
                 <div class="relative">
                     <h1 class="text-2xl pt-2" style="color: var(--text-main);">Gemini</h1>
@@ -281,7 +285,10 @@
                     </div>
                 </div>
             </div>
+
         </div>
+
+
         <div class="gemini-data">
             <div class="main-chat-area">
                 <div class="chat-content-wrapper" style="background-color: var(--bg-main);">
@@ -415,6 +422,8 @@
             </div>
         </div>
     </div>
+
+
 
     <script src="./JS/Gemini.js"></script>
 
