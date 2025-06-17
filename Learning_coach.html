@@ -11,10 +11,10 @@
 
 <body>
   <div class="bg-white text-[#1F1F1F] p-10 min-h-screen justify-center flex items-center">
-    <div class="max-w-3xl mx-auto">
+    <div class="max-w-3xl mx-auto w-full">
       <!-- Header -->
-      <div class="flex gap-4 mb-6">
-        <div class="w-16 h-16 rounded-full bg-[#bedcff] flex items-center justify-center">
+      <div class="flex flex-wrap sm:flex-nowrap items-start sm:items-center gap-4 mb-6">
+        <div class="w-16 h-16 rounded-full bg-[#bedcff] flex items-center justify-center shrink-0">
           <i class="ph ph-book-open text-4xl text-[#00629e]"></i>
         </div>
         <div>
@@ -27,8 +27,30 @@
         </div>
       </div>
 
+          <!-- Scroll wrapper only for small screens -->
+          <div class="block md:hidden overflow-x-auto">
+            <div class="flex gap-4 w-max">
+              <div
+                class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
+                I’d like to improve my presentation skills.
+              </div>
+              <div
+                class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
+                Help me figure out how to advocate with my manager for a promotion.
+              </div>
+              <div
+                class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
+                How do I prepare for a job interview with behavioral questions?
+              </div>
+              <div
+                class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
+                Give me advice on how to find a mentor.
+              </div>
+            </div>
+          </div>
+
       <!-- Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-[#f1f5f9] h-[160px] p-4 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm">
           What are binary numbers?
         </div>

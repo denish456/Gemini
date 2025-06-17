@@ -12,104 +12,104 @@ const infoP = document.getElementById('info-p');
 const geminitool = document.getElementById('gemini-tool');
 const geminitoolShow = document.getElementById('gemini-tool-show');
 let updateID = null;
- 
+
 textarea.addEventListener('input', function () {
     submitBtn.disabled = textarea.value.trim() === '';
 });
- 
+
 geminitool.addEventListener('click', function () {
     geminitoolShow.classList.toggle('hidden');
 })
- 
+
 switchbox.addEventListener('click', function () {
     addInfo.disabled = !switchbox.checked;
     infoP.classList.toggle('text-[#7C7C7C]') = !switchbox.checked;
-   
+
 })
- 
+
 addInfo.addEventListener('click', function () {
     saveinfoForm.classList.remove('hidden')
 })
- 
+
 saveformcancle.addEventListener('click', function () {
     saveinfoForm.classList.add('hidden')
- 
+
 })
- 
+
 exampleInfo.addEventListener('click', function () {
     exampleForm.classList.remove('hidden')
 })
- 
+
 examplecloseicon.addEventListener('click', function () {
     exampleForm.classList.add('hidden')
 })
- 
+
 exampleclose.addEventListener('click', function () {
     exampleForm.classList.add('hidden')
 })
- 
- 
- 
- 
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     if (saveinfoForm) {
         saveinfoForm.addEventListener('submit', handleSaveInfo);
     }
- 
- 
+
+
     const deleteModal = document.getElementById('deleteModal');
     const deleteAllModal = document.getElementById('deleteAllModal');
     const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
     const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
     const confirmDeleteAll = document.getElementById('confirm-delete-all');
     const cancelDeleteAll = document.getElementById('cancel-delete-all');
- 
+
     if (cancelDeleteBtn) {
         cancelDeleteBtn.addEventListener('click', () => {
             deleteModal.classList.add('hidden');
         });
     }
- 
+
     if (confirmDeleteBtn) {
         confirmDeleteBtn.addEventListener('click', () => {
- 
+
         });
     }
- 
+
     if (cancelDeleteAll) {
         cancelDeleteAll.addEventListener('click', () => {
             deleteAllModal.classList.add('hidden');
         });
     }
- 
+
     if (confirmDeleteAll) {
         confirmDeleteAll.addEventListener('click', () => {
- 
+
         });
     }
- 
- 
+
+
     Display();
 });
- 
- 
+
+
 const handleSaveInfo = async (event) => {
     event.preventDefault();
- 
+
     const message = textarea.value.trim();
- 
+
     if (!message) {
         console.warn("Message is empty, not saving.");
         return;
     }
- 
+
     const data = { message };
     const url = "http://localhost:8080/savedInfo";
- 
+
     try {
         let response;
         if (updateID) {
- 
+
             response = await fetch(`${url}/${updateID}`, {
                 method: "PUT",
                 headers: {
@@ -118,7 +118,7 @@ const handleSaveInfo = async (event) => {
                 body: JSON.stringify({ ...data, id: updateID }),
             });
         } else {
- 
+
             response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -127,30 +127,30 @@ const handleSaveInfo = async (event) => {
                 body: JSON.stringify(data),
             });
         }
- 
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
- 
- 
+
+
         textarea.value = '';
         updateID = null;
         await Display();
         saveinfoForm.classList.add('hidden');
- 
+
     } catch (error) {
         console.error("Error saving/updating info:", error);
- 
+
     }
 };
- 
+
 const Display = async (event) => {
     if (event) event.preventDefault();
- 
+
     try {
         const response = await fetch("http://localhost:8080/savedInfo");
         const data = await response.json();
- 
+
         const savedInfoData = data.reverse();
         let deleteAllButtonHtml = savedInfoData.length > 0 ?
             `<button id="deleteall-info" onclick="handleDeleteall()"
@@ -158,14 +158,14 @@ const Display = async (event) => {
                 <span class="material-symbols-outlined">delete</span>
                 Delete all
             </button>` : '';
- 
+
         let print = savedInfoData.length > 0 ? '<p class="font-semibold mb-2">Saved today</p>' : `<p id="info-p" class="text-[#A2A9B0] text-center">You haven't asked Gemini to save anything about you yet</p>`
- 
+
         savedInfoData.map((v, index) => {
             const onlyOne = savedInfoData.length === 1;
             const firstDiv = index === 0;
             const lastDiv = index === savedInfoData.length - 1;
- 
+
             let borderRadius = ' ';
             if (onlyOne) {
                 borderRadius = 'rounded-t-xl rounded-b-xl';
@@ -176,10 +176,10 @@ const Display = async (event) => {
             } else {
                 borderRadius = 'rounded-t-sm rounded-b-sm';
             }
- 
+
             print += `
-                <div class="bg-[#282A2C] w-full py-3 px-4 mb-1 flex items-center justify-between ${borderRadius}">
-                    <p class="text-md text-[#A2A9B0]">${v.message}</p>
+                <div class="saveshowdata bg-[#282A2C] w-full py-3 px-4 mb-1 flex items-center justify-between ${borderRadius}">
+                    <p class="break-words text-md text-[#A2A9B0]">${v.message}</p>
                     <div class="relative">
                         <span id="action-ED-${index}" onClick="handleActionBtn(${index})"
                             class="material-symbols-outlined rounded-full hover:bg-[#353739] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">more_vert</span>
@@ -197,31 +197,31 @@ const Display = async (event) => {
                 </div>
             `;
         });
- 
+
         document.getElementById('all-delete').innerHTML = deleteAllButtonHtml;
         document.getElementById('savedData').innerHTML = print;
- 
+
     } catch (error) {
         console.error(error);
-       
+
     }
 };
- 
+
 function handleActionBtn(index) {
     const currentDropdown = document.getElementById(`action-data-${index}`);
- 
- 
+
+
     document.querySelectorAll('[id^="action-data-"]').forEach(drop => {
         if (drop !== currentDropdown) {
             drop.classList.add("hidden");
         }
     });
- 
- 
+
+
     currentDropdown.classList.toggle("hidden");
 }
- 
- 
+
+
 document.addEventListener('click', (event) => {
     document.querySelectorAll('[id^="action-data-"]').forEach(drop => {
         const parentDiv = drop.parentElement;
@@ -230,16 +230,16 @@ document.addEventListener('click', (event) => {
         }
     });
 });
- 
- 
+
+
 const handleDeleteall = () => {
     const deleteAllModal = document.getElementById('deleteAllModal');
     if (deleteAllModal) {
         deleteAllModal.classList.remove('hidden');
- 
+
         const confirmDeleteAll = document.getElementById('confirm-delete-all');
         if (confirmDeleteAll) {
- 
+
             confirmDeleteAll.replaceWith(confirmDeleteAll.cloneNode(true));
             document.getElementById('confirm-delete-all').addEventListener('click', async () => {
                 await handleDeleteAllinfo();
@@ -247,13 +247,13 @@ const handleDeleteall = () => {
         }
     }
 };
- 
+
 const handleDeleteAllinfo = async () => {
- 
+
     try {
         const response = await fetch('http://localhost:8080/savedInfo')
         const data = await response.json()
- 
+
         for (const item of data) {
             if (item.id) {
                 await fetch('http://localhost:8080/savedInfo/' + item.id, {
@@ -264,27 +264,27 @@ const handleDeleteAllinfo = async () => {
                 });
             }
         }
-            await Display();
+        await Display();
     } catch (error) {
         console.error(error);
     }
 }
- 
+
 const handleEdit = async (id) => {
     try {
- 
+
         document.querySelectorAll('[id^="action-data-"]').forEach(drop => {
             drop.classList.add("hidden");
         });
- 
+
         const response = await fetch('http://localhost:8080/savedInfo');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
- 
+
         const obj = data.find((v) => v.id === id);
- 
+
         if (obj) {
             textarea.value = obj.message;
             updateID = obj.id;
@@ -295,21 +295,21 @@ const handleEdit = async (id) => {
         }
     } catch (error) {
         console.error("Error fetching info for edit:", error);
- 
+
     }
 };
- 
+
 let currentDeleteId = null;
- 
+
 const handleDelete = (id) => {
     currentDeleteId = id;
     const deleteModal = document.getElementById('deleteModal');
     if (deleteModal) {
         deleteModal.classList.remove('hidden');
- 
+
         const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
         if (confirmDeleteBtn) {
- 
+
             confirmDeleteBtn.replaceWith(confirmDeleteBtn.cloneNode(true));
             document.getElementById('confirm-delete-btn').addEventListener('click', async () => {
                 await handleDeleteConfirmed();
@@ -317,20 +317,20 @@ const handleDelete = (id) => {
         }
     }
 };
- 
- 
+
+
 const handleDeleteConfirmed = async () => {
     if (!currentDeleteId) return;
- 
+
     try {
         const response = await fetch('http://localhost:8080/savedInfo/' + currentDeleteId, {
             method: "DELETE"
         });
- 
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
- 
+
         const deleteModal = document.getElementById('deleteModal');
         if (deleteModal) {
             deleteModal.classList.add('hidden');
@@ -339,13 +339,13 @@ const handleDeleteConfirmed = async () => {
         await Display();
     } catch (error) {
         console.error("Error deleting info:", error);
- 
+
     }
 }
- 
+
 saveinfoForm.addEventListener('submit', handleSaveInfo)
 Display()
- 
- 
- 
- 
+
+
+
+

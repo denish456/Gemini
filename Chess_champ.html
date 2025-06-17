@@ -11,10 +11,10 @@
 
 <body>
     <div class="bg-white text-[#1F1F1F] p-10 min-h-screen justify-center flex items-center">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-3xl mx-auto w-full">
             <!-- Header -->
-            <div class="flex items-center gap-4 mb-6">
-                <div class="w-16 h-16 rounded-full bg-[#ffd289] flex items-center justify-center">
+            <div class="flex flex-wrap sm:flex-nowrap items-start sm:items-center gap-4 mb-6">
+                <div class="w-16 h-16 rounded-full bg-[#ffd289] flex items-center justify-center shrink-0">
                     <i class="ph ph-strategy text-4xl text-[#7e5700]"></i>
                 </div>
                 <div>
@@ -30,8 +30,30 @@
                 </div>
             </div>
 
-            <!-- Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Scroll wrapper only for small screens -->
+            <div class="block md:hidden overflow-x-auto">
+                <div class="flex gap-4 w-max">
+                    <div
+                        class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
+                        Let's play chess! I start with e4.
+                    </div>
+                    <div
+                        class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
+                        I start with moving my knight to f3. Write a verse after every move.
+                    </div>
+                    <div
+                        class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
+                        My move is d4. Comment on the game as Sherlock Holmes.
+                    </div>
+                    <div
+                        class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
+                        How do I make a move?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid layout for medium and up -->
+            <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="bg-[#f1f5f9] h-[160px] p-4 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm">
                     Let's play chess! I start with e4.
                 </div>

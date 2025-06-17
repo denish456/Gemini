@@ -1,19 +1,59 @@
 body {
-    background-color: #1B1C1D;
-    color: aliceblue;
+  background-color: #1B1C1D;
+  color: aliceblue;
+  font-family: "Inter", sans-serif;
+  /* Using Inter font */
 }
- 
+
 .container {
-    width: 100%;
+  width: 100%;
 }
- 
+
 .info {
-    width: 50%;
-    margin: 0 auto;
-    margin-top: 50px;
+  max-width: 900px;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 50px;
 }
- 
- 
+
+@media (max-width: 768px) {
+  .info {
+    width: 95%;
+    /* Adjust width for smaller screens */
+    padding: 0 10px;
+    /* Add some padding on smaller screens */
+  }
+
+  .info h3 {
+    font-size: 2rem;
+    align-items: flex-start;
+  }
+
+  .info p {
+    font-size: 1rem;
+    /* Adjust paragraph font size */
+    width: 100%;
+    /* Full width for paragraph */
+  }
+
+  .info .flex.justify-between.items-center {
+    flex-direction: column;
+    /* Stack buttons and delete all on small screens */
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .saveshowdata {
+   flex-direction: row !important;
+   align-items: center !important;
+  }
+
+  .saveshowdata .relative > span {
+    align-items: center !important;
+  }
+}
+
+
 .material-icons,
 .material-symbols-outlined,
 .material-icons-outlined {
@@ -31,30 +71,33 @@ body {
   -webkit-font-smoothing: antialiased;
   cursor: pointer;
 }
- 
+
 .switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
 }
- 
+
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
- 
+
 /* Slider Track */
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #ccc;
   transition: 0.4s;
   border-radius: 34px;
 }
- 
+
 /* Circle (thumb) */
 .slider:before {
   content: "";
@@ -68,11 +111,12 @@ body {
   border-radius: 50%;
   z-index: 2;
 }
- 
+
 /* Icon inside slider */
 .slider::after {
   font-family: "Material Symbols Outlined";
-  content: "remove"; /* minus icon */
+  content: "remove";
+  /* minus icon */
   position: absolute;
   font-size: 20px;
   color: #333;
@@ -81,30 +125,31 @@ body {
   transition: 0.4s;
   z-index: 99;
 }
- 
+
 /* Checked state */
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: #A8C7FA;
 }
- 
-.switch input:checked + .slider:before {
+
+.switch input:checked+.slider:before {
   transform: translateX(26px);
   background-color: #0842A0;
 }
- 
-.switch input:checked + .slider::after {
-  content: "check"; /* check icon */
+
+.switch input:checked+.slider::after {
+  content: "check";
+  /* check icon */
   left: 34px;
   color: white;
   z-index: 999;
 }
- 
- 
+
+
 .tooltip-custom {
   position: relative;
   cursor: pointer;
 }
- 
+
 .tooltip-custom::after {
   content: attr(data-tooltip);
   position: absolute;
@@ -123,9 +168,7 @@ body {
   margin-left: 8px;
   z-index: 20;
 }
- 
+
 .tooltip-custom:hover::after {
   opacity: 1;
 }
- 
- 
