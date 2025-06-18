@@ -13,9 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <link rel="stylesheet" href="style.css">
-
     <link rel="stylesheet" href="./Gemini.css">
 </head>
 
@@ -34,7 +31,7 @@
                         </div>
 
                         <div class="main-inner-right">
-                            <button class="material-icons" id="search-icon">search</button>
+                            <a href="Search.html" class="flex items-center justify-center" id="search-icon"> <span class="material-icons">search</span> </a>
                             <span class="search-span">Search</span>
                         </div>
                     </div>
@@ -42,13 +39,17 @@
                     <div class="drawer" id="drawer">
                         <ul class="drawer-data ">
                             <li id="new-chat-button">
-                                <a class="material-symbols-outlined">edit_square</a>
-                                <span>New Chat</span>
+                                <a href="Gemini.html" class="w-[100%] items-center flex gap-5"> <span
+                                        class="material-symbols-outlined">edit_square</span>
+                                    <span>New Chat</span>
+                                </a>
                                 <span class="new-chat">New Chat</span>
                             </li>
                             <li class="diamond">
-                                <a class="material-symbols-outlined">diamond</a>
-                                <span>Explore Gems</span>
+                                <a href="Explore_Gem.html" class="w-[100%] items-center flex gap-5"> <span
+                                        class="material-symbols-outlined">diamond </span>
+                                    <span>Explore Gems</span>
+                                </a>
                                 <span class="expore">Explore Gems</span>
                             </li>
                         </ul>
@@ -75,25 +76,29 @@
                                     Activity
                                 </li>
                                 <li>
-                                    <span class="material-symbols-outlined"> person </span>
-                                    Saved info
-                                    <span class="dot"></span>
+                                    <a href="SavedInfo.html " class="w-[100%] items-center flex gap-5">
+                                        <span class="material-symbols-outlined"> person </span>
+                                        Saved info
+                                    </a>
+                                    <!-- <span class="dot"></span> -->
                                 </li>
                                 <li>
                                     <span class="material-symbols-outlined"> extension</span>
                                     Apps
                                 </li>
                                 <li>
-                                    <span class="material-symbols-outlined">link </span>
-                                    Your public links
+                                    <a href="Public_Links.html" class="w-[100%] items-center flex gap-5">
+                                        <span class="material-symbols-outlined"> link </span>
+                                         Your public links
+                                    </a>
                                 </li>
                                 <li class="submenu" id="themeOptions">
                                     <span class="material-symbols-outlined">light_mode</span>
                                     Theme
                                     <ul class="theme-options">
-                                        <li>System</li>
-                                        <li>Light</li>
-                                        <li>Dark ✔</li>
+                                        <li data-theme="system">System</li>
+                                        <li data-theme="light">Light</li>
+                                        <li data-theme="dark">Dark</li>
                                     </ul>
                                 </li>
 
@@ -282,9 +287,9 @@
                 </div>
             </div>
         </div>
-        <div class="gemini-data">
+        <div class="gemini-data gemini-container">
             <div class="main-chat-area">
-                <div class="chat-content-wrapper" style="background-color: var(--bg-main);">
+                <div class="chat-content-wrapper gemini-chat-content-wrapper" style="background-color: var(--bg-main);">
                     <div id="chat-history" class=" space-y-4 relative">
                         <div id="greeting"
                             class="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -297,7 +302,7 @@
 
                     <div class="input-area-wrapper">
                         <div class="relative border-2 rounded-3xl px-6 pt-4 pb-12"
-                            style="border-color: var(--border-color); background-color: var(--input-bg);">
+                            style="border-color: var(--border-color);">
                             <div id="image-preview-container" class="mb-2 relative hidden group w-fit">
                                 <img id="image-preview" class="max-w-[100px] max-h-[100px] rounded-md" />
                                 <button id="remove-preview"
@@ -310,7 +315,7 @@
                             <textarea id="user-input" placeholder="Ask Gemini"
                                 class="w-full text-sm md:text-base font-medium bg-transparent resize-none overflow-y-auto max-h-[150px] focus:outline-none"
                                 oninput="autoResize(this)" style="color: var(--text-main);">
-                        </textarea>
+                            </textarea>
 
                             <div
                                 class="input-area-buttons flex justify-between items-center text-[var(--sidebar-text);]">
@@ -393,19 +398,10 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                             width="24px" fill="currentColor">
                                             <path
-                                                d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z" />
-                                        </svg>
-                                    </span>
-
-                                    <span id="send-icon"
-                                        class="absolute transition-all duration-300 ease-in-out opacity-0 scale-75 translate-x-2 pointer-events-none">
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                                            width="24px" fill="currentColor">
-                                            <path
                                                 d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
                                         </svg>
                                     </span>
+
                                 </button>
                             </div>
                             <input type="file" id="upload-preview-input" accept="image/*" class="hidden" />

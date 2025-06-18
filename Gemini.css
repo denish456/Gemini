@@ -1,6 +1,6 @@
 :root {
   --bg-main: #FFFFFF;
-  --bg-hover: #F0F4F9;
+  --bg-hover: #E2E7EB;
   --text-main: #1F1F1F;
   --text-muted: #5F6368;
   --scroll-track: #F0F4F9;
@@ -16,16 +16,21 @@
   --dropdown-border: #DADCE0;
   --dropdown-text: #1F1F1F;
   --dropdown-hover: #F0F4F9;
-
   --input-bg: #FFFFFF;
   --input-border-focus: #4285F4;
   --user-bubble-bg: #E8F0FE;
   --user-bubble-text: #1F1F1F;
   --gemini-bubble-bg: transparent;
   --gemini-bubble-text: #1F1F1F;
-
   --accent-blue: #4285F4;
   --accent-green: #34A853;
+  --form-theme: #F0F4F9;
+  --examples-btn-hover: #DBE6F9;
+  --add-btn: #1E64D4;
+  --add-btn-text: #fff;
+  --add-diseble-btn: #E3E3E3;
+  --add-diseble-btn-text:#9c9c9c;
+  --textarea-text:#1f1f1f;
 }
 
 body.dark {
@@ -47,22 +52,44 @@ body.dark {
   --dropdown-border: #3c4043;
   --dropdown-text: #E8EAED;
   --dropdown-hover: #3b3d3f;
-
-  --input-bg: #000000;
-  --input-border-focus: #8AB4F8;
+  --input-border-focus: #9BBBEF;
   --user-bubble-bg: #333537;
   --user-bubble-text: #E8EAED;
   --gemini-bubble-bg: transparent;
   --gemini-bubble-text: #E8EAED;
-
+  --form-theme: #1F1F1F;
   --accent-blue: #8AB4F8;
   --accent-green: #6AA56A;
+  --input-bg: #1B1C1D;
+  --examples-btn-hover: #30373F;
+  --add-btn: #A8C7FA;
+  --add-btn-text: #062E6F;
+  --add-diseble-btn: #373838;
+  --add-diseble-btn-text:#9c9c9c;
+  --textarea-text:#e3e3e3;
+
 }
 
 /* Apply these variables to elements */
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
+
+}
+
+.submenu {
+  position: relative;
+}
+
+.theme-options {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  display: none;
+}
+
+.submenu:hover .theme-options {
+  display: block;
 }
 
 .main-content {
@@ -302,6 +329,10 @@ a {
   width: calc(100% - 72px);
 }
 
+.main-content.pinned ~ .gemini-data {
+  width: 82%;
+}
+
 /* Remove old desktop sidebar width classes as margin is now static */
 .gemini-data.sidebar-collapsed-desktop,
 .gemini-data.sidebar-expanded-desktop {
@@ -376,6 +407,42 @@ a {
     display: block;
   }
 }
+
+/* For mobile sidebar */
+.sidebar-open {
+  transform: translateX(0) !important;
+}
+
+/* For desktop pinned state */
+.pinned {
+  width: 18% !important;
+  min-width: 18% !important;
+}
+
+/* Backdrop styling */
+#backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  display: none;
+}
+
+#backdrop.active {
+  display: block;
+}
+
+/* Initial sidebar state (hidden on mobile) */
+@media (max-width: 767px) {
+  #main-content {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+}
+
 
 .main-content:not(:hover):not(.pinned) {
   width: 5%;
@@ -456,6 +523,7 @@ a {
 #openBtn:hover,
 #search-icon:hover {
   background-color: var(--bg-hover);
+  z-index: 999;
 }
 
 .search-grey {
@@ -485,7 +553,7 @@ a {
 }
 
 /* Collapsed sidebar text hide */
-.main-content:not(:hover):not(.pinned) .drawer-data li {
+.main-content:not(:hover):not(.pinned) .drawer-data > li {
   padding: 12px 0;
   justify-content: center;
 }
@@ -748,7 +816,7 @@ a {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  height: 100vh;
+
   position: relative;
   margin-left: 72px;
   width: calc(100% - 72px);
@@ -776,13 +844,21 @@ a {
 /* Inner wrapper for chat history and input - this is what gets centered */
 .chat-content-wrapper {
   width: 100%;
-  max-width: 50rem;
   display: flex;
   flex-direction: column;
   height: 100%;
   background-color: var(--bg-main);
   border-radius: 0.75rem;
   overflow: hidden;
+}
+
+.gemini-container {
+
+  height: 100vh;
+}
+
+.gemini-chat-content-wrapper {
+  max-width: 50rem;
 }
 
 /* Chat history area */
@@ -1061,7 +1137,6 @@ main {
 
 @media (max-width: 768px) {
   .account-info {
-      display: none;
+    display: none;
   }
 }
-

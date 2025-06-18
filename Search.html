@@ -1,113 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
- 
+<html lang="en" class="dark-theme">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Brainstormer</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./Gemini.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <title>Chat Search</title>
     <style>
-        /* Base light theme variables */
         :root {
             --bg-main: #ffffff;
+            --bg-hover: #f5f5f5;
             --text-main: #1f1f1f;
-            --text-muted: #5f6368;
-            --icon-bg: #ffcfb4;
-            --icon-color: #96490a;
-            --card-bg: #f1f5f9;
-            --card-hover-bg: #dde3ea;
-            --button-text: white;
-            --button-hover-bg: #3367d6;
-            --scrollbar-track: #f0f0f0;
-            --scrollbar-thumb: #c0c0c0;
-            --scrollbar-thumb-hover: #a0a0a0;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --card-bg: #f4f4f5;
         }
- 
-        /* Dark theme variables */
+
         body.dark {
             --bg-main: #1b1c1d;
+            --bg-hover: #2e2e2e;
             --text-main: #e0e0e0;
             --text-muted: #a0a0a0;
-            --icon-bg: #6b3507; /* Darker background for the icon */
-            --icon-color: #ffcfb4; /* Lighter icon for contrast */
-            --card-bg: #282a2c;
-            --card-hover-bg: #3a3a3a;
-            --button-bg: #7da5ff;
-            --button-hover-bg: #5c84e0;
-            --scrollbar-track: #3a3a3a;
-            --scrollbar-thumb: #555555;
-            --scrollbar-thumb-hover: #777777;
+            --border-color: #444444;
+            --card-bg: #2e2e2e;
         }
- 
-        /* Apply variables to base elements and custom classes */
+
         body {
             background-color: var(--bg-main);
             color: var(--text-main);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
         }
- 
-        h1,
-        p,
-        span {
-            color: var(--text-main); /* Default text color for these elements */
+
+        .search-input {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
         }
- 
-        /* Specific overrides for elements with hardcoded Tailwind classes */
-        .bg-white {
-            background-color: var(--bg-main) !important;
+
+        .search-input::placeholder {
+            color: var(--text-muted);
         }
- 
-        .text-\[\#1F1F1F\] {
-            color: var(--text-main) !important;
+
+        .chat-item {
+            border-bottom: 1px solid var(--border-color);
         }
- 
-        .bg-\[\#ffcfb4\] {
-            background-color: var(--icon-bg) !important;
+
+        .chat-item:hover {
+            background-color: var(--bg-hover);
         }
- 
-        .text-\[\#96490a\] {
-            color: var(--icon-color) !important;
+
+        .hover-bg:hover {
+            background-color: var(--bg-hover);
         }
- 
-        .text-md { /* Targeting the description paragraph */
-            color: var(--text-muted) !important;
+
+        .chat-date {
+            color: var(--text-muted);
+            font-size: 0.75rem;
         }
- 
-        .bg-\[\#f1f5f9\] {
-            background-color: var(--card-bg) !important;
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
         }
- 
-        .hover\:bg-\[\#dde3ea\]:hover {
-            background-color: var(--card-hover-bg) !important;
-        }
- 
-        ::-webkit-scrollbar {
-            height: 8px;
-            width: 8px;
-        }
- 
-        ::-webkit-scrollbar-track {
-            background: var(--scrollbar-track);
-        }
- 
-        ::-webkit-scrollbar-thumb {
-            background: var(--scrollbar-thumb);
-            border-radius: 4px;
-        }
- 
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--scrollbar-thumb-hover);
+
+        .chat-item span:first-child {
+            font-size: 0.95rem;
         }
     </style>
 </head>
- 
-<body class="min-h-screen">
-   <div class="w-[100%]">
+
+<body class="min-h-screen flex items-center justify-center transition-colors duration-300">
+
+    <div class="w-[100%]">
         <div class="flex w-[100%] ">
             <div class="main-content" id="main-content">
                 <div class="main-scroll-area">
@@ -118,7 +88,7 @@
                             <span class="collapse">Collapse menu</span>
                         </div>
 
-                         <div class="main-inner-right">
+                        <div class="main-inner-right">
                             <a href="Search.html" class="flex items-center justify-center" id="search-icon"> <span class="material-icons">search</span> </a>
                             <span class="search-span">Search</span>
                         </div>
@@ -127,13 +97,15 @@
                     <div class="drawer" id="drawer">
                         <ul class="drawer-data ">
                             <li id="new-chat-button">
-                                <a href="Gemini.html" class="w-[100%] items-center flex gap-5"> <span class="material-symbols-outlined">edit_square</span>
+                                <a href="Gemini.html" class="w-[100%] items-center flex gap-5"> <span
+                                        class="material-symbols-outlined">edit_square</span>
                                     <span>New Chat</span>
                                 </a>
                                 <span class="new-chat">New Chat</span>
                             </li>
                             <li class="diamond">
-                                <a href="Explore_Gem.html" class="w-[100%] items-center flex gap-5"> <span class="material-symbols-outlined">diamond </span>
+                                <a href="Explore_Gem.html" class="w-[100%] items-center flex gap-5"> <span
+                                        class="material-symbols-outlined">diamond </span>
                                     <span>Explore Gems</span>
                                 </a>
                                 <span class="expore">Explore Gems</span>
@@ -155,13 +127,13 @@
                             <span>Setting & Help</span>
                             <span class="seting-span">Setting & Help</span>
                         </li>
-                        <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="dropdown-menu p-5" id="dropdownMenu">
                             <ul>
                                 <li>
                                     <span class="material-symbols-outlined">history</span>
                                     Activity
                                 </li>
-                                  <li>
+                                <li>
                                     <a href="SavedInfo.html " class="w-[100%] items-center flex gap-5">
                                         <span class="material-symbols-outlined"> person </span>
                                         Saved info
@@ -171,11 +143,11 @@
                                     <span class="material-symbols-outlined"> extension</span>
                                     Apps
                                 </li>
-                                
-                                 <li>
+
+                                <li>
                                     <a href="Public_Links.html" class="w-[100%] items-center flex gap-5">
                                         <span class="material-symbols-outlined"> link </span>
-                                         Your public links
+                                        Your public links
                                     </a>
                                 </li>
                                 <li class="submenu" id="themeOptions">
@@ -375,88 +347,149 @@
         </div>
         <div class="gemini-data ">
             <div class="main-chat-area">
-                <div class="chat-content-wrapper" style="background-color: var(--bg-main);">
-                    <div class="p-10 min-h-screen flex items-center justify-center">
-        <div class="max-w-3xl mx-auto w-full">
-            
-            <div class="flex flex-wrap sm:flex-nowrap items-start sm:items-center gap-4 mb-6">
-                <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0"
-                    style="background-color: var(--icon-bg);">
-                    <i class="ph ph-lightbulb text-4xl" style="color: var(--icon-color);"></i>
-                </div>
-                <div>
-                    <h1 class="text-3xl" style="color: var(--text-main);"> Brainstormer </h1>
-                    <p class="text-md" style="color: var(--text-muted);">
-                        Find inspiration easily. Fresh ideas for parties, gifts, businesses and more.
-                    </p>
-                </div>
-            </div>
- 
-            <div class="block md:hidden overflow-x-auto">
-                <div class="flex gap-4 w-max">
-                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
-                        style="background-color: var(--card-bg); color: var(--text-main);"
-                        onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
-                        Affordable and creative gift ideas for my friend’s birthday.
+                <div class="chat-content-wrapper contents" style="background-color: var(--bg-main);">
+                    <div class="w-full max-w-2xl p-6">
+
+                        <!-- Header -->
+                        <h1 class="text-2xl font-semibold mb-6 ml-4">Search</h1>
+
+                        <!-- Search Input -->
+                        <div class="relative w-full max-w-xl mx-auto mb-8">
+                            <input type="text" placeholder="Search for chats"
+                                class="w-full rounded-full py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors search-input"
+                                id="searchInput" />
+                            <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-muted"
+                                xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                                viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0
+        1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11
+        0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </div>
+
+                        <!-- Recent Chats -->
+                        <div class="max-w-xl mx-auto">
+                            <h2 class="text-base font-medium mb-4" id="recentTitle">Recent</h2>
+                            <ul id="chatList">
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                    <span>HTML and JavaScript Code Request</span>
+                                    <span class="chat-date">Today</span>
+                                </li>
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                    <span>Fix Chat History Duplication Issue</span>
+                                    <span class="chat-date">Yesterday</span>
+                                </li>
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                    <span>Clarification Needed: What's on Your Mind?</span>
+                                    <span class="chat-date">Yesterday</span>
+                                </li>
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                    <span>HTML Code Review and Analysis</span>
+                                    <span class="chat-date">Yesterday</span>
+                                </li>
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                    <span>Webpage Responsiveness: Techniques Explained</span>
+                                    <span class="chat-date">Jun 14</span>
+                                </li>
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                    <span>Unclear Request, Need Clarification</span>
+                                    <span class="chat-date">Jun 14</span>
+                                </li>
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer hover-bg">
+                                    <span>Assistance Offered, Briefly Asked</span>
+                                    <span class="chat-date">Jun 12</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
-                        style="background-color: var(--card-bg); color: var(--text-main);"
-                        onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
-                        How to decorate an office space to look cozier yet professional?
-                    </div>
-                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
-                        style="background-color: var(--card-bg); color: var(--text-main);"
-                        onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
-                        Help me plan a large family reunion to host at my house.
-                    </div>
-                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
-                        style="background-color: var(--card-bg); color: var(--text-main);"
-                        onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
-                        What are some fun picnic ideas for kids?
-                    </div>
-                </div>
-            </div>
- 
-            <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
-                    style="background-color: var(--card-bg); color: var(--text-main);"
-                    onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
-                    Affordable and creative gift ideas for my friend’s birthday.
-                </div>
-                <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
-                    style="background-color: var(--card-bg); color: var(--text-main);"
-                    onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
-                    How to decorate an office space to look cozier yet professional?
-                </div>
-                <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
-                    style="background-color: var(--card-bg); color: var(--text-main);"
-                    onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
-                    Help me plan a large family reunion to host at my house.
-                </div>
-                <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
-                    style="background-color: var(--card-bg); color: var(--text-main);"
-                    onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
-                    What are some fun picnic ideas for kids?
-                </div>
-            </div>
-        </div>
-    </div>
- 
                 </div>
             </div>
         </div>
     </div>
 
+
+
+
+    <!-- Theme Script -->
+    <script>
+        const toggleBtn = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const input = document.getElementById('searchInput');
+        const chatList = document.getElementById('chatList');
+        const sectionTitle = document.getElementById('recentTitle');
+
+        // Format date as "Today", "Yesterday", or "MMM DD"
+        function formatChatDate(timestamp) {
+            const now = new Date();
+            const date = new Date(timestamp);
+            const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) {
+                return 'Today';
+            } else if (diffDays === 1) {
+                return 'Yesterday';
+            } else {
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+        }
+
+        // Load and render chat history from localStorage
+        function renderChatHistory() {
+            const chatData = JSON.parse(localStorage.getItem('geminiChatHistory')) || { chats: [] };
+
+            // Sort chats by timestamp (newest first)
+            const sortedChats = [...chatData.chats].sort((a, b) => b.timestamp - a.timestamp);
+
+            // Clear existing list
+            chatList.innerHTML = '';
+
+            // Add each chat to the list
+            sortedChats.forEach(chat => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between py-4 px-4 rounded cursor-pointer chat-item';
+                li.dataset.chatId = chat.id;
+
+                li.innerHTML = `
+            <span>${chat.title || 'Untitled Chat'}</span>
+            <span class="chat-date">${formatChatDate(chat.timestamp)}</span>
+        `;
+
+                // Add click handler to load chat
+                li.addEventListener('click', () => {
+                    // In a real app, you would navigate to the chat page with this ID
+                    // For this demo, we'll just show an alert
+                    alert(`Opening chat: ${chat.id}\nTitle: ${chat.title}`);
+
+                    // In your actual implementation, you would do something like:
+                    // window.location.href = `/chat?id=${chat.id}`;
+                });
+
+                chatList.appendChild(li);
+            });
+        }
+
+
+        renderChatHistory();
+
+
+        // Filter chat list based on input
+        input.addEventListener('input', () => {
+            const query = input.value.toLowerCase().trim();
+            let anyVisible = false;
+
+            [...chatList.children].forEach(item => {
+                const text = item.querySelector('span:first-child').textContent.toLowerCase();
+                const match = text.includes(query);
+                item.style.display = match ? 'flex' : 'none';
+                if (match) anyVisible = true;
+            });
+
+            sectionTitle.style.display = query.length > 0 && !anyVisible ? 'none' : '';
+        });
+    </script>
+
     <script src="./JS/index.js"></script>
+
 </body>
- 
+
 </html>
- 

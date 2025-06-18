@@ -31,30 +31,26 @@ function setChatData(data) {
 
 // Saves the current chat session to localStorage
 function saveCurrentChatSession() {
-    if (!currentChatId || !chatHistoryDiv) {
-        return;
-    }
+    if (!currentChatId || !chatHistoryDiv) return;
 
     const currentMessages = [];
     chatHistoryDiv.querySelectorAll('.flex').forEach(messageDiv => {
         const isUser = messageDiv.classList.contains('justify-end');
-        // Correctly get text content from span inside the bubble
         const textElement = messageDiv.querySelector('div:not(.absolute) > span');
         const textContent = textElement ? textElement.textContent : '';
-
         const imageElement = messageDiv.querySelector('img.max-w-\\[200px\\]');
         const imageUrl = imageElement ? imageElement.src : null;
 
-        currentMessages.push({
-            text: textContent,
-            isUser: isUser,
-            imageUrl: imageUrl
-        });
+        if (textContent.trim() || imageUrl) {
+            currentMessages.push({
+                text: textContent,
+                isUser: isUser,
+                imageUrl: imageUrl
+            });
+        }
     });
 
-    if (currentMessages.length === 0) {
-        return;
-    }
+    if (currentMessages.length === 0) return;
 
     let data = getChatData();
     let chatIndex = data.chats.findIndex(chat => chat.id === currentChatId);
@@ -66,17 +62,17 @@ function saveCurrentChatSession() {
         if (firstUserMessage.text.trim().length > 30) {
             chatTitle += "...";
         }
-    } else if (currentMessages.length > 0 && currentMessages.some(msg => msg.imageUrl)) {
+    } else if (currentMessages.some(msg => msg.imageUrl)) {
         chatTitle = "Image Chat";
-    } else {
-        return;
     }
 
     if (chatIndex > -1) {
+        // Update existing chat
         data.chats[chatIndex].messages = currentMessages;
         data.chats[chatIndex].title = chatTitle;
         data.chats[chatIndex].timestamp = Date.now();
     } else {
+        // Add new chat
         data.chats.push({
             id: currentChatId,
             title: chatTitle,
@@ -84,14 +80,22 @@ function saveCurrentChatSession() {
             timestamp: Date.now()
         });
     }
-    data.activeChatId = currentChatId;
 
+    // Ensure we don't exceed a reasonable number of saved chats
+    if (data.chats.length > 50) {
+        data.chats = data.chats.slice(-50); // Keep only the 50 most recent
+    }
+
+    data.activeChatId = currentChatId;
     setChatData(data);
-    renderRecentChats();
 }
 
 // Loads a specific chat session by ID
 function loadChatSession(chatId) {
+    // Don't reload if we're already viewing this chat
+    if (currentChatId === chatId) return;
+
+    // Save the current chat before switching
     saveCurrentChatSession();
 
     const data = getChatData();
@@ -99,26 +103,30 @@ function loadChatSession(chatId) {
 
     if (chatToLoad) {
         currentChatId = chatId;
+
+        // Clear the chat history completely before loading
         chatHistoryDiv.innerHTML = '';
+
         if (greetingDiv) {
             greetingDiv.style.display = 'none';
         }
 
-        // Ensure loaded messages are added instantly, not typed
+        // Load messages only once
         chatToLoad.messages.forEach(msg => {
-            addMessage(msg.text, msg.isUser, msg.imageUrl, false, true); // `true` for instant load
+            addMessage(msg.text, msg.isUser, msg.imageUrl, false, true);
         });
-        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
 
+        // Update active chat in storage
         data.activeChatId = currentChatId;
         setChatData(data);
 
-        document.querySelectorAll('#recent-chats li').forEach(li => {
-            li.classList.remove('active-chat');
-            if (li.dataset.chatId === chatId) {
-                li.classList.add('active-chat');
-            }
-        });
+        // Highlight the active chat
+        updateActiveChatUI(chatId);
+
+        // Scroll to bottom after loading
+        setTimeout(() => {
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        }, 50);
     } else {
         console.error("Chat not found:", chatId);
         createNewChat();
@@ -126,39 +134,193 @@ function loadChatSession(chatId) {
 }
 
 
-// Creates a new chat session
+// Global variable to track if we're currently loading a chat
+let isLoadingChat = false;
+
+function loadChatSession(chatId) {
+    // Prevent multiple loads of the same chat
+    if (currentChatId === chatId || isLoadingChat) return;
+    
+    isLoadingChat = true;
+    
+    // Save current chat before switching
+    saveCurrentChatSession();
+
+    const data = getChatData();
+    const chatToLoad = data.chats.find(chat => chat.id === chatId);
+
+    if (chatToLoad) {
+        currentChatId = chatId;
+        
+        // COMPLETELY clear the chat history
+        while (chatHistoryDiv.firstChild) {
+            chatHistoryDiv.removeChild(chatHistoryDiv.firstChild);
+        }
+        
+        // Hide greeting if present
+        if (greetingDiv) {
+            greetingDiv.style.display = 'none';
+        }
+
+        // Load messages - ensure no duplicates
+        const uniqueMessages = [];
+        const seenMessages = new Set();
+        
+        chatToLoad.messages.forEach(msg => {
+            const messageKey = `${msg.isUser ? 'user' : 'gemini'}-${msg.text}-${msg.imageUrl || ''}`;
+            if (!seenMessages.has(messageKey)) {
+                seenMessages.add(messageKey);
+                uniqueMessages.push(msg);
+            }
+        });
+
+        // Add messages to chat
+        uniqueMessages.forEach(msg => {
+            addMessage(msg.text, msg.isUser, msg.imageUrl, false, true);
+        });
+
+        // Update active chat
+        data.activeChatId = currentChatId;
+        setChatData(data);
+        
+        // Update UI
+        updateActiveChatUI(chatId);
+        
+        // Scroll to bottom after slight delay
+        setTimeout(() => {
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+            isLoadingChat = false;
+        }, 50);
+    } else {
+        console.error("Chat not found:", chatId);
+        createNewChat();
+        isLoadingChat = false;
+    }
+}
+
+function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDisplay = false) {
+    if (!chatHistoryDiv) return;
+
+    // Hide greeting if showing
+    if (greetingDiv && greetingDiv.style.display !== 'none') {
+        greetingDiv.style.display = 'none';
+    }
+
+    // Create message container
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+
+    // Create message bubble
+    const bubble = document.createElement('div');
+    bubble.className = `p-3 max-w-[80%] break-words whitespace-pre-wrap ${
+        isUser ? 'bg-[var(--user-bubble-bg)] text-[var(--user-bubble-text)] rounded-lg shadow-sm' 
+               : 'text-[var(--gemini-bubble-text)] text-base'
+    }`;
+
+    if (isUser) {
+        bubble.style.borderRadius = '24px 4px 24px 24px';
+        const messageTextElement = document.createElement('span');
+        messageTextElement.textContent = text;
+        bubble.appendChild(messageTextElement);
+        
+        if (imageUrl) {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.className = 'max-w-[200px] max-h-[200px] rounded-md mt-2';
+            bubble.appendChild(document.createElement('br'));
+            bubble.appendChild(img);
+        }
+    } else {
+        // For Gemini responses, ensure we don't duplicate
+        const existingMessages = chatHistoryDiv.querySelectorAll('.flex.justify-start');
+        const isDuplicate = Array.from(existingMessages).some(msg => {
+            return msg.textContent.trim() === text.trim();
+        });
+
+        if (!isDuplicate) {
+            const inlineContainer = document.createElement('div');
+            inlineContainer.className = 'flex items-center gap-4';
+
+            const avatar = document.createElement('img');
+            avatar.src = 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png';
+            avatar.alt = 'Gemini';
+            avatar.className = 'w-6 h-6 rounded-full';
+
+            inlineContainer.appendChild(avatar);
+            
+            const messageTextElement = document.createElement('span');
+            if (instantDisplay) {
+                messageTextElement.textContent = text;
+            } else {
+                typewriterEffect(messageTextElement, text, autoScroll);
+            }
+            
+            inlineContainer.appendChild(messageTextElement);
+            bubble.appendChild(inlineContainer);
+        } else {
+            return; // Skip adding duplicate Gemini message
+        }
+    }
+
+    messageDiv.appendChild(bubble);
+    chatHistoryDiv.appendChild(messageDiv);
+
+    if (autoScroll) {
+        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+    }
+}   
+
+function updateActiveChatUI(activeChatId) {
+    document.querySelectorAll('#recent-chats li').forEach(li => {
+        li.classList.remove('active-chat');
+        if (li.dataset.chatId === activeChatId) {
+            li.classList.add('active-chat');
+        }
+    });
+} 
+
+
 function createNewChat() {
     saveCurrentChatSession();
 
     currentChatId = generateUniqueId();
     chatHistoryDiv.innerHTML = '';
     userInput.value = '';
+
+    if (greetingDiv) {
+        greetingDiv.style.display = 'flex';
+    }
+
+    // Reset other UI elements
+    resetChatUI();
+
+    // Update localStorage
+    let data = getChatData();
+    data.activeChatId = currentChatId;
+    setChatData(data);
+
+    updateActiveChatUI(currentChatId);
+}
+function resetChatUI() {
     userInput.style.height = 'auto';
     if (previewImg) previewImg.src = '';
     if (previewContainer) previewContainer.classList.add("hidden");
     if (fileInput) fileInput.value = '';
     hasImage = false;
-    if (greetingDiv) {
-        greetingDiv.style.display = 'flex';
-    }
 
+    // Simplified send button icon (removed microphone states)
     if (sendIconContainer) {
         sendIconContainer.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z"/>
+                <path d="M120-160v-80l528-168v-304L120-880v-80l720 320v80L120-160Z"/>
             </svg>
         `;
     }
     if (tooltipText) {
-        tooltipText.textContent = "Use Microphone";
+        tooltipText.textContent = "Send message";
     }
-
-    let data = getChatData();
-    data.activeChatId = currentChatId;
-    setChatData(data);
-
-    renderRecentChats();
 }
+
 
 // Add this outside the function to avoid multiple listeners
 if (!window.kebabOutsideClickInitialized) {
@@ -174,28 +336,31 @@ if (!window.kebabOutsideClickInitialized) {
 
 let showAllChats = false; // default state
 function renderRecentChats() {
-
     if (!recentChatsUl) return;
 
     recentChatsUl.innerHTML = '';
-
     const data = getChatData();
 
+    // Sort by timestamp (newest first)
     data.chats.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-    const chatsToShow = showAllChats ? data.chats : data.chats.slice(0, 5);
+    // Remove duplicates by chat ID
+    const uniqueChats = [];
+    const seenIds = new Set();
+
+    data.chats.forEach(chat => {
+        if (!seenIds.has(chat.id)) {
+            seenIds.add(chat.id);
+            uniqueChats.push(chat);
+        }
+    });
+
+    const chatsToShow = showAllChats ? uniqueChats : uniqueChats.slice(0, 5);
 
     chatsToShow.forEach(chat => {
-
         const li = document.createElement('li');
-
         li.dataset.chatId = chat.id;
-
-        li.classList.add(
-            'flex', 'items-center', 'gap-4', 'cursor-pointer',
-
-            'text-ellipsis', 'relative', 'group'
-        );
+        li.className = 'flex items-center gap-4 cursor-pointer text-ellipsis relative group';
 
         if (chat.id === data.activeChatId) {
             li.classList.add('active-chat');
@@ -204,9 +369,11 @@ function renderRecentChats() {
         const icon = document.createElement('a');
         icon.className = 'material-symbols-outlined text-xl flex-shrink-0';
         icon.textContent = 'chat_bubble';
+
         const span = document.createElement('span');
         span.textContent = chat.title || "Untitled Chat";
-        span.classList.add('flex-grow', 'text-ellipsis');
+        span.className = 'flex-grow text-ellipsis overflow-hidden';
+
         li.appendChild(icon);
         li.appendChild(span);
         const kebabMenuWrapper = document.createElement('div');
@@ -305,7 +472,7 @@ function renderRecentChats() {
         });
         recentChatsUl.appendChild(li);
     });
-    renderViewToggle(data.chats.length); 
+    renderViewToggle(data.chats.length);
 }
 
 function renderViewToggle(totalChats) {
@@ -566,20 +733,14 @@ async function sendMessage() {
 
     // Clear input and preview area
     userInput.value = '';
+    updateSendButtonState();
     userInput.style.height = 'auto';
     previewImg.src = '';
     previewContainer.classList.add("hidden");
     fileInput.value = '';
     hasImage = false;
 
-    if (sendIconContainer && tooltipText) {
-        sendIconContainer.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z"/>
-            </svg>
-        `;
-        tooltipText.textContent = "Use Microphone";
-    }
+    
 }
 
 
@@ -718,7 +879,6 @@ function clearAllHistory() {
     });
 }
 
-
 // Auto-resize textarea
 function autoResize(textarea) {
     if (textarea) {
@@ -726,11 +886,6 @@ function autoResize(textarea) {
         textarea.style.height = Math.min(textarea.scrollHeight, 150) + 'px';
     }
 }
-
-   
-
-
-
 
 // Event listeners and initial setup for DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
@@ -757,12 +912,13 @@ document.addEventListener('DOMContentLoaded', function () {
     plusButton = document.getElementById('plus-button');
     plusDropdown = document.getElementById('plus-dropdown');
 
-    // LLM Feature Buttons
-    summarizeChatButton = document.getElementById('summarize-chat-button');
-    suggestQuestionsButton = document.getElementById('suggest-questions-button');
-    elaborateButton = document.getElementById('elaborate-button');
-    changeToneButton = document.getElementById('change-tone-button');
-    clearHistoryButton = document.getElementById('clear-history-button');
+    // Attach LLM feature functions to buttons
+    if (summarizeChatButton) summarizeChatButton.addEventListener('click', summarizeChatHistory);
+    if (suggestQuestionsButton) suggestQuestionsButton.addEventListener('click', suggestNextQuestions);
+    if (elaborateButton) elaborateButton.addEventListener('click', elaborateOnTopic);
+    if (changeToneButton) changeToneButton.addEventListener('click', changeTone);
+    if (clearHistoryButton) clearHistoryButton.addEventListener('click', clearAllHistory);
+
 
     // Initial load logic
     const chatData = getChatData();
@@ -772,15 +928,22 @@ document.addEventListener('DOMContentLoaded', function () {
         createNewChat();
     }
     renderRecentChats();
-
-    // General event listeners (with null checks)
+    // Sidebar toggle functionality
     if (openBtn) {
         openBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+
             if (window.innerWidth < 768) {
+                // Mobile behavior - toggle sidebar visibility
                 mainContent.classList.toggle('sidebar-open');
                 backdrop.classList.toggle('active');
+
+                // Ensure pinned state is consistent
+                if (mainContent.classList.contains('sidebar-open')) {
+                    mainContent.classList.remove('pinned');
+                }
             } else {
+                // Desktop behavior - toggle pinned state
                 mainContent.classList.toggle('pinned');
             }
         });
@@ -792,6 +955,18 @@ document.addEventListener('DOMContentLoaded', function () {
             backdrop.classList.remove('active');
         });
     }
+
+    // Responsive behavior
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+            // On desktop - ensure sidebar is visible and backdrop hidden
+            mainContent.classList.remove('sidebar-open');
+            backdrop.classList.remove('active');
+        } else {
+            // On mobile - remove pinned state
+            mainContent.classList.remove('pinned');
+        }
+    });
 
     if (search_icon) {
         search_icon.addEventListener('click', () => {
@@ -921,49 +1096,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function toggleTheme(theme) {
-        const body = document.body;
-        body.classList.remove('light', 'dark');
-        if (theme === 'light') {
-            body.classList.add('light'); localStorage.setItem('theme', 'light');
-            document.querySelectorAll('.gemini-header button.bg-\\[\\#3d3f42\\] img').forEach(img => { img.style.filter = 'none'; });
-        } else if (theme === 'dark') {
-            body.classList.add('dark'); localStorage.setItem('theme', 'dark');
-            document.querySelectorAll('.gemini-header button.bg-\\[\\#3d3f42\\] img').forEach(img => { img.style.filter = 'grayscale(100%) brightness(0) invert(1) saturate(10) hue-rotate(170deg)'; });
-        } else {
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                body.classList.add('dark');
-                document.querySelectorAll('.gemini-header button.bg-\\[\\#3d3f42\\] img').forEach(img => { img.style.filter = 'grayscale(100%) brightness(0) invert(1) saturate(10) hue-rotate(170deg)'; });
-            } else {
-                body.classList.add('light');
-                document.querySelectorAll('.gemini-header button.bg-\\[\\#3d3f42\\] img').forEach(img => { img.style.filter = 'none'; });
-            }
-            localStorage.setItem('theme', 'system');
-        }
-    }
 
-    function initializeTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        let effectiveTheme = 'system';
-        if (savedTheme) { effectiveTheme = savedTheme; } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { effectiveTheme = 'dark'; } else { effectiveTheme = 'light'; }
-        toggleTheme(effectiveTheme);
-        document.querySelectorAll('.theme-options li').forEach(li => {
-            li.textContent = li.textContent.replace(' ✔', '').trim();
-            if (li.textContent.toLowerCase() === effectiveTheme) { li.textContent += ' ✔'; }
-        });
-    }
-    initializeTheme();
-    document.querySelectorAll('.theme-options li').forEach(option => {
-        option.addEventListener('click', function () {
-            const theme = this.textContent.trim().toLowerCase().replace('✔', '').trim();
-            toggleTheme(theme);
-            document.querySelectorAll('.theme-options li').forEach(li => { li.textContent = li.textContent.replace(' ✔', '').trim(); });
-            this.textContent += ' ✔';
-        });
-    });
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (localStorage.getItem('theme') === 'system') { toggleTheme('system'); }
-    });
+
+
 
     if (mainContent && geminiData) {
         mainContent.addEventListener('mouseenter', () => {
@@ -1014,42 +1149,55 @@ document.addEventListener('click', function (e) {
         dropdown.style.display = 'none';
         setting_help.classList.remove('setingbackgroundChange');
     }
+
+
 });
 
-const textarea = document.getElementById("user-input");
-const sendButtonElement = document.getElementById("send-button"); // The button itself
-const sendIconElement = document.getElementById("send-icon"); // The span inside the button
+// Theme management
+function applyTheme(theme) {
+    document.body.classList.remove('light', 'dark');
 
-textarea.addEventListener("input", () => {
-    const hasText = textarea.value.trim().length > 0;
-
-    if (hasText) {
-        // Change icon to send (paper plane)
-        if (sendIconElement) {
-            sendIconElement.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
-                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                </svg>
-            `;
-            // Remove tooltip text "Use Microphone" and set to "Send message"
-            if (tooltipText) {
-                tooltipText.textContent = "Send message";
-            }
-        }
-    } else {
-        // Change icon back to microphone
-        if (sendIconElement) {
-            sendIconElement.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-                    <path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z"/>
-                </svg>
-            `;
-            // Set tooltip text back to "Use Microphone"
-            if (tooltipText) {
-                tooltipText.textContent = "Use Microphone";
-            }
-        }
+    if (theme === 'system') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-});
 
+    document.body.classList.add(theme);
+    localStorage.setItem('theme', theme);
+
+    // Update UI to show active theme
+    document.querySelectorAll('.theme-options li').forEach(li => {
+        li.textContent = li.textContent.replace(' ✔', '').trim();
+        if (li.dataset.theme === theme) {
+            li.textContent += ' ✔';
+        }
+    });
+}
+
+// Initialize theme
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'system';
+    applyTheme(savedTheme);
+
+    // Watch for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (localStorage.getItem('theme') === 'system') {
+            applyTheme('system');
+        }
+    });
+}
+
+// Set up theme switcher
+function setupThemeSwitcher() {
+    document.querySelectorAll('.theme-options li').forEach(option => {
+        option.addEventListener('click', function () {
+            const theme = this.dataset.theme;
+            applyTheme(theme);
+        });
+    });
+}
+
+// Call these when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    setupThemeSwitcher();
+});

@@ -80,12 +80,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateSaveButtonState() {
         if (input.value.trim() !== "") {
             saveButton.disabled = false;
-            saveButton.classList.remove('disabled:bg-[#DDDFE1]', 'disabled:text-[#9395A0]');
-            saveButton.classList.add('bg-[#0B57D0]', 'text-white', 'hover:bg-[#1E64D4]');
+           
         } else {
             saveButton.disabled = true;
-            saveButton.classList.add('disabled:bg-[#DDDFE1]', 'disabled:text-[#9395A0]');
-            saveButton.classList.remove('bg-[#0B57D0]', 'text-white', 'hover:bg-[#1E64D4]');
+            
         }
     }
 

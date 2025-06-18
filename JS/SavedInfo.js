@@ -1,4 +1,4 @@
-const textarea = document.getElementById('message');
+const textareaMessage = document.getElementById('message');
 const submitBtn = document.getElementById('submitBtn');
 const addInfo = document.getElementById('add-info');
 const saveinfoForm = document.getElementById('saveinfo-form');
@@ -13,8 +13,8 @@ const geminitool = document.getElementById('gemini-tool');
 const geminitoolShow = document.getElementById('gemini-tool-show');
 let updateID = null;
 
-textarea.addEventListener('input', function () {
-    submitBtn.disabled = textarea.value.trim() === '';
+textareaMessage.addEventListener('input', function () {
+    submitBtn.disabled = textareaMessage.value.trim() === '';
 });
 
 geminitool.addEventListener('click', function () {
@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+     
+
 
     Display();
 });
@@ -96,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const handleSaveInfo = async (event) => {
     event.preventDefault();
 
-    const message = textarea.value.trim();
+    const message = textareaMessage.value.trim();
 
     if (!message) {
         console.warn("Message is empty, not saving.");
@@ -133,7 +135,7 @@ const handleSaveInfo = async (event) => {
         }
 
 
-        textarea.value = '';
+        textareaMessage.value = '';
         updateID = null;
         await Display();
         saveinfoForm.classList.add('hidden');
@@ -154,12 +156,12 @@ const Display = async (event) => {
         const savedInfoData = data.reverse();
         let deleteAllButtonHtml = savedInfoData.length > 0 ?
             `<button id="deleteall-info" onclick="handleDeleteall()"
-                class="text-[#A8C7FA] border flex justify-center gap-2 text-md hover:bg-[#30373F] py-2 items-center px-5 rounded-3xl font-semibold">
+                class="text-[--input-border-focus] border flex justify-center gap-2 text-md hover:bg-[--examples-btn-hover] py-2 items-center px-5 rounded-3xl font-semibold">
                 <span class="material-symbols-outlined">delete</span>
                 Delete all
             </button>` : '';
 
-        let print = savedInfoData.length > 0 ? '<p class="font-semibold mb-2">Saved today</p>' : `<p id="info-p" class="text-[#A2A9B0] text-center">You haven't asked Gemini to save anything about you yet</p>`
+        let print = savedInfoData.length > 0 ? '<p class="font-semibold mb-2">Saved today</p>' : `<p id="info-p" class="text-[--sidebar-text] text-center">You haven't asked Gemini to save anything about you yet</p>`
 
         savedInfoData.map((v, index) => {
             const onlyOne = savedInfoData.length === 1;
@@ -178,17 +180,17 @@ const Display = async (event) => {
             }
 
             print += `
-                <div class="saveshowdata bg-[#282A2C] w-full py-3 px-4 mb-1 flex items-center justify-between ${borderRadius}">
-                    <p class="break-words text-md text-[#A2A9B0]">${v.message}</p>
+                <div class="saveshowdata bg-[--sidebar-bg] w-full py-3 px-4 mb-1 flex items-center justify-between ${borderRadius}">
+                    <p class="break-words text-md text-[--sidebar-text]">${v.message}</p>
                     <div class="relative">
                         <span id="action-ED-${index}" onClick="handleActionBtn(${index})"
-                            class="material-symbols-outlined rounded-full hover:bg-[#353739] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">more_vert</span>
-                        <div id="action-data-${index}" class="absolute bg-[#1E1F20] top-[100%] left-[0%] rounded py-2 shadow-lg hidden z-10">
+                            class="material-symbols-outlined rounded-full hover:bg-[--bg-hover] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">more_vert</span>
+                        <div id="action-data-${index}" class="absolute bg-[--dropDown] top-[100%] left-[0%] rounded py-2 shadow-lg hidden z-10">
                             <ul>
-                                <li onclick="handleEdit('${v.id}')" class="tooltip-custom text-md flex items-center hover:bg-[#2E2F2F] px-3 py-2 cursor-pointer" data-tooltip="Edit this info">
+                                <li onclick="handleEdit('${v.id}')" class="tooltip-custom text-md flex items-center hover:bg-[--bg-hover] px-3 py-2 cursor-pointer" data-tooltip="Edit this info">
                                     <span class="material-symbols-outlined text-2xl mr-3">edit</span>Edit
                                 </li>
-                                <li onclick="handleDelete('${v.id}')" class="tooltip-custom text-md flex items-center hover:bg-[#2E2F2F] px-3 py-2 cursor-pointer" data-tooltip="Delete this info">
+                                <li onclick="handleDelete('${v.id}')" class="tooltip-custom text-md flex items-center hover:bg-[--bg-hover] px-3 py-2 cursor-pointer" data-tooltip="Delete this info">
                                     <span class="material-symbols-outlined text-2xl mr-3">delete</span>Delete
                                 </li>
                             </ul>
@@ -286,10 +288,10 @@ const handleEdit = async (id) => {
         const obj = data.find((v) => v.id === id);
 
         if (obj) {
-            textarea.value = obj.message;
+            textareaMessage.value = obj.message;
             updateID = obj.id;
             saveinfoForm.classList.remove('hidden');
-            textarea.focus();
+            textareaMessage.focus();
         } else {
             console.warn(`No item found with ID: ${id}`);
         }
