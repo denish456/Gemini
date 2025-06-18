@@ -1,0 +1,229 @@
+:root {
+  --bg-main: #FFFFFF;
+  --bg-hover: #E2E7EB;
+  --text-main: #1F1F1F;
+  --text-muted: #5F6368;
+  --scroll-track: #F0F4F9;
+  --scroll-thumb: #D5D9DC;
+  --scroll-thumb-hover: #ADB3B8;
+  --tooltip-bg: #5F6368;
+  --tooltip-text: #FFFFFF;
+  --border-color: #DADCE0;
+  --sidebar-bg: #f0f4f9;
+  --sidebar-text: #575b5f;
+  --sidebar-hover: #e1e4ea;
+  --dropdown-bg: #f0f4f9;
+  --dropdown-border: #DADCE0;
+  --dropdown-text: #1F1F1F;
+  --dropdown-hover: #F0F4F9;
+  --input-bg: #FFFFFF;
+  --input-border-focus: #4285F4;
+  --user-bubble-bg: #E8F0FE;
+  --user-bubble-text: #1F1F1F;
+  --gemini-bubble-bg: transparent;
+  --gemini-bubble-text: #1F1F1F;
+  --accent-blue: #4285F4;
+  --accent-green: #34A853;
+  --dropDown:#F0F4F9;
+}
+
+body.dark {
+  --bg-main: #1b1c1d;
+  --bg-hover: #353739;
+  --text-main: #E8EAED;
+  --text-muted: #9AA0A6;
+  --scroll-track: #1e293b;
+  --scroll-thumb: #4a5568;
+  --scroll-thumb-hover: #64748b;
+  --tooltip-bg: #282a2c;
+  --tooltip-text: #E8EAED;
+  --border-color: #4a5050;
+  --sidebar-bg: #282a2c;
+  --sidebar-text: #a2a9b0;
+  --sidebar-hover: #303134;
+  --dropdown-bg: #282a2c;
+  --dropdown2-bg: #1b1c1d;
+  --dropdown-border: #3c4043;
+  --dropdown-text: #E8EAED;
+  --dropdown-hover: #3b3d3f;
+  --input-bg: #000000;
+  --input-border-focus: #8AB4F8;
+  --user-bubble-bg: #333537;
+  --user-bubble-text: #E8EAED;
+  --gemini-bubble-bg: transparent;
+  --gemini-bubble-text: #E8EAED;
+  --accent-blue: #8AB4F8;
+  --accent-green: #6AA56A;
+  --dropDown:#1E1F20;
+  
+  
+}
+
+.container {
+  width: 100%;
+}
+
+.info {
+  max-width: 900px;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+@media (max-width: 768px) {
+  .info {
+    width: 95%;
+    /* Adjust width for smaller screens */
+    padding: 0 10px;
+    /* Add some padding on smaller screens */
+  }
+
+  .info h3 {
+    font-size: 2rem;
+    align-items: flex-start;
+  }
+
+  .info p {
+    font-size: 1rem;
+    /* Adjust paragraph font size */
+    width: 100%;
+    /* Full width for paragraph */
+  }
+
+  .info .flex.justify-between.items-center {
+    flex-direction: column;
+    /* Stack buttons and delete all on small screens */
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .saveshowdata {
+   flex-direction: row !important;
+   align-items: center !important;
+  }
+
+  .saveshowdata .relative > span {
+    align-items: center !important;
+  }
+}
+
+
+.material-icons,
+.material-symbols-outlined,
+.material-icons-outlined {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider Track */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+/* Circle (thumb) */
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Icon inside slider */
+.slider::after {
+  font-family: "Material Symbols Outlined";
+  content: "remove";
+  /* minus icon */
+  position: absolute;
+  font-size: 20px;
+  color: #333;
+  left: 7px;
+  top: 3px;
+  transition: 0.4s;
+  z-index: 99;
+}
+
+/* Checked state */
+.switch input:checked+.slider {
+  background-color: #A8C7FA;
+}
+
+.switch input:checked+.slider:before {
+  transform: translateX(26px);
+  background-color: #0842A0;
+}
+
+.switch input:checked+.slider::after {
+  content: "check";
+  /* check icon */
+  left: 34px;
+  color: white;
+  z-index: 999;
+}
+
+
+.tooltip-custom {
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltip-custom::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 0%;
+  top: 120%;
+  transform: translateY();
+  background-color: #e2e1e1;
+  color: #3a3a3a;
+  padding: 4px 8px;
+  white-space: nowrap;
+  font-size: 12px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  margin-left: 8px;
+  z-index: 20;
+}
+
+.tooltip-custom:hover::after {
+  opacity: 1;
+}
+
