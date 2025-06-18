@@ -159,7 +159,7 @@ const Display = async (event) => {
                 Delete all
             </button>` : '';
 
-        let print = savedInfoData.length > 0 ? '<p class="font-semibold mb-2">Saved today</p>' : `<p id="info-p" class="text-[#A2A9B0] text-center">You haven't asked Gemini to save anything about you yet</p>`
+        let print = savedInfoData.length > 0 ? '<p class="font-semibold mb-2">Saved today</p>' : `<p id="info-p" class="text-[ --sidebar-text] text-center">You haven't asked Gemini to save anything about you yet</p>`
 
         savedInfoData.map((v, index) => {
             const onlyOne = savedInfoData.length === 1;
@@ -178,11 +178,11 @@ const Display = async (event) => {
             }
 
             print += `
-                <div class="saveshowdata bg-[#282A2C] w-full py-3 px-4 mb-1 flex items-center justify-between ${borderRadius}">
-                    <p class="break-words text-md text-[#A2A9B0]">${v.message}</p>
+                <div class="saveshowdata bg-[--sidebar-bg] w-full py-3 px-4 mb-1 flex items-center justify-between ${borderRadius}">
+                    <p class="break-words text-md text-[--sidebar-text]">${v.message}</p>
                     <div class="relative">
                         <span id="action-ED-${index}" onClick="handleActionBtn(${index})"
-                            class="material-symbols-outlined rounded-full hover:bg-[#353739] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">more_vert</span>
+                            class="material-symbols-outlined rounded-full hover:bg-[--bg-hover] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">more_vert</span>
                         <div id="action-data-${index}" class="absolute bg-[#1E1F20] top-[100%] left-[0%] rounded py-2 shadow-lg hidden z-10">
                             <ul>
                                 <li onclick="handleEdit('${v.id}')" class="tooltip-custom text-md flex items-center hover:bg-[#2E2F2F] px-3 py-2 cursor-pointer" data-tooltip="Edit this info">
@@ -345,7 +345,3 @@ const handleDeleteConfirmed = async () => {
 
 saveinfoForm.addEventListener('submit', handleSaveInfo)
 Display()
-
-
-
-

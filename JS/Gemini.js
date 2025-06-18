@@ -3,10 +3,12 @@ let openBtn, mainContent, search_icon, setting_help, geminiData, backdrop, newCh
     chatHistoryDiv, userInput, sendButton, sendIconContainer, tooltipText, fileInput,
     previewContainer, previewImg, removePreviewBtn, triggerUpload, recentChatsUl, greetingDiv;
 let plusButton, plusDropdown, summarizeChatButton, suggestQuestionsButton,
-    elaborateButton, changeToneButton, clearHistoryButton; // Also declare these globally here
+    elaborateButton, changeToneButton, clearHistoryButton;
 
 let currentChatId = null; // Stores the ID of the currently active chat
-let hasImage = false; // Moved to global to be consistent with other flags
+let hasImage = false; // Tracks if there's an image in the current message
+let isLoadingChat = false; // Tracks if we're currently loading a chat
+let showAllChats = false; // Tracks whether to show all chats or just recent ones
 
 // Helper to generate unique IDs (simple timestamp-based)
 function generateUniqueId() {
@@ -31,30 +33,26 @@ function setChatData(data) {
 
 // Saves the current chat session to localStorage
 function saveCurrentChatSession() {
-    if (!currentChatId || !chatHistoryDiv) {
-        return;
-    }
+    if (!currentChatId || !chatHistoryDiv) return;
 
     const currentMessages = [];
     chatHistoryDiv.querySelectorAll('.flex').forEach(messageDiv => {
         const isUser = messageDiv.classList.contains('justify-end');
-        // Correctly get text content from span inside the bubble
         const textElement = messageDiv.querySelector('div:not(.absolute) > span');
         const textContent = textElement ? textElement.textContent : '';
-
         const imageElement = messageDiv.querySelector('img.max-w-\\[200px\\]');
         const imageUrl = imageElement ? imageElement.src : null;
 
-        currentMessages.push({
-            text: textContent,
-            isUser: isUser,
-            imageUrl: imageUrl
-        });
+        if (textContent.trim() || imageUrl) {
+            currentMessages.push({
+                text: textContent,
+                isUser: isUser,
+                imageUrl: imageUrl
+            });
+        }
     });
 
-    if (currentMessages.length === 0) {
-        return;
-    }
+    if (currentMessages.length === 0) return;
 
     let data = getChatData();
     let chatIndex = data.chats.findIndex(chat => chat.id === currentChatId);
@@ -66,17 +64,17 @@ function saveCurrentChatSession() {
         if (firstUserMessage.text.trim().length > 30) {
             chatTitle += "...";
         }
-    } else if (currentMessages.length > 0 && currentMessages.some(msg => msg.imageUrl)) {
+    } else if (currentMessages.some(msg => msg.imageUrl)) {
         chatTitle = "Image Chat";
-    } else {
-        return;
     }
 
     if (chatIndex > -1) {
+        // Update existing chat
         data.chats[chatIndex].messages = currentMessages;
         data.chats[chatIndex].title = chatTitle;
         data.chats[chatIndex].timestamp = Date.now();
     } else {
+        // Add new chat
         data.chats.push({
             id: currentChatId,
             title: chatTitle,
@@ -84,14 +82,24 @@ function saveCurrentChatSession() {
             timestamp: Date.now()
         });
     }
-    data.activeChatId = currentChatId;
 
+    // Ensure we don't exceed a reasonable number of saved chats
+    if (data.chats.length > 50) {
+        data.chats = data.chats.slice(-50); // Keep only the 50 most recent
+    }
+
+    data.activeChatId = currentChatId;
     setChatData(data);
-    renderRecentChats();
 }
 
 // Loads a specific chat session by ID
 function loadChatSession(chatId) {
+    // Prevent multiple loads of the same chat
+    if (currentChatId === chatId || isLoadingChat) return;
+    
+    isLoadingChat = true;
+    
+    // Save current chat before switching
     saveCurrentChatSession();
 
     const data = getChatData();
@@ -99,32 +107,155 @@ function loadChatSession(chatId) {
 
     if (chatToLoad) {
         currentChatId = chatId;
-        chatHistoryDiv.innerHTML = '';
+        
+        // COMPLETELY clear the chat history
+        while (chatHistoryDiv.firstChild) {
+            chatHistoryDiv.removeChild(chatHistoryDiv.firstChild);
+        }
+        
+        // Hide greeting if present
         if (greetingDiv) {
             greetingDiv.style.display = 'none';
         }
 
-        // Ensure loaded messages are added instantly, not typed
+        // Load messages - ensure no duplicates
+        const uniqueMessages = [];
+        const seenMessages = new Set();
+        
         chatToLoad.messages.forEach(msg => {
-            addMessage(msg.text, msg.isUser, msg.imageUrl, false, true); // `true` for instant load
-        });
-        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-
-        data.activeChatId = currentChatId;
-        setChatData(data);
-
-        document.querySelectorAll('#recent-chats li').forEach(li => {
-            li.classList.remove('active-chat');
-            if (li.dataset.chatId === chatId) {
-                li.classList.add('active-chat');
+            const messageKey = `${msg.isUser ? 'user' : 'gemini'}-${msg.text}-${msg.imageUrl || ''}`;
+            if (!seenMessages.has(messageKey)) {
+                seenMessages.add(messageKey);
+                uniqueMessages.push(msg);
             }
         });
+
+        // Add messages to chat
+        uniqueMessages.forEach(msg => {
+            addMessage(msg.text, msg.isUser, msg.imageUrl, false, true);
+        });
+
+        // Update active chat
+        data.activeChatId = currentChatId;
+        setChatData(data);
+        
+        // Update UI
+        updateActiveChatUI(chatId);
+        
+        // Scroll to bottom after slight delay
+        setTimeout(() => {
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+            isLoadingChat = false;
+        }, 50);
     } else {
         console.error("Chat not found:", chatId);
         createNewChat();
+        isLoadingChat = false;
     }
 }
 
+// Adds a message to the chat history display
+function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDisplay = false) {
+    if (!chatHistoryDiv) return;
+
+    if (greetingDiv && greetingDiv.style.display !== 'none') {
+        greetingDiv.style.display = 'none';
+    }
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+
+    const bubble = document.createElement('div');
+    bubble.className = `p-3 max-w-[80%] break-words whitespace-pre-wrap ${
+        isUser ? 'bg-[var(--user-bubble-bg)] text-[var(--user-bubble-text)] rounded-lg shadow-sm' 
+               : 'text-[var(--gemini-bubble-text)] text-base'
+    }`;
+
+    if (isUser) {
+        bubble.style.borderRadius = '24px 4px 24px 24px';
+        const messageTextElement = document.createElement('span');
+        messageTextElement.textContent = text;
+        bubble.appendChild(messageTextElement);
+        
+        if (imageUrl) {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.className = 'max-w-[200px] max-h-[200px] rounded-md mt-2';
+            bubble.appendChild(document.createElement('br'));
+            bubble.appendChild(img);
+        }
+    } else {
+        // For Gemini responses, ensure we don't duplicate
+        const existingMessages = chatHistoryDiv.querySelectorAll('.flex.justify-start');
+        const isDuplicate = Array.from(existingMessages).some(msg => {
+            return msg.textContent.trim() === text.trim();
+        });
+
+        if (!isDuplicate) {
+            const inlineContainer = document.createElement('div');
+            inlineContainer.className = 'flex items-center gap-4';
+
+            const avatar = document.createElement('img');
+            avatar.src = 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png';
+            avatar.alt = 'Gemini';
+            avatar.className = 'w-6 h-6 rounded-full';
+
+            inlineContainer.appendChild(avatar);
+            
+            const messageTextElement = document.createElement('span');
+            if (instantDisplay) {
+                messageTextElement.textContent = text;
+            } else {
+                typewriterEffect(messageTextElement, text, autoScroll);
+            }
+            
+            inlineContainer.appendChild(messageTextElement);
+            bubble.appendChild(inlineContainer);
+        } else {
+            return; // Skip adding duplicate Gemini message
+        }
+    }
+
+    messageDiv.appendChild(bubble);
+    chatHistoryDiv.appendChild(messageDiv);
+
+    if (autoScroll) {
+        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+    }
+}   
+
+// Typewriter effect for Gemini responses
+function typewriterEffect(element, fullText, autoScroll) {
+    let i = 0;
+    const speed = 20; // typing speed in milliseconds per character
+
+    function type() {
+        if (i < fullText.length) {
+            element.textContent += fullText.charAt(i);
+            i++;
+            if (autoScroll) {
+                chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+            }
+            setTimeout(type, speed);
+        } else {
+            // Once typing is complete, ensure final scroll
+            if (autoScroll) {
+                chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+            }
+        }
+    }
+    type();
+}
+
+// Updates the active chat UI
+function updateActiveChatUI(activeChatId) {
+    document.querySelectorAll('#recent-chats li').forEach(li => {
+        li.classList.remove('active-chat');
+        if (li.dataset.chatId === activeChatId) {
+            li.classList.add('active-chat');
+        }
+    });
+} 
 
 // Creates a new chat session
 function createNewChat() {
@@ -133,69 +264,85 @@ function createNewChat() {
     currentChatId = generateUniqueId();
     chatHistoryDiv.innerHTML = '';
     userInput.value = '';
+
+    if (greetingDiv) {
+        greetingDiv.style.display = 'flex';
+    }
+
+    // Reset other UI elements
+    resetChatUI();
+
+    // Update localStorage
+    let data = getChatData();
+    data.activeChatId = currentChatId;
+    setChatData(data);
+
+    updateActiveChatUI(currentChatId);
+}
+
+// Resets the chat UI to default state
+function resetChatUI() {
     userInput.style.height = 'auto';
     if (previewImg) previewImg.src = '';
     if (previewContainer) previewContainer.classList.add("hidden");
     if (fileInput) fileInput.value = '';
     hasImage = false;
-    if (greetingDiv) {
-        greetingDiv.style.display = 'flex';
-    }
 
-    if (sendIconContainer) {
+    updateSendButtonState();
+}
+
+// Updates the send button state based on input content
+function updateSendButtonState() {
+    if (!userInput || !sendIconContainer || !tooltipText) return;
+    
+    const hasContent = userInput.value.trim().length > 0 || hasImage;
+    
+    if (hasContent) {
+        // Show send icon
+        sendIconContainer.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"/>
+            </svg>
+        `;
+        tooltipText.textContent = "Send message";
+    } else {
+        // Show mic icon
         sendIconContainer.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
                 <path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z"/>
             </svg>
         `;
+        tooltipText.textContent = "Use microphone";
     }
-    if (tooltipText) {
-        tooltipText.textContent = "Use Microphone";
-    }
-
-    let data = getChatData();
-    data.activeChatId = currentChatId;
-    setChatData(data);
-
-    renderRecentChats();
-}
-
-// Add this outside the function to avoid multiple listeners
-if (!window.kebabOutsideClickInitialized) {
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.kebab-dropdown').forEach(dropdown => {
-            dropdown.classList.add('hidden');
-        });
-    });
-    window.kebabOutsideClickInitialized = true;
 }
 
 // Renders the list of recent chats in the sidebar
-
-let showAllChats = false; // default state
 function renderRecentChats() {
-
     if (!recentChatsUl) return;
 
     recentChatsUl.innerHTML = '';
-
     const data = getChatData();
 
+    // Sort by timestamp (newest first)
     data.chats.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-    const chatsToShow = showAllChats ? data.chats : data.chats.slice(0, 5);
+    // Remove duplicates by chat ID
+    const uniqueChats = [];
+    const seenIds = new Set();
+
+    data.chats.forEach(chat => {
+        if (!seenIds.has(chat.id)) {
+            seenIds.add(chat.id);
+            uniqueChats.push(chat);
+        }
+    });
+
+    const chatsToShow = showAllChats ? uniqueChats : uniqueChats.slice(0, 5);
 
     chatsToShow.forEach(chat => {
-
         const li = document.createElement('li');
-
         li.dataset.chatId = chat.id;
-
-        li.classList.add(
-            'flex', 'items-center', 'gap-4', 'cursor-pointer',
-
-            'text-ellipsis', 'relative', 'group'
-        );
+        li.className = 'flex items-center gap-4 cursor-pointer text-ellipsis relative group';
 
         if (chat.id === data.activeChatId) {
             li.classList.add('active-chat');
@@ -204,9 +351,11 @@ function renderRecentChats() {
         const icon = document.createElement('a');
         icon.className = 'material-symbols-outlined text-xl flex-shrink-0';
         icon.textContent = 'chat_bubble';
+
         const span = document.createElement('span');
         span.textContent = chat.title || "Untitled Chat";
-        span.classList.add('flex-grow', 'text-ellipsis');
+        span.className = 'flex-grow text-ellipsis overflow-hidden';
+
         li.appendChild(icon);
         li.appendChild(span);
         const kebabMenuWrapper = document.createElement('div');
@@ -214,11 +363,9 @@ function renderRecentChats() {
 
         kebabMenuWrapper.innerHTML = `
 <button class="kebab-button material-icons-outlined rounded-full w-8 h-8 flex items-center justify-center">
-
                 more_vert
 </button>
 <ul class="kebab-dropdown hidden absolute right-[100%] top-[0] mt-1 w-32 rounded-lg shadow-lg z-30 text-sm py-1"
-
                 style="background-color: var(--dropdown-bg); color: var(--dropdown-text); border: 1px solid var(--dropdown-border);">
 <li class="hover:bg-[var(--bg-hover)] hover:rounded-none py-1">
 <button class="block w-full text-left px-3 py-1">Pin</button>
@@ -237,50 +384,37 @@ function renderRecentChats() {
         const kebabDropdown = kebabMenuWrapper.querySelector('.kebab-dropdown');
 
         kebabButton.addEventListener('click', (e) => {
-
             e.stopPropagation();
             document.querySelectorAll('.kebab-dropdown').forEach(dropdown => {
                 if (dropdown !== kebabDropdown) {
                     dropdown.classList.add('hidden');
                 }
             });
-
             kebabDropdown.classList.toggle('hidden');
-
         });
 
         const [pinBtn, renameBtn, deleteBtn] = kebabDropdown.querySelectorAll('button');
 
         pinBtn.addEventListener('click', () => {
-
             console.log('Pin clicked for chat:', chat.id);
-
             kebabDropdown.classList.add('hidden');
-
         });
 
         renameBtn.addEventListener('click', () => {
-
             const newTitle = prompt('Enter new name for chat:', chat.title);
-
             if (newTitle && newTitle.trim() !== "") {
-
                 let data = getChatData();
-
                 let chatToRename = data.chats.find(c => c.id === chat.id);
-
                 if (chatToRename) {
                     chatToRename.title = newTitle.trim();
                     setChatData(data);
                     renderRecentChats();
                 }
             }
-
             kebabDropdown.classList.add('hidden');
         });
 
         deleteBtn.addEventListener('click', () => {
-
             if (confirm('Are you sure you want to delete this chat?')) {
                 let data = getChatData();
                 data.chats = data.chats.filter(c => c.id !== chat.id);
@@ -305,11 +439,11 @@ function renderRecentChats() {
         });
         recentChatsUl.appendChild(li);
     });
-    renderViewToggle(data.chats.length); 
+    renderViewToggle(data.chats.length);
 }
 
+// Renders the view toggle button
 function renderViewToggle(totalChats) {
-
     let toggleBtn = document.getElementById('view-toggle-btn');
 
     if (!toggleBtn) {
@@ -320,8 +454,9 @@ function renderViewToggle(totalChats) {
             showAllChats = !showAllChats;
             renderRecentChats();
         });
-        recentChatsUl.parentElement.appendChild(toggleBtn); // Make sure UL is wrapped in a div
+        recentChatsUl.parentElement.appendChild(toggleBtn);
     }
+    
     if (totalChats <= 5) {
         toggleBtn.style.display = 'none';
     } else {
@@ -330,99 +465,6 @@ function renderViewToggle(totalChats) {
     }
 }
 
-document.addEventListener('click', (e) => {
-    document.querySelectorAll('.kebab-dropdown').forEach(dropdown => {
-        // Check if the click was outside this dropdown AND not on its corresponding kebab button
-        const kebabButton = dropdown.previousElementSibling; // Assuming direct sibling
-        if (!dropdown.classList.contains('hidden') && !dropdown.contains(e.target) && (!kebabButton || !kebabButton.contains(e.target))) {
-            dropdown.classList.add('hidden');
-        }
-    });
-});
-
-// Adds a message to the chat history display
-// `instantDisplay` parameter controls if the message is typed out or appears instantly
-function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDisplay = false) {
-    if (!chatHistoryDiv) return;
-
-    if (greetingDiv && greetingDiv.style.display !== 'none') {
-        greetingDiv.style.display = 'none';
-    }
-
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
-
-    const bubble = document.createElement('div');
-    bubble.className = `p-3 max-w-[80%] break-words whitespace-pre-wrap ${isUser ? 'bg-[var(--user-bubble-bg)] text-[var(--user-bubble-text)] rounded-lg shadow-sm' : 'text-[var(--gemini-bubble-text)] text-base'
-        }`;
-
-    const messageTextElement = document.createElement('span');
-
-    if (isUser) {
-        bubble.style.borderRadius = '24px 4px 24px 24px';
-        messageTextElement.textContent = text; // User messages are always instant
-        bubble.appendChild(messageTextElement);
-        if (imageUrl) {
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            img.className = 'max-w-[200px] max-h-[200px] rounded-md mt-2';
-            bubble.appendChild(document.createElement('br'));
-            bubble.appendChild(img);
-        }
-    } else {
-        // Gemini response logic
-        const inlineContainer = document.createElement('div');
-        inlineContainer.className = 'flex items-center gap-4';
-
-        const avatar = document.createElement('img');
-        avatar.src = 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png';
-        avatar.alt = 'Gemini';
-        avatar.className = 'w-6 h-6 rounded-full';
-
-        inlineContainer.appendChild(avatar);
-        bubble.appendChild(inlineContainer); // Append inlineContainer here
-
-        if (instantDisplay) {
-            messageTextElement.textContent = text; // Display instantly for loaded history
-            inlineContainer.appendChild(messageTextElement); // Append to inlineContainer
-        } else {
-            inlineContainer.appendChild(messageTextElement); // Append to inlineContainer
-            typewriterEffect(messageTextElement, text, autoScroll); // Type out for new Gemini responses
-        }
-    }
-
-    messageDiv.appendChild(bubble);
-    chatHistoryDiv.appendChild(messageDiv);
-
-    if (isUser && autoScroll) { // Auto-scroll immediately for user's message
-        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-    }
-}
-
-// New typewriter effect function
-function typewriterEffect(element, fullText, autoScroll) {
-    let i = 0;
-    const speed = 20; // typing speed in milliseconds per character
-
-    function type() {
-        if (i < fullText.length) {
-            element.textContent += fullText.charAt(i);
-            i++;
-            if (autoScroll) {
-                chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight; // Scroll during typing
-            }
-            setTimeout(type, speed);
-        } else {
-            // Once typing is complete, ensure final scroll
-            if (autoScroll) {
-                chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-            }
-        }
-    }
-    type();
-}
-
-
 // Function to call Gemini API
 async function getGeminiResponse(promptContent, imageData = null) {
     const chatHistory = [];
@@ -430,14 +472,14 @@ async function getGeminiResponse(promptContent, imageData = null) {
     const parts = [];
     if (typeof promptContent === 'string' && promptContent.trim() !== '') {
         parts.push({ text: promptContent });
-    } else if (Array.isArray(promptContent)) { // Handle array of messages for summarization/suggestion
+    } else if (Array.isArray(promptContent)) {
         promptContent.forEach(msg => {
             if (msg.text) parts.push({ text: msg.text });
             if (msg.imageUrl) {
                 const base64Data = msg.imageUrl.split(',')[1];
                 parts.push({
                     inlineData: {
-                        mimeType: "image/png", // Assuming PNG, adjust if other types are supported
+                        mimeType: "image/png",
                         data: base64Data
                     }
                 });
@@ -445,18 +487,17 @@ async function getGeminiResponse(promptContent, imageData = null) {
         });
     }
 
-    // Add image data if provided (for the current user input)
+    // Add image data if provided
     if (imageData) {
-        const base64Data = imageData.split(',')[1]; // Extract base64 part
+        const base64Data = imageData.split(',')[1];
         parts.push({
             inlineData: {
-                mimeType: "image/png", // Assuming PNG, adjust if other types are supported
+                mimeType: "image/png",
                 data: base64Data
             }
         });
     }
 
-    // Ensure there's at least one part, otherwise API might reject
     if (parts.length === 0) {
         console.warn("No content to send to Gemini API.");
         return "I need more information to respond. Please provide text or an image.";
@@ -465,11 +506,7 @@ async function getGeminiResponse(promptContent, imageData = null) {
     chatHistory.push({ role: "user", parts: parts });
 
     const payload = { contents: chatHistory };
-    // IMPORTANT: Replace "" with your actual Gemini API Key here.
-    // You can obtain one from Google AI Studio: https://aistudio.google.com/app/apikey
-    const apiKey = "AIzaSyDMZvV2eF4oCYXOk8gaS9GWh2u0jLv1OcU"; // YOUR_API_KEY_HERE
-
-    // Use gemini-2.0-flash for text generation and image understanding
+    const apiKey = "AIzaSyDMZvV2eF4oCYXOk8gaS9GWh2u0jLv1OcU";
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     try {
@@ -478,7 +515,7 @@ async function getGeminiResponse(promptContent, imageData = null) {
         loadingDiv.className = 'loading-indicator';
         loadingDiv.textContent = 'Gemini is thinking...';
         chatHistoryDiv.appendChild(loadingDiv);
-        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight; // Scroll to see loading
+        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
 
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -504,7 +541,6 @@ async function getGeminiResponse(promptContent, imageData = null) {
             return "No response from Gemini. Please try again.";
         }
     } catch (error) {
-        // Ensure loading indicator is removed even on network error
         const loadingDiv = chatHistoryDiv.querySelector('.loading-indicator');
         if (loadingDiv) {
             chatHistoryDiv.removeChild(loadingDiv);
@@ -531,7 +567,7 @@ async function sendMessage() {
     // Display Gemini response with typing effect
     addMessage(geminiResponse, false, null, true, false);
 
-    // Save the full interaction (user message + Gemini response) to localStorage
+    // Save the full interaction to localStorage
     let data = getChatData();
     let currentChat = data.chats.find(chat => chat.id === currentChatId);
 
@@ -566,22 +602,13 @@ async function sendMessage() {
 
     // Clear input and preview area
     userInput.value = '';
+    updateSendButtonState();
     userInput.style.height = 'auto';
     previewImg.src = '';
     previewContainer.classList.add("hidden");
     fileInput.value = '';
     hasImage = false;
-
-    if (sendIconContainer && tooltipText) {
-        sendIconContainer.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z"/>
-            </svg>
-        `;
-        tooltipText.textContent = "Use Microphone";
-    }
 }
-
 
 // LLM Feature: Summarize Chat History
 async function summarizeChatHistory() {
@@ -609,9 +636,7 @@ async function suggestNextQuestions() {
         return;
     }
 
-    // Get last 5 messages for context, ignoring images for this specific prompt
     const recentMessages = currentChatData.messages.slice(-5).map(msg => `${msg.isUser ? 'User' : 'Gemini'}: ${msg.text}`).join('\n');
-
     const prompt = `Based on the following recent conversation, suggest 3 concise, relevant follow-up questions to ask:\n\n${recentMessages}\n\nProvide the questions as a numbered list.`;
     const suggestions = await getGeminiResponse(prompt);
 
@@ -626,7 +651,6 @@ async function elaborateOnTopic() {
         return;
     }
 
-    // Find the last Gemini message
     const lastGeminiMessage = currentChatData.messages.slice().reverse().find(msg => !msg.isUser);
 
     if (!lastGeminiMessage || lastGeminiMessage.text.trim() === "") {
@@ -647,7 +671,6 @@ async function changeTone() {
         return;
     }
 
-    // Find the last Gemini message
     const lastGeminiMessage = currentChatData.messages.slice().reverse().find(msg => !msg.isUser);
 
     if (!lastGeminiMessage || lastGeminiMessage.text.trim() === "") {
@@ -655,7 +678,6 @@ async function changeTone() {
         return;
     }
 
-    // Using a custom modal-like prompt for tone input
     const tonePromptModal = document.createElement('div');
     tonePromptModal.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]';
     tonePromptModal.innerHTML = `
@@ -692,7 +714,6 @@ async function changeTone() {
 
 // New function to clear all chat history
 function clearAllHistory() {
-    // Using a custom modal-like confirmation instead of `confirm()`
     const confirmClear = document.createElement('div');
     confirmClear.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]';
     confirmClear.innerHTML = `
@@ -712,12 +733,11 @@ function clearAllHistory() {
 
     document.getElementById('confirm-clear').addEventListener('click', () => {
         localStorage.removeItem('geminiChatHistory');
-        createNewChat(); // Resets the UI and creates a fresh chat
-        renderRecentChats(); // Re-render to show empty recent chats
+        createNewChat();
+        renderRecentChats();
         document.body.removeChild(confirmClear);
     });
 }
-
 
 // Auto-resize textarea
 function autoResize(textarea) {
@@ -726,11 +746,6 @@ function autoResize(textarea) {
         textarea.style.height = Math.min(textarea.scrollHeight, 150) + 'px';
     }
 }
-
-   
-
-
-
 
 // Event listeners and initial setup for DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
@@ -756,13 +771,6 @@ document.addEventListener('DOMContentLoaded', function () {
     greetingDiv = document.getElementById('greeting');
     plusButton = document.getElementById('plus-button');
     plusDropdown = document.getElementById('plus-dropdown');
-
-    // LLM Feature Buttons
-    summarizeChatButton = document.getElementById('summarize-chat-button');
-    suggestQuestionsButton = document.getElementById('suggest-questions-button');
-    elaborateButton = document.getElementById('elaborate-button');
-    changeToneButton = document.getElementById('change-tone-button');
-    clearHistoryButton = document.getElementById('clear-history-button');
 
     // Initial load logic
     const chatData = getChatData();
@@ -807,24 +815,47 @@ document.addEventListener('DOMContentLoaded', function () {
         sendButton.addEventListener('click', sendMessage);
     }
 
+    // Set up event listeners
     if (userInput) {
-        userInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
+        userInput.addEventListener("input", function() {
+            autoResize(userInput);
+            updateSendButtonState();
+        });
+        
+        userInput.addEventListener("keypress", function(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
         });
     }
-
+    
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (previewImg) previewImg.src = e.target.result;
+                    if (previewContainer) previewContainer.classList.remove("hidden");
+                    hasImage = true;
+                    updateSendButtonState();
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+    
     if (removePreviewBtn) {
-        removePreviewBtn.addEventListener('click', function (e) {
+        removePreviewBtn.addEventListener('click', function(e) {
             e.preventDefault();
             if (previewImg) previewImg.src = '';
             if (previewContainer) previewContainer.classList.add("hidden");
             if (fileInput) fileInput.value = '';
             hasImage = false;
+            updateSendButtonState();
         });
     }
+    
 
     if (plusButton && plusDropdown) {
         plusButton.addEventListener('click', function (e) {
@@ -854,6 +885,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (previewImg) previewImg.src = e.target.result;
                     if (previewContainer) previewContainer.classList.remove("hidden");
                     hasImage = true;
+                    updateSendButtonState();
                 };
                 reader.readAsDataURL(this.files[0]);
             }
@@ -980,23 +1012,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (summarizeChatButton) {
-        summarizeChatButton.addEventListener('click', summarizeChatHistory);
-    }
-    if (suggestQuestionsButton) {
-        suggestQuestionsButton.addEventListener('click', suggestNextQuestions);
-    }
-    if (elaborateButton) {
-        elaborateButton.addEventListener('click', elaborateOnTopic);
-    }
-    if (changeToneButton) {
-        changeToneButton.addEventListener('click', changeTone);
-    }
-    if (clearHistoryButton) {
-        clearHistoryButton.addEventListener('click', clearAllHistory);
-    }
+    // Initialize the send button state
+    updateSendButtonState();
 });
 
+// Handle dropdown menu toggle
 function toggleDropdown() {
     const menu = document.getElementById('dropdownMenu');
     if (menu) {
@@ -1007,6 +1027,8 @@ function toggleDropdown() {
         }
     }
 }
+
+// Close dropdown when clicking outside
 document.addEventListener('click', function (e) {
     const dropdown = document.getElementById('dropdownMenu');
     const button = document.querySelector('.dropdown-toggle');
@@ -1052,4 +1074,3 @@ textarea.addEventListener("input", () => {
         }
     }
 });
-

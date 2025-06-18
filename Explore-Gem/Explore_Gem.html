@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
+        /* Base light theme variables */
         :root {
             --bg-main: #ffffff;
             --bg-hover: #f0f4f9;
@@ -26,16 +27,81 @@
             --dropdown-border: #dadce0;
             --dropdown-text: #1f1f1f;
             --dropdown-hover: #f0f4f9;
-
             --input-bg: #ffffff;
             --input-border-focus: #4285f4;
             --user-bubble-bg: #e8f0fe;
             --user-bubble-text: #1f1f1f;
             --gemini-bubble-bg: transparent;
             --gemini-bubble-text: #1f1f1f;
-
             --accent-blue: #4285f4;
             --accent-green: #34a853;
+            --card-bg: #F0F4F9;
+            /* Specific variable for card background */
+            --card-hover-bg: #e2e8f0;
+            /* Specific variable for card hover */
+            --experiment-tag-bg: #ffffff;
+            --experiment-tag-border: #000000;
+            --experiment-tag-text: #000000;
+            --your-gems-bg: #F0F4F9;
+            --your-gems-text: #1b1c1d;
+            --new-gem-btn-bg: #0b57d0;
+            --new-gem-btn-hover-bg: #1a73e8;
+            --new-gem-btn-text: white;
+            --copydropdown-bg: black;
+            --icon-bg: #ffcbda;
+            /* pink-200 equivalent */
+            --icon-color: #9e4f6d;
+        }
+
+        /* Dark theme variables */
+        body.dark-theme {
+            --bg-main: #1b1c1d;
+            --bg-hover: #2e2e2e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --scroll-track: #3a3a3a;
+            --scroll-thumb: #555555;
+            --scroll-thumb-hover: #777777;
+            --tooltip-bg: #a0a0a0;
+            --tooltip-text: #1f1f1f;
+            --border-color: #444444;
+            --sidebar-bg: #2e2e2e;
+            --sidebar-text: #a0a0a0;
+            --sidebar-hover: #3a3a3a;
+            --dropdown-bg: #2e2e2e;
+            --dropdown-border: #444444;
+            --dropdown-text: #e0e0e0;
+            --dropdown-hover: #3a3a3a;
+            --input-bg: #2e2e2e;
+            --input-border-focus: #7da5ff;
+            --user-bubble-bg: #3a3a3a;
+            --user-bubble-text: #e0e0e0;
+            --gemini-bubble-bg: transparent;
+            --gemini-bubble-text: #e0e0e0;
+            --accent-blue: #7da5ff;
+            --accent-green: #6dc37e;
+            --card-bg: #282a2c;
+            /* Darker card background */
+            --card-hover-bg: #3a3a3a;
+            /* Darker card hover */
+            --experiment-tag-bg: #3a3a3a;
+            /* Darker tag background */
+            --experiment-tag-border: #777777;
+            /* Lighter tag border */
+            --experiment-tag-text: #e0e0e0;
+            /* Lighter tag text */
+            --your-gems-bg: #282a2c;
+            --your-gems-text: #e0e0e0;
+            --new-gem-btn-bg: #a8c7fa;
+            /* Keeping your specified dark mode background color */
+            --new-gem-btn-hover-bg: #809ee0;
+            /* Keeping your specified dark mode hover color */
+            --new-gem-btn-text: #062e6f;
+            --copydropdown-bg: #e3e3e3;
+            --icon-bg: #5a3c4f;
+            /* Darker pink for dark mode */
+            --icon-color: #ffb8d9;
+            /* Lighter pink for dark mode */
         }
 
         .line-clamp-3 {
@@ -45,33 +111,131 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        /* Apply variables to existing elements */
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        .bg-\[\#F0F4F9\] {
+            /* Targeting specific Tailwind classes */
+            background-color: var(--card-bg);
+        }
+
+        .hover\:bg-\[\#e2e8f0\]:hover {
+            /* Targeting specific Tailwind classes */
+            background-color: var(--card-hover-bg);
+        }
+
+        .text-\[var\(--text-muted\)\] {
+            color: var(--text-muted);
+        }
+
+        .bg-white {
+            /* For experiment tag */
+            background-color: var(--experiment-tag-bg);
+        }
+
+        .border-black {
+            /* For experiment tag */
+            border-color: var(--experiment-tag-border);
+        }
+
+        .text-black {
+            /* For experiment tag and "The Gems you create will appear here" text */
+            color: var(--experiment-tag-text);
+        }
+
+        .text-white {
+            /* This class is on your button, we're making it dynamic */
+            color: var(--new-gem-btn-text);
+        }
+
+        /* Override for the specific black text in "The Gems you create will appear here" */
+        .your-gems-message {
+            color: var(--your-gems-text) !important;
+            /* Use !important to override Tailwind's more specific utility */
+        }
+
+        .bg-\[var\(--bg-hover\)\] {
+            background-color: var(--your-gems-bg);
+        }
+
+        /* Adjust icon fill color for SVG based on theme */
+        svg[fill="#575b5f"] {
+            fill: var(--text-muted);
+        }
+
+        svg[fill="#1b1c1d"] {
+            fill: var(--text-main);
+        }
+
+        .copy-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .copy-menu-content {
+            position: absolute;
+            bottom: 0;
+            right: 25px;
+            background-color: var(--copydropdown-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 99;
+            display: none;
+            font-size: 13px;
+            color: var(--tooltip-text);
+        }
+
+        .copy-menu:hover .copy-menu-content {
+            display: block;
+        }
+
+        .copy-menu-item {
+            padding: 4px 8px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
     </style>
 </head>
 
-<body class="bg-[var(--bg-main)] text-[var(--text-main)]">
+<body>
     <div class="max-w-4xl mx-auto px-6 py-10 ">
+        <div class="flex justify-end mb-4">
+            <button id="themeToggle"
+                class="px-4 py-2 rounded-full font-medium bg-blue-600 text-white hover:bg-blue-700">
+                Toggle Theme
+            </button>
+        </div>
+
         <h1 class="text-3xl mb-8">Gem manager</h1>
         <div class="justify-between mb-4 flex">
             <h2 class="font-medium ">Premade by Google</h2>
-            <button id="toggleBtn" class="text-blue-600 font-medium flex items-center gap-1">
+            <button id="toggleBtn" class="font-medium flex items-center gap-1">
                 <span id="toggleText">Show more</span>
                 <i class="ph ph-caret-down"></i>
             </button>
         </div>
 
         <div id="cardContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 mb-5">
-            <!-- Cards -->
             <a href="../Career_guide.html"
-                class="bg-[#F0F4F9] p-4 rounded-xl hover:bg-[#e2e8f0] transition cursor-pointer">
+                class="p-4 rounded-xl transition cursor-pointer bg-[var(--card-bg)] hover:bg-[var(--card-hover-bg)]">
                 <div class="flex justify-between items-center gap-2 pb-3">
-                    <div class="w-7 h-7 rounded-full justify-center items-center flex bg-[#ffcbda]">
-                        <i class="ph ph-briefcase text-[#9e4f6d] text-lg "></i>
+                    <div class="w-7 h-7 rounded-full justify-center items-center flex bg-[var(--icon-bg)]">
+                        <i class="ph ph-briefcase text-[var(--icon-color)] text-lg "></i>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
-                        fill="#575b5f">
-                        <path
-                            d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
-                    </svg>
+                    <div class="copy-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                            fill="var(--text-muted)">
+                            <path
+                                d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
+                        </svg>
+                        <div class="copy-menu-content">
+                            <div class="copy-menu-item" onclick="copyToClipboard('Make a copy')">Make a copy</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="overflow-hidden">
                     <h3 class="font-semibold pb-1">Career guide</h3>
@@ -82,13 +246,13 @@
             </a>
 
             <a href="../Chess_champ.html"
-                class="bg-[#F0F4F9] p-4 rounded-xl hover:bg-[#e2e8f0] transition cursor-pointer">
+                class="p-4 rounded-xl transition cursor-pointer bg-[var(--card-bg)] hover:bg-[var(--card-hover-bg)]">
                 <div class="flex justify-start items-center gap-2 pb-3">
                     <div class="w-7 h-7 rounded-full justify-center items-center flex bg-[#ffd289]">
                         <i class="ph ph-strategy text-[#7e5700] text-lg "></i>
                     </div>
                     <span
-                        class="ml-1 text-sm border px-2 py-0 rounded-full bg-white text-black border-black">
+                        class="ml-1 text-sm border px-2 py-0 rounded-full bg-[var(--experiment-tag-bg)] text-[var(--experiment-tag-text)] border-[var(--experiment-tag-border)]">
                         Experiment
                     </span>
                 </div>
@@ -101,16 +265,21 @@
             </a>
 
             <a href="../Brainstormer.html"
-                class="bg-[#F0F4F9] p-4 rounded-xl hover:bg-[#e2e8f0] transition cursor-pointer">
+                class="p-4 rounded-xl transition cursor-pointer bg-[var(--card-bg)] hover:bg-[var(--card-hover-bg)]">
                 <div class="flex justify-between items-center gap-2 pb-3">
                     <div class="w-7 h-7 rounded-full justify-center items-center flex bg-[#ffcfb4]">
                         <i class="ph ph-lightbulb text-[#96490a] text-lg "></i>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
-                        fill="#575b5f">
-                        <path
-                            d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
-                    </svg>
+                    <div class="copy-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                            fill="var(--text-muted)">
+                            <path
+                                d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
+                        </svg>
+                        <div class="copy-menu-content">
+                            <div class="copy-menu-item" onclick="copyToClipboard('Make a copy')">Make a copy</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="overflow-hidden">
                     <h3 class="font-semibold pb-1"> Brainstormer </h3>
@@ -121,16 +290,21 @@
             </a>
 
             <a href="../Coding_partner.html"
-                class="bg-[#F0F4F9] p-4 rounded-xl hover:bg-[#e2e8f0] transition cursor-pointer">
+                class="p-4 rounded-xl transition cursor-pointer bg-[var(--card-bg)] hover:bg-[var(--card-hover-bg)]">
                 <div class="flex justify-between items-center gap-2 pb-3">
                     <div class="w-7 h-7 rounded-full justify-center items-center flex bg-[#92e5ff]">
                         <i class="ph ph-code text-[#00677d] text-lg "></i>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
-                        fill="#575b5f">
-                        <path
-                            d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
-                    </svg>
+                    <div class="copy-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                            fill="var(--text-muted)">
+                            <path
+                                d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
+                        </svg>
+                        <div class="copy-menu-content">
+                            <div class="copy-menu-item" onclick="copyToClipboard('Make a copy')">Make a copy</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="overflow-hidden">
                     <h3 class="font-semibold pb-1"> Coding partner </h3>
@@ -141,17 +315,22 @@
             </a>
 
             <a href="../Learning_coach.html"
-                class="extra-card transition-all hover:bg-[#e2e8f0] duration-300 ease-in-out overflow-hidden max-h-0 opacity-0 scale-y-90 transform origin-top bg-[var(--bg-hover)] cursor-pointer p-4 mb-3 rounded-xl">
+                class="extra-card transition-all duration-300 ease-in-out overflow-hidden max-h-0 opacity-0 scale-y-90 transform origin-top bg-[var(--card-bg)] hover:bg-[var(--card-hover-bg)] cursor-pointer p-4 mb-3 rounded-xl">
 
                 <div class="flex justify-between items-center gap-2 pb-3">
                     <div class="w-7 h-7 rounded-full justify-center items-center flex bg-[#bedcff]">
                         <i class="ph ph-book-open text-[#00629e] text-lg "></i>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
-                        fill="#575b5f">
-                        <path
-                            d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
-                    </svg>
+                    <div class="copy-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                            fill="var(--text-muted)">
+                            <path
+                                d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
+                        </svg>
+                        <div class="copy-menu-content">
+                            <div class="copy-menu-item" onclick="copyToClipboard('Make a copy')">Make a copy</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="overflow-hidden">
                     <h3 class="font-semibold pb-1">Learning coach</h3>
@@ -162,17 +341,22 @@
             </a>
 
             <a href="../Writing_editor.html"
-                class="extra-card transition-all hover:bg-[#e2e8f0] duration-300 ease-in-out overflow-hidden max-h-0 opacity-0 scale-y-90 transform origin-top bg-[var(--bg-hover)] cursor-pointer p-4 mb-3 rounded-xl">
+                class="extra-card transition-all duration-300 ease-in-out overflow-hidden max-h-0 opacity-0 scale-y-90 transform origin-top bg-[var(--card-bg)] hover:bg-[var(--card-hover-bg)] cursor-pointer p-4 mb-3 rounded-xl">
 
                 <div class="flex justify-between items-center gap-2 pb-3">
                     <div class="w-7 h-7 rounded-full justify-center items-center flex bg-[#f2ccff]">
                         <i class="ph ph-pencil-circle text-[#9700d2] text-lg "></i>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
-                        fill="#575b5f">
-                        <path
-                            d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
-                    </svg>
+                    <div class="copy-menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                            fill="var(--text-muted)">
+                            <path
+                                d="M360-240q-29.7 0-50.85-21.15Q288-282.3 288-312v-480q0-29.7 21.15-50.85Q330.3-864 360-864h384q29.7 0 50.85 21.15Q816-821.7 816-792v480q0 29.7-21.15 50.85Q773.7-240 744-240H360Zm0-72h384v-480H360v480ZM216-96q-29.7 0-50.85-21.15Q144-138.3 144-168v-552h72v552h456v72H216Zm144-216v-480 480Z" />
+                        </svg>
+                        <div class="copy-menu-content">
+                            <div class="copy-menu-item" onclick="copyToClipboard('Make a copy')">Make a copy</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="overflow-hidden">
                     <h3 class="font-semibold pb-1">Writing editor</h3>
@@ -186,19 +370,20 @@
         <div class="mb-6">
             <div class="justify-between mb-10 flex items-center">
                 <h2 class="font-medium">Your Gems</h2>
-                <a href="../NewGem.html" class="bg-[#0b57d0] cursor-pointer text-white px-4 py-2 rounded-full font-medium hover:bg-blue-700">
+                <a href="../NewGem.html"
+                    class="bg-[var(--new-gem-btn-bg)] cursor-pointer text-[var(--new-gem-btn-text)] px-4 py-2 rounded-full font-medium hover:bg-[var(--new-gem-btn-hover-bg)]">
                     <i class="ph ph-plus-circle mr-2"></i>
                     New Gem
                 </a>
             </div>
             <div
-                class="bg-[var(--bg-hover)] rounded-xl p-6 text-center text-[var(--text-muted)] flex justify-center items-center">
+                class="rounded-xl p-6 text-center text-[var(--text-muted)] flex justify-center items-center bg-[var(--your-gems-bg)]">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                    fill="#1b1c1d">
+                    fill="var(--text-main)">
                     <path
                         d="M480-80 120-436l200-244h320l200 244L480-80ZM183-680l-85-85 57-56 85 85-57 56Zm257-80v-120h80v120h-80Zm335 80-57-57 85-85 57 57-85 85ZM480-192l210-208H270l210 208ZM358-600l-99 120h442l-99-120H358Z" />
                 </svg>
-                <p class="ml-2 text-black text-lg">The Gems you create will appear here</p>
+                <p class="ml-2 text-lg your-gems-message">The Gems you create will appear here</p>
             </div>
         </div>
     </div>
@@ -207,24 +392,70 @@
         const toggleBtn = document.getElementById("toggleBtn");
         const toggleText = document.getElementById("toggleText");
         const extraCards = document.querySelectorAll(".extra-card");
-    
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
+
         let expanded = false;
-    
-        toggleBtn.addEventListener("click", () => {
-          expanded = !expanded;
-          toggleText.textContent = expanded ? "Show less" : "Show more";
-    
-          extraCards.forEach(card => {
-            if (expanded) {
-              card.classList.remove("max-h-0", "opacity-0", "scale-y-90");
-              card.classList.add("max-h-[200px]", "opacity-100", "scale-y-100");
+
+        // Function to set the theme
+        function setTheme(theme) {
+            if (theme === 'dark-theme') {
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
             } else {
-              card.classList.remove("max-h-[200px]", "opacity-100", "scale-y-100");
-              card.classList.add("max-h-0", "opacity-0", "scale-y-90");
+                body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light-theme');
             }
-          });
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // Check system preference if no saved theme
+                setTheme('dark-theme');
+            } else {
+                setTheme('light-theme'); // Default to light theme
+            }
         });
-      </script>
+
+        // Toggle button for showing/hiding extra cards
+        toggleBtn.addEventListener("click", () => {
+            expanded = !expanded;
+            toggleText.textContent = expanded ? "Show less" : "Show more";
+
+            extraCards.forEach(card => {
+                if (expanded) {
+                    card.classList.remove("max-h-0", "opacity-0", "scale-y-90");
+                    card.classList.add("max-h-[200px]", "opacity-100", "scale-y-100");
+                } else {
+                    card.classList.remove("max-h-[200px]", "opacity-100", "scale-y-100");
+                    card.classList.add("max-h-0", "opacity-0", "scale-y-90");
+                }
+            });
+        });
+
+        // Theme toggle button click listener
+        themeToggle.addEventListener("click", () => {
+            if (body.classList.contains('dark-theme')) {
+                setTheme('light-theme');
+            } else {
+                setTheme('dark-theme');
+            }
+        });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                console.log('Copied: ' + text);
+                // Close the menu after copying
+                document.querySelectorAll('.copy-menu-content').forEach(menu => {
+                    menu.style.display = 'none';
+                });
+            });
+        }
+    </script>
 
 </body>
 

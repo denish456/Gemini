@@ -2,68 +2,235 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Guide</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Career Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        /* Base light theme variables */
+        :root {
+            --bg-main: #ffffff;
+            --text-main: #1f1f1f;
+            --text-muted: #5f6368;
+            --icon-bg: #ffcbda; /* pink-200 equivalent */
+            --icon-color: #9e4f6d;
+            --card-bg: #f1f5f9;
+            --card-hover-bg: #dde3ea;
+            --button-bg: #4285f4; /* Theme toggle button default */
+            --button-text: white; /* Theme toggle button default */
+            --button-hover-bg: #3367d6; /* Theme toggle button hover */
+            --scrollbar-track: #f0f0f0;
+            --scrollbar-thumb: #c0c0c0;
+            --scrollbar-thumb-hover: #a0a0a0;
+        }
+
+        /* Dark theme variables */
+        body.dark-theme {
+            --bg-main: #1b1c1d;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --icon-bg: #5a3c4f; /* Darker pink for dark mode */
+            --icon-color: #ffb8d9; /* Lighter pink for dark mode */
+            --card-bg: #282a2c;
+            --card-hover-bg: #3a3a3a;
+            --button-bg: #7da5ff; /* Dark theme toggle button */
+            --button-text: black; /* Dark theme toggle button */
+            --button-hover-bg: #5c84e0; /* Dark theme toggle button hover */
+            --scrollbar-track: #3a3a3a;
+            --scrollbar-thumb: #555555;
+            --scrollbar-thumb-hover: #777777;
+        }
+
+        /* Apply variables to base elements and custom classes */
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+        }
+
+        /* Direct styling for elements using CSS variables */
+        h1, h2, h3, p { /* Apply text color to common elements */
+            color: var(--text-main);
+        }
+
+        /* Specific override for muted text */
+        .text-\[\#5F6368\] {
+            color: var(--text-muted) !important;
+        }
+
+        /* Styles for icon container */
+        .w-16.h-16.rounded-full.bg-pink-200 { /* Targeting original classes */
+            background-color: var(--icon-bg);
+        }
+
+        /* Styles for icon */
+        .ph.ph-briefcase.text-4xl.text-\[\#9e4f6d\] { /* Targeting original classes */
+            color: var(--icon-color);
+        }
+
+        /* Styles for cards */
+        .bg-\[\#f1f5f9\] { /* Targeting original classes */
+            background-color: var(--card-bg);
+        }
+
+        .hover\:bg-\[\#dde3ea\]:hover { /* Targeting original classes for hover */
+            background-color: var(--card-hover-bg);
+        }
+
+        /* Styles for the theme toggle button */
+        #themeToggle {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #themeToggle:hover {
+            background-color: var(--button-hover-bg);
+        }
+
+        /* Custom scrollbar for webkit browsers to match theme */
+        ::-webkit-scrollbar {
+            height: 8px;
+            width: 8px; /* For vertical scrollbars, if any */
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
+        }
+    </style>
 </head>
 
-<body>
-  <div class="bg-white text-[#1F1F1F] p-10 min-h-screen justify-center flex items-center">
-    <div class="max-w-3xl mx-auto w-full">
-      <!-- Header -->
-      <div class="flex flex-wrap sm:flex-nowrap items-start sm:items-center gap-4 mb-6">
-        <div class="w-16 h-16 rounded-full bg-pink-200 flex items-center justify-center shrink-0">
-          <i class="ph ph-briefcase text-4xl text-[#9e4f6d]"></i>
-        </div>  
-        <div class="flex-1 min-w-[200px]">
-          <h1 class="text-2xl sm:text-4xl font-semibold">Career guide</h1>
-          <p class="text-sm sm:text-base text-[#5F6368]">
-            Unlock your career potential. Get a detailed plan to refine your skills and achieve your career goals.
-          </p>
-        </div>
-      </div>      
+<body class="min-h-screen">
+    <div class="p-10 min-h-screen flex items-center justify-center">
+        <div class="max-w-3xl mx-auto w-full">
+            <div class="flex justify-end mb-4">
+                <button id="themeToggle" class="px-4 py-2 rounded-full font-medium shadow-md">
+                    Toggle Theme
+                </button>
+            </div>
 
-      <!-- Scroll wrapper only for small screens -->
-      <div class="block md:hidden overflow-x-auto">
-        <div class="flex gap-4 w-max">
-          <div
-            class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
-            I’d like to improve my presentation skills.
-          </div>
-          <div
-            class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
-            Help me figure out how to advocate with my manager for a promotion.
-          </div>
-          <div
-            class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
-            How do I prepare for a job interview with behavioral questions?
-          </div>
-          <div
-            class="bg-[#f1f5f9] w-[180px] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
-            Give me advice on how to find a mentor.
-          </div>
-        </div>
-      </div>
+            <!-- Header -->
+            <div class="flex flex-wrap sm:flex-nowrap items-start sm:items-center gap-4 mb-6">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center shrink-0"
+                    style="background-color: var(--icon-bg);">
+                    <i class="ph ph-briefcase text-4xl" style="color: var(--icon-color);"></i>
+                </div>
+                <div class="flex-1 min-w-[200px]">
+                    <h1 class="text-2xl sm:text-4xl font-semibold" style="color: var(--text-main);">Career guide</h1>
+                    <p class="text-sm sm:text-base text-\[\#5F6368\]">
+                        Unlock your career potential. Get a detailed plan to refine your skills and achieve your career
+                        goals.
+                    </p>
+                </div>
+            </div>
 
-      <!-- Grid layout for medium and up -->
-      <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-[#f1f5f9] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
-          I’d like to improve my presentation skills.
+            <!-- Scroll wrapper only for small screens -->
+            <div class="block md:hidden overflow-x-auto">
+                <div class="flex gap-4 w-max">
+                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
+                        style="background-color: var(--card-bg); color: var(--text-main);"
+                        onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
+                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                        I’d like to improve my presentation skills.
+                    </div>
+                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
+                        style="background-color: var(--card-bg); color: var(--text-main);"
+                        onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
+                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                        Help me figure out how to advocate with my manager for a promotion.
+                    </div>
+                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
+                        style="background-color: var(--card-bg); color: var(--text-main);"
+                        onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
+                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                        How do I prepare for a job interview with behavioral questions?
+                    </div>
+                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
+                        style="background-color: var(--card-bg); color: var(--text-main);"
+                        onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
+                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                        Give me advice on how to find a mentor.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid layout for medium and up -->
+            <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
+                    style="background-color: var(--card-bg); color: var(--text-main);"
+                    onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
+                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                    I’d like to improve my presentation skills.
+                </div>
+                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
+                    style="background-color: var(--card-bg); color: var(--text-main);"
+                    onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
+                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                    Help me figure out how to advocate with my manager for a promotion.
+                </div>
+                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
+                    style="background-color: var(--card-bg); color: var(--text-main);"
+                    onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
+                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                    How do I prepare for a job interview with behavioral questions?
+                </div>
+                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
+                    style="background-color: var(--card-bg); color: var(--text-main);"
+                    onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
+                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                    Give me advice on how to find a mentor.
+                </div>
+            </div>
         </div>
-        <div class="bg-[#f1f5f9] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
-          Help me figure out how to advocate with my manager for a promotion.
-        </div>
-        <div class="bg-[#f1f5f9] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
-          How do I prepare for a job interview with behavioral questions?
-        </div>
-        <div class="bg-[#f1f5f9] h-[160px] p-3 rounded-xl hover:bg-[#dde3ea] cursor-pointer text-sm flex items-start">
-          Give me advice on how to find a mentor.
-        </div>
-      </div>
     </div>
-  </div>
+
+    <script>
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
+
+        // Function to set the theme
+        function setTheme(theme) {
+            if (theme === 'dark-theme') {
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+            } else {
+                body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light-theme');
+            }
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // Check system preference if no saved theme
+                setTheme('dark-theme');
+            } else {
+                setTheme('light-theme'); // Default to light theme
+            }
+        });
+
+        // Theme toggle button click listener
+        themeToggle.addEventListener("click", () => {
+            if (body.classList.contains('dark-theme')) {
+                setTheme('light-theme');
+            } else {
+                setTheme('dark-theme');
+            }
+        });
+    </script>
 </body>
 
 </html>

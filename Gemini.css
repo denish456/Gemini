@@ -1065,3 +1065,61 @@ main {
   }
 }
 
+
+.send-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.send-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+.icon-container {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mic-icon {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+#send-icon {
+  opacity: 0;
+  transform: scale(0.5) rotate(-30deg);
+}
+
+/* Active states */
+.send-btn.has-text #mic-icon {
+  opacity: 0;
+  transform: translateX(-15px) scale(0.8);
+}
+
+.send-btn.has-text #send-icon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.tooltip {
+  /* Your existing tooltip styles */
+}

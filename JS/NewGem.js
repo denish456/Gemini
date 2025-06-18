@@ -3,72 +3,84 @@ document.addEventListener('DOMContentLoaded', function () {
     const backButton = document.getElementById('backButton');
     if (backButton) {
         backButton.addEventListener('click', function () {
-            // Use history.back() to go to the previous page
             window.history.back();
-
-            // Alternatively, you can use:
-            // window.location.href = '/'; // Goes to home page
-            // or specify a specific URL:
-            // window.location.href = '/previous-page.html';
         });
     }
-});
-    // Mobile toggle functionality
+
+    // --- Mobile toggle functionality ---
     const editorToggle = document.getElementById('editorToggle');
     const previewToggle = document.getElementById('previewToggle');
     const editorSection = document.getElementById('editorSection');
     const previewSection = document.getElementById('previewSection');
 
-    // Function to toggle sections
     function toggleSections(showEditor) {
-        if (window.innerWidth <= 959) { // Only for mobile view
+        if (window.innerWidth <= 959) {
             if (showEditor) {
                 editorSection.classList.add('active');
                 previewSection.classList.remove('active');
-                editorToggle.classList.add('bg-[#0B57D0]', 'text-white');
-                editorToggle.classList.remove('bg-gray-300');
-                previewToggle.classList.add('bg-gray-300');
-                previewToggle.classList.remove('bg-[#0B57D0]', 'text-white');
+                editorToggle.style.backgroundColor = 'var(--button-primary-bg)';
+                editorToggle.style.color = 'var(--button-primary-text)';
+                previewToggle.style.backgroundColor = 'var(--button-disabled-bg)';
+                previewToggle.style.color = 'var(--button-disabled-text)';
             } else {
                 previewSection.classList.add('active');
                 editorSection.classList.remove('active');
-                previewToggle.classList.add('bg-[#0B57D0]', 'text-white');
-                previewToggle.classList.remove('bg-gray-300');
-                editorToggle.classList.add('bg-gray-300');
-                editorToggle.classList.remove('bg-[#0B57D0]', 'text-white');
+                previewToggle.style.backgroundColor = 'var(--button-primary-bg)';
+                previewToggle.style.color = 'var(--button-primary-text)';
+                editorToggle.style.backgroundColor = 'var(--button-disabled-bg)';
+                editorToggle.style.color = 'var(--button-disabled-text)';
             }
         } else {
-            // For desktop, always show both sections
             editorSection.classList.add('active');
             previewSection.classList.add('active');
         }
     }
 
-    // Initialize based on screen size
     function initializeSections() {
         if (window.innerWidth <= 959) {
-            // Mobile view - start with editor visible
-            toggleSections(true);
+            toggleSections(true); // Default to editor on mobile
         } else {
-            // Desktop view - show both sections
             editorSection.classList.add('active');
             previewSection.classList.add('active');
+            // Ensure buttons revert to neutral if resized to desktop
+            editorToggle.style.backgroundColor = '';
+            editorToggle.style.color = '';
+            previewToggle.style.backgroundColor = '';
+            previewToggle.style.color = '';
         }
     }
 
-    // Only add event listeners if the toggle buttons exist (mobile view)
     if (editorToggle && previewToggle) {
         editorToggle.addEventListener('click', () => toggleSections(true));
         previewToggle.addEventListener('click', () => toggleSections(false));
     }
 
-    // Handle window resize
     window.addEventListener('resize', initializeSections);
-
-    // Initial setup
     initializeSections();
 
-    // Rest of your existing JavaScript...
+    // --- Theme Toggle functionality ---
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Check for saved theme preference or system preference
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        body.classList.add(currentTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        body.classList.add('dark-theme');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        if (body.classList.contains('dark-theme')) {
+            body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light-theme');
+        } else {
+            body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark-theme');
+        }
+    });
+
+    // --- Existing JavaScript functionalities, updated to use CSS variables ---
     const gemTitle = document.getElementById('gemTitle');
     const saveButton = document.getElementById('saveButton');
     const input = document.getElementById("nameInput");
@@ -76,16 +88,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const errorText = document.getElementById("errorText");
     const errorIcon = document.getElementById("errorIcon");
 
-    // Function to update Save button state
     function updateSaveButtonState() {
         if (input.value.trim() !== "") {
             saveButton.disabled = false;
-            saveButton.classList.remove('disabled:bg-[#DDDFE1]', 'disabled:text-[#9395A0]');
-            saveButton.classList.add('bg-[#0B57D0]', 'text-white', 'hover:bg-[#1E64D4]');
+            saveButton.style.backgroundColor = 'var(--button-primary-bg)';
+            saveButton.style.color = 'var(--button-primary-text)';
+            saveButton.onmouseover = () => saveButton.style.backgroundColor = 'var(--button-primary-hover-bg)';
+            saveButton.onmouseout = () => saveButton.style.backgroundColor = 'var(--button-primary-bg)';
         } else {
             saveButton.disabled = true;
-            saveButton.classList.add('disabled:bg-[#DDDFE1]', 'disabled:text-[#9395A0]');
-            saveButton.classList.remove('bg-[#0B57D0]', 'text-white', 'hover:bg-[#1E64D4]');
+            saveButton.style.backgroundColor = 'var(--button-disabled-bg)';
+            saveButton.style.color = 'var(--button-disabled-text)';
+            saveButton.onmouseover = null;
+            saveButton.onmouseout = null;
         }
     }
 
@@ -93,13 +108,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     input.addEventListener("blur", () => {
         if (input.value.trim() === "") {
-            wrapper.classList.remove("border-blue-800", "border-transparent");
-            wrapper.classList.add("border-[#B3261E]");
+            wrapper.style.borderColor = 'var(--error-color)';
             errorText.classList.remove("hidden");
             errorIcon.classList.remove("hidden");
         } else {
-            wrapper.classList.remove("border-[#B3261E]");
-            wrapper.classList.add("border-transparent");
+            wrapper.style.borderColor = 'transparent';
             errorText.classList.add("hidden");
             errorIcon.classList.add("hidden");
         }
@@ -113,8 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (input.value.trim() !== "") {
-            wrapper.classList.remove("border-[#B3261E]");
-            wrapper.classList.add("border-transparent");
+            wrapper.style.borderColor = 'transparent';
             errorText.classList.add("hidden");
             errorIcon.classList.add("hidden");
         }
@@ -133,7 +145,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const micIcon = document.getElementById('mic-icon');
     const sendIcon = document.getElementById('send-icon');
 
-    plusButton.addEventListener('click', () => {
+    plusButton.addEventListener('click', (e) => {
+        e.stopPropagation();
         plusDropdown.classList.toggle('hidden');
     });
 
@@ -182,6 +195,10 @@ document.addEventListener('DOMContentLoaded', function () {
             sendIcon.classList.remove('opacity-100', 'scale-100', 'translate-x-0');
         }
     }
+    // Initial call to set correct icon on page load if text area has content
+    autoResize(userInput);
+    userInput.addEventListener('input', () => autoResize(userInput));
+
 
     document.getElementById('send-button').addEventListener('click', () => {
         const value = userInput.value.trim();
@@ -199,15 +216,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const undoStack = [];
     const redoStack = [];
 
+    // Initialize undo stack with current content on load
+    undoStack.push(textarea.value);
+
     textarea.addEventListener('input', () => {
-        undoStack.push(textarea.value);
-        redoStack.length = 0;
+        if (undoStack[undoStack.length - 1] !== textarea.value) { // Prevent pushing same state multiple times for rapid input
+            undoStack.push(textarea.value);
+            redoStack.length = 0; // Clear redo stack on new input
+        }
     });
 
     undoBtn.addEventListener('click', () => {
-        if (undoStack.length > 1) {
+        if (undoStack.length > 1) { // Ensure there's a previous state to revert to
             redoStack.push(undoStack.pop());
-            textarea.value = undoStack[undoStack.length - 1] || '';
+            textarea.value = undoStack[undoStack.length - 1];
         }
     });
 
@@ -249,10 +271,11 @@ document.addEventListener('DOMContentLoaded', function () {
         previewImage.src = '';
         imageWrapper.classList.add('hidden');
         fileText.classList.remove('hidden');
-        fileInput.value = '';
+        fileInput.value = ''; // Clear the file input so the same file can be re-uploaded
     });
 
-    toggleBtn.addEventListener('click', () => {
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent document click from immediately closing it
         dropdownMenu.classList.toggle('hidden');
     });
 
@@ -262,16 +285,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const icon = document.getElementById('infoIcon');
+    const infoIcon = document.getElementById('infoIcon');
     const tooltip = document.getElementById('tooltip');
 
-    icon.addEventListener('click', (e) => {
+    infoIcon.addEventListener('click', (e) => {
         e.stopPropagation();
         tooltip.classList.toggle('hidden');
     });
 
     document.addEventListener('click', (e) => {
-        if (!icon.contains(e.target)) {
+        if (!infoIcon.contains(e.target) && !tooltip.contains(e.target)) { // Also check if click is inside tooltip
             tooltip.classList.add('hidden');
         }
     });
@@ -285,7 +308,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.addEventListener('click', (e) => {
-        if (!knowledgeIcon.contains(e.target)) {
+        if (!knowledgeIcon.contains(e.target) && !knowledgeTooltip.contains(e.target)) { // Also check if click is inside tooltip
             knowledgeTooltip.classList.add('hidden');
         }
     });
+});
