@@ -90,59 +90,17 @@ function saveCurrentChatSession() {
     setChatData(data);
 }
 
-// Loads a specific chat session by ID
-function loadChatSession(chatId) {
-    // Don't reload if we're already viewing this chat
-    if (currentChatId === chatId) return;
-
-    // Save the current chat before switching
-    saveCurrentChatSession();
-
-    const data = getChatData();
-    const chatToLoad = data.chats.find(chat => chat.id === chatId);
-
-    if (chatToLoad) {
-        currentChatId = chatId;
-
-        // Clear the chat history completely before loading
-        chatHistoryDiv.innerHTML = '';
-
-        if (greetingDiv) {
-            greetingDiv.style.display = 'none';
-        }
-
-        // Load messages only once
-        chatToLoad.messages.forEach(msg => {
-            addMessage(msg.text, msg.isUser, msg.imageUrl, false, true);
-        });
-
-        // Update active chat in storage
-        data.activeChatId = currentChatId;
-        setChatData(data);
-
-        // Highlight the active chat
-        updateActiveChatUI(chatId);
-
-        // Scroll to bottom after loading
-        setTimeout(() => {
-            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-        }, 50);
-    } else {
-        console.error("Chat not found:", chatId);
-        createNewChat();
-    }
-}
 
 
 // Global variable to track if we're currently loading a chat
 let isLoadingChat = false;
 
-function loadChatSession(chatId) {
+function loadChatSession(chatId, shouldAnimate = false) {
     // Prevent multiple loads of the same chat
     if (currentChatId === chatId || isLoadingChat) return;
-    
+
     isLoadingChat = true;
-    
+
     // Save current chat before switching
     saveCurrentChatSession();
 
@@ -151,41 +109,34 @@ function loadChatSession(chatId) {
 
     if (chatToLoad) {
         currentChatId = chatId;
-        
+
         // COMPLETELY clear the chat history
-        while (chatHistoryDiv.firstChild) {
-            chatHistoryDiv.removeChild(chatHistoryDiv.firstChild);
-        }
-        
+        chatHistoryDiv.innerHTML = '';
+
         // Hide greeting if present
         if (greetingDiv) {
             greetingDiv.style.display = 'none';
         }
 
-        // Load messages - ensure no duplicates
-        const uniqueMessages = [];
+        // Track seen messages to prevent duplicates
         const seenMessages = new Set();
-        
+
+        // Load messages with animation control
         chatToLoad.messages.forEach(msg => {
-            const messageKey = `${msg.isUser ? 'user' : 'gemini'}-${msg.text}-${msg.imageUrl || ''}`;
+            const messageKey = `${msg.isUser}-${msg.text}-${msg.imageUrl || ''}`;
             if (!seenMessages.has(messageKey)) {
                 seenMessages.add(messageKey);
-                uniqueMessages.push(msg);
+                addMessage(msg.text, msg.isUser, msg.imageUrl, true, !shouldAnimate);
             }
         });
 
-        // Add messages to chat
-        uniqueMessages.forEach(msg => {
-            addMessage(msg.text, msg.isUser, msg.imageUrl, false, true);
-        });
-
-        // Update active chat
+        // Update active chat in storage
         data.activeChatId = currentChatId;
         setChatData(data);
-        
+
         // Update UI
         updateActiveChatUI(chatId);
-        
+
         // Scroll to bottom after slight delay
         setTimeout(() => {
             chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
@@ -201,28 +152,24 @@ function loadChatSession(chatId) {
 function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDisplay = false) {
     if (!chatHistoryDiv) return;
 
-    // Hide greeting if showing
     if (greetingDiv && greetingDiv.style.display !== 'none') {
         greetingDiv.style.display = 'none';
     }
 
-    // Create message container
     const messageDiv = document.createElement('div');
     messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
 
-    // Create message bubble
     const bubble = document.createElement('div');
-    bubble.className = `p-3 max-w-[80%] break-words whitespace-pre-wrap ${
-        isUser ? 'bg-[var(--user-bubble-bg)] text-[var(--user-bubble-text)] rounded-lg shadow-sm' 
-               : 'text-[var(--gemini-bubble-text)] text-base'
-    }`;
+    bubble.className = `p-3 max-w-[80%] break-words whitespace-pre-wrap ${isUser ? 'bg-[var(--user-bubble-bg)] text-[var(--user-bubble-text)] rounded-lg shadow-sm'
+        : 'text-[var(--gemini-bubble-text)] text-base'
+        }`;
 
     if (isUser) {
         bubble.style.borderRadius = '24px 4px 24px 24px';
         const messageTextElement = document.createElement('span');
         messageTextElement.textContent = text;
         bubble.appendChild(messageTextElement);
-        
+
         if (imageUrl) {
             const img = document.createElement('img');
             img.src = imageUrl;
@@ -231,35 +178,25 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
             bubble.appendChild(img);
         }
     } else {
-        // For Gemini responses, ensure we don't duplicate
-        const existingMessages = chatHistoryDiv.querySelectorAll('.flex.justify-start');
-        const isDuplicate = Array.from(existingMessages).some(msg => {
-            return msg.textContent.trim() === text.trim();
-        });
+        const inlineContainer = document.createElement('div');
+        inlineContainer.className = 'flex items-center gap-4';
 
-        if (!isDuplicate) {
-            const inlineContainer = document.createElement('div');
-            inlineContainer.className = 'flex items-center gap-4';
+        const avatar = document.createElement('img');
+        avatar.src = 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png';
+        avatar.alt = 'Gemini';
+        avatar.className = 'w-6 h-6 rounded-full';
 
-            const avatar = document.createElement('img');
-            avatar.src = 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png';
-            avatar.alt = 'Gemini';
-            avatar.className = 'w-6 h-6 rounded-full';
+        inlineContainer.appendChild(avatar);
 
-            inlineContainer.appendChild(avatar);
-            
-            const messageTextElement = document.createElement('span');
-            if (instantDisplay) {
-                messageTextElement.textContent = text;
-            } else {
-                typewriterEffect(messageTextElement, text, autoScroll);
-            }
-            
-            inlineContainer.appendChild(messageTextElement);
-            bubble.appendChild(inlineContainer);
+        const messageTextElement = document.createElement('span');
+        if (instantDisplay) {
+            messageTextElement.textContent = text;
         } else {
-            return; // Skip adding duplicate Gemini message
+            typewriterEffect(messageTextElement, text, autoScroll);
         }
+
+        inlineContainer.appendChild(messageTextElement);
+        bubble.appendChild(inlineContainer);
     }
 
     messageDiv.appendChild(bubble);
@@ -268,7 +205,7 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
     if (autoScroll) {
         chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
     }
-}   
+}
 
 function updateActiveChatUI(activeChatId) {
     document.querySelectorAll('#recent-chats li').forEach(li => {
@@ -277,7 +214,7 @@ function updateActiveChatUI(activeChatId) {
             li.classList.add('active-chat');
         }
     });
-} 
+}
 
 
 function createNewChat() {
@@ -740,7 +677,7 @@ async function sendMessage() {
     fileInput.value = '';
     hasImage = false;
 
-    
+
 }
 
 
@@ -919,6 +856,27 @@ document.addEventListener('DOMContentLoaded', function () {
     if (changeToneButton) changeToneButton.addEventListener('click', changeTone);
     if (clearHistoryButton) clearHistoryButton.addEventListener('click', clearAllHistory);
 
+    const specificChatId = localStorage.getItem('specificChatToOpen');
+    const shouldAnimate = localStorage.getItem('shouldAnimate') === 'true';
+
+    // Clear these immediately
+    localStorage.removeItem('specificChatToOpen');
+    localStorage.removeItem('shouldAnimate');
+
+    if (specificChatId) {
+        loadChatSession(specificChatId, shouldAnimate);
+    }
+    // Fall back to normal chat loading
+    else {
+        const chatData = getChatData();
+        if (chatData.chats.length > 0 && chatData.activeChatId) {
+            loadChatSession(chatData.activeChatId, false);
+        } else {
+            createNewChat();
+        }
+    }
+
+    renderRecentChats();
 
     // Initial load logic
     const chatData = getChatData();
@@ -1201,3 +1159,85 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     setupThemeSwitcher();
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Check for specific chat from search
+    const specificChatId = localStorage.getItem('specificChatToOpen');
+    const animateHistory = localStorage.getItem('animateHistory') === 'true';
+
+    // Clear these immediately
+    localStorage.removeItem('specificChatToOpen');
+    localStorage.removeItem('animateHistory');
+
+    if (specificChatId) {
+        loadChatWithHistoryAnimation(specificChatId); // New function for animated history
+    }
+    else {
+        // Normal load behavior
+        const chatData = getChatData();
+        if (chatData.chats.length > 0 && chatData.activeChatId) {
+            loadChatSession(chatData.activeChatId, false);
+        } else {
+            createNewChat();
+        }
+    }
+
+    renderRecentChats();
+});
+
+function loadChatWithHistoryAnimation(chatId) {
+    if (currentChatId === chatId) return;
+
+    // Save current chat before switching
+    saveCurrentChatSession();
+
+    const data = getChatData();
+    const chatToLoad = data.chats.find(chat => chat.id === chatId);
+
+    if (chatToLoad) {
+        currentChatId = chatId;
+
+        // Clear the chat history
+        chatHistoryDiv.innerHTML = '';
+
+        // Hide greeting if present
+        if (greetingDiv) {
+            greetingDiv.style.display = 'none';
+        }
+
+        // Track seen messages to prevent duplicates
+        const seenMessages = new Set();
+        let delay = 0;
+        const baseDelay = 300; // ms between messages
+
+        // Load messages with sequential delay
+        chatToLoad.messages.forEach(msg => {
+            const messageKey = `${msg.isUser}-${msg.text}-${msg.imageUrl || ''}`;
+            if (!seenMessages.has(messageKey)) {
+                seenMessages.add(messageKey);
+
+                setTimeout(() => {
+                    addMessage(
+                        msg.text,
+                        msg.isUser,
+                        msg.imageUrl,
+                        true,
+                        false // Force animation for all messages
+                    );
+                }, delay);
+
+                delay += baseDelay;
+            }
+        });
+
+        // Update active chat in storage
+        data.activeChatId = currentChatId;
+        setChatData(data);
+
+        // Update UI
+        updateActiveChatUI(chatId);
+    } else {
+        console.error("Chat not found:", chatId);
+        createNewChat();
+    }
+}
