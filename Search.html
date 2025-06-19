@@ -89,7 +89,8 @@
                         </div>
 
                         <div class="main-inner-right">
-                            <a href="Search.html" class="flex items-center justify-center" id="search-icon"> <span class="material-icons">search</span> </a>
+                            <a href="Search.html" class="flex items-center justify-center" id="search-icon"> <span
+                                    class="material-icons">search</span> </a>
                             <span class="search-span">Search</span>
                         </div>
                     </div>
@@ -371,31 +372,38 @@
                         <div class="max-w-xl mx-auto">
                             <h2 class="text-base font-medium mb-4" id="recentTitle">Recent</h2>
                             <ul id="chatList">
-                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item"
+                                    data-chat-id="chat-123456">
                                     <span>HTML and JavaScript Code Request</span>
                                     <span class="chat-date">Today</span>
                                 </li>
-                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item"
+                                    data-chat-id="chat-123456">
                                     <span>Fix Chat History Duplication Issue</span>
                                     <span class="chat-date">Yesterday</span>
                                 </li>
-                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item"
+                                    data-chat-id="chat-123456">
                                     <span>Clarification Needed: What's on Your Mind?</span>
                                     <span class="chat-date">Yesterday</span>
                                 </li>
-                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item"
+                                    data-chat-id="chat-123456">
                                     <span>HTML Code Review and Analysis</span>
                                     <span class="chat-date">Yesterday</span>
                                 </li>
-                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item"
+                                    data-chat-id="chat-123456">
                                     <span>Webpage Responsiveness: Techniques Explained</span>
                                     <span class="chat-date">Jun 14</span>
                                 </li>
-                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item">
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer chat-item"
+                                    data-chat-id="chat-123456">
                                     <span>Unclear Request, Need Clarification</span>
                                     <span class="chat-date">Jun 14</span>
                                 </li>
-                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer hover-bg">
+                                <li class="flex justify-between py-4 px-4 rounded cursor-pointer hover-bg"
+                                    data-chat-id="chat-123456">
                                     <span>Assistance Offered, Briefly Asked</span>
                                     <span class="chat-date">Jun 12</span>
                                 </li>
@@ -454,23 +462,25 @@
             <span class="chat-date">${formatChatDate(chat.timestamp)}</span>
         `;
 
-                // Add click handler to load chat
-                li.addEventListener('click', () => {
-                    // In a real app, you would navigate to the chat page with this ID
-                    // For this demo, we'll just show an alert
-                    alert(`Opening chat: ${chat.id}\nTitle: ${chat.title}`);
+                // In Search.html
+                li.addEventListener('click', function () {
+                    // Clear any previous flags
+                    localStorage.removeItem('chatToOpen');
+                    localStorage.removeItem('specificChatToOpen');
 
-                    // In your actual implementation, you would do something like:
-                    // window.location.href = `/chat?id=${chat.id}`;
+                    // Set flags for the specific chat
+                    localStorage.setItem('specificChatToOpen', chat.id);
+                    localStorage.setItem('animateHistory', 'true'); // New flag for history animation
+
+                    // Navigate to chat page
+                    window.location.href = 'Gemini.html';
                 });
 
                 chatList.appendChild(li);
             });
         }
 
-
         renderChatHistory();
-
 
         // Filter chat list based on input
         input.addEventListener('input', () => {
@@ -485,6 +495,51 @@
             });
 
             sectionTitle.style.display = query.length > 0 && !anyVisible ? 'none' : '';
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatData = JSON.parse(localStorage.getItem('geminiChatHistory')) || { chats: [] };
+            const chatList = document.getElementById('chatList');
+
+            // Clear existing items
+            chatList.innerHTML = '';
+
+            // Add each chat to the list
+            chatData.chats.forEach(chat => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between py-4 px-4 rounded cursor-pointer chat-item';
+                li.dataset.chatId = chat.id;
+
+                li.innerHTML = `
+            <span>${chat.title || 'Untitled Chat'}</span>
+            <span class="chat-date">${formatChatDate(chat.timestamp)}</span>
+        `;
+
+                li.addEventListener('click', function () {
+                    // Clear any previous flags
+                    localStorage.removeItem('chatToOpen');
+                    localStorage.removeItem('specificChatToOpen');
+
+                    // Set flags for the specific chat
+                    localStorage.setItem('specificChatToOpen', chat.id);
+                    localStorage.setItem('animateHistory', 'true'); // New flag for history animation
+
+                    // Navigate to chat page
+                    window.location.href = 'Gemini.html';
+                });
+
+                chatList.appendChild(li);
+            });
+
+            function formatChatDate(timestamp) {
+                const date = new Date(timestamp);
+                const now = new Date();
+                const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+
+                if (diffDays === 0) return 'Today';
+                if (diffDays === 1) return 'Yesterday';
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
         });
     </script>
 
