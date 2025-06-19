@@ -296,81 +296,7 @@
                         Upgrade
                     </button>
 
-                    <div class="relative ">
-                        <button id="profile-button"
-                            class="w-8 h-8 bg-[#78909c] rounded-full flex items-center justify-center text-white font-medium">
-                            d
-                        </button>
-
-                        <div id="profile-dropdown"
-                            class="absolute right-4 top-14 w-[400px] max-w-[90vw] sm:max-w-md rounded-3xl shadow-xl z-50 overflow-hidden"
-                            style="background-color: var(--dropdown-bg); color: var(--dropdown-text);">
-                            <div class="px-4 pt-5 pb-2 text-center">
-                                <div class="text-sm font-medium" style="color: var(--dropdown-text);">
-                                    denish.kalathiyainfotech@gmail.com</div>
-                            </div>
-
-                            <div class="px-4 py-4 flex flex-col items-center group">
-                                <div class="relative cursor-pointer group">
-                                    <div id="profile-circle"
-                                        class="w-[75px] h-[75px] bg-[#78909c] rounded-full flex items-center justify-center text-white text-4xl font-medium mb-2 overflow-hidden cursor-pointer">
-                                        d
-                                    </div>
-
-                                    <input type="file" id="profile-img-upload" accept="image/*" class="hidden" />
-
-                                    <div class="w-6 h-6 bottom-[4px] left-[53px] absolute rounded-full items-center justify-center flex pointer-events-none"
-                                        style="background-color:var(--sidebar-bg);">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
-                                            width="20px" fill="currentColor">
-                                            <path
-                                                d="M480-264q72 0 120-49t48-119q0-69-48-118.5T480-600q-72 0-120 49.5t-48 119q0 69.5 48 118.5t120 49Zm0-72q-42 0-69-28.13T384-433q0-39.9 27-67.45Q438-528 480-528t69 27.55q27 27.55 27 67.45 0 40.74-27 68.87Q522-336 480-336ZM168-144q-29 0-50.5-21.5T96-216v-432q0-29 21.5-50.5T168-720h120l72-96h240l72 96h120q29.7 0 50.85 21.5Q864-677 864-648v432q0 29-21.15 50.5T792-144H168Zm0-72h624v-432H636l-72.1-96H396l-72 96H168v432Zm312-217Z" />
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                <div class="text-center">
-                                    <div class="font-medium text-xl" style="color: var(--dropdown-text);">Hi, denish.!
-                                    </div>
-                                    <button class="text-sm mt-2 py-2 font-semibold border rounded-full px-5"
-                                        style="color: var(--accent-blue); border-color: var(--border-color);">Manage
-                                        your Google Account</button>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-center items-center gap-[2px]">
-                                <div class="px-4 py-4 flex items-center text-sm justify-start rounded-s-full cursor-pointer w-[45%]"
-                                    style="background-color: var(--bg-main); color: var(--text-main);">
-                                    <div class="w-6 h-6 rounded-full items-center justify-center flex mr-2"
-                                        style="background-color: var(--sidebar-hover);">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                                            width="24px" fill="var(--accent-blue)">
-                                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                                        </svg>
-                                    </div>
-                                    Add account
-                                </div>
-                                <div class="px-4 py-4 flex items-center text-sm justify-start rounded-e-full cursor-pointer w-[45%]"
-                                    style="background-color: var(--bg-main); color: var(--text-main);">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                                        class="mr-2" width="24px" fill="currentColor">
-                                        <path
-                                            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
-                                    </svg>
-                                    Sign out
-                                </div>
-                            </div>
-
-                            <div class="px-4 py-4 flex justify-center items-center text-xs"
-                                style="color: var(--text-muted);">
-                                <a href="#" class="mr-1 rounded-md p-2 hover:bg-[var(--sidebar-hover)]">Privacy
-                                    Policy</a>
-                                <span class="text-[5px]"> ● </span>
-                                <a href="#" class="ml-1 rounded-md p-2 hover:bg-[var(--sidebar-hover)]">Terms of
-                                    Service</a>
-                            </div>
-                        </div>
-                    </div>
+                   <div id="account"></div>
                 </div>
             </div>
         </div>
@@ -463,7 +389,105 @@
         </div>
     </div>
 
+   <script>
+        const accountData = JSON.parse(localStorage.getItem('login'))
 
+        console.log(accountData);
+
+
+        if (accountData) {
+            document.getElementById('account').innerHTML =
+
+
+                `<div class="relative ">
+                        <button id="profile-button"
+                            class="w-8 h-8 bg-[#78909c] rounded-full flex items-center justify-center text-white font-medium">
+                           ${accountData.name.charAt(0).toUpperCase()}
+                        </button>
+
+                        <div id="profile-dropdown"
+                            class="absolute right-4 top-14 w-[400px] max-w-[90vw] sm:max-w-md rounded-3xl shadow-xl z-50 overflow-hidden"
+                            style="background-color: var(--dropdown-bg); color: var(--dropdown-text);">
+                            <div class="px-4 pt-5 pb-2 text-center">
+                                <div class="text-sm font-medium" style="color: var(--dropdown-text);">
+                                ${accountData.email}</div>
+                            </div>
+
+                            <div class="px-4 py-4 flex flex-col items-center group">
+                                <div class="relative cursor-pointer group">
+                                    <div id="profile-circle"
+                                        class="w-[75px] h-[75px] bg-[#78909c] rounded-full flex items-center justify-center text-white text-4xl font-medium mb-2 overflow-hidden cursor-pointer">
+                                        ${accountData.name.charAt(0).toUpperCase()}
+                                    </div>
+
+                                    <input type="file" id="profile-img-upload" accept="image/*" class="hidden" />
+
+                                    <div class="w-6 h-6 bottom-[4px] left-[53px] absolute rounded-full items-center justify-center flex pointer-events-none"
+                                        style="background-color:var(--sidebar-bg);">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
+                                            width="20px" fill="currentColor">
+                                            <path
+                                                d="M480-264q72 0 120-49t48-119q0-69-48-118.5T480-600q-72 0-120 49.5t-48 119q0 69.5 48 118.5t120 49Zm0-72q-42 0-69-28.13T384-433q0-39.9 27-67.45Q438-528 480-528t69 27.55q27 27.55 27 67.45 0 40.74-27 68.87Q522-336 480-336ZM168-144q-29 0-50.5-21.5T96-216v-432q0-29 21.5-50.5T168-720h120l72-96h240l72 96h120q29.7 0 50.85 21.5Q864-677 864-648v432q0 29-21.15 50.5T792-144H168Zm0-72h624v-432H636l-72.1-96H396l-72 96H168v432Zm312-217Z" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <div class="font-medium text-xl" style="color: var(--dropdown-text);">Hi, ${accountData.name}
+                                    </div>
+                                    <button class="text-sm mt-2 py-2 font-semibold border rounded-full px-5"
+                                        style="color: var(--accent-blue); border-color: var(--border-color);">Manage
+                                        your Google Account</button>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-center items-center gap-[2px]">
+                                <div onclick={handleRedirectLogin()}  class="px-4 py-4 flex items-center text-sm justify-start rounded-s-full cursor-pointer w-[45%]"
+                                    style="background-color: var(--bg-main); color: var(--text-main);">
+                                    <div class="w-6 h-6 rounded-full items-center justify-center flex mr-2"
+                                        style="background-color: var(--sidebar-hover);">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                            width="24px" fill="var(--accent-blue)">
+                                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                                        </svg>
+                                    </div>
+                                    Add account
+                                </div>
+                                <div onclick={handleRemoveLogin()} class="px-4 py-4 flex items-center text-sm justify-start rounded-e-full cursor-pointer w-[45%]"
+                                    style="background-color: var(--bg-main); color: var(--text-main);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                        class="mr-2" width="24px" fill="currentColor">
+                                        <path
+                                            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+                                    </svg>
+                                    Sign out
+                                </div>
+                            </div>
+
+                            <div class="px-4 py-4 flex justify-center items-center text-xs"
+                                style="color: var(--text-muted);">
+                                <a href="#" class="mr-1 rounded-md p-2 hover:bg-[var(--sidebar-hover)]">Privacy
+                                    Policy</a>
+                                <span class="text-[5px]"> ● </span>
+                                <a href="#" class="ml-1 rounded-md p-2 hover:bg-[var(--sidebar-hover)]">Terms of
+                                    Service</a>
+                            </div>
+                        </div>
+                    </div> `
+        } else {
+            document.getElementById('account').innerHTML = `<button class="bg-[--add-btn]  text-[--add-btn-text] font-bold py-2 px-4 rounded-lg" onclick={handleRedirectLogin()}>Login</button>`
+        }
+
+        const handleRemoveLogin = () => {
+            localStorage.removeItem('login')
+            window.location.href = ''
+        }
+
+        const handleRedirectLogin = () => {
+            window.location.href = 'login.html'
+        }
+
+    </script>
     <script src="./JS/index.js"></script>
 </body>
 

@@ -1,15 +1,46 @@
 {
   "savedInfo": [
     {
-      "id": "9998",
-      "message": "wef"
+      "id": "ecab",
+      "message": "aaD"
     }
   ],
-  "geminiChatHistory": [
+  "signinData": [
     {
-      "id": "1035",
-      "chats": [],
-      "activeChatId": null
+      "id": "7eae",
+      "name": "Vaibhav Gohil",
+      "email": "vaibhav.kalathiyainfotech@gmail.com",
+      "password": "Vaibhav@123"
+    },
+    {
+      "id": "7bd3",
+      "name": "vaibahv",
+      "email": "vaibhavkalathiyainfotech@gmail.com",
+      "password": "Vaibhav"
+    },
+    {
+      "id": "d0fe",
+      "name": "vaibahv",
+      "email": "vaibhav.kalathiyainfotech@gmail.com",
+      "password": "Vaibhav"
+    },
+    {
+      "id": "bf67",
+      "name": "Rahul",
+      "email": "Rahul@123",
+      "password": "Rahul"
+    },
+    {
+      "id": "d8d0",
+      "name": "denish",
+      "email": "denish@123",
+      "password": "denish"
+    },
+    {
+      "id": "8dd6",
+      "name": "vaibahv",
+      "email": "vaibhav.kalathiyainfotech@gmail.com",
+      "password": "Vaibhav@1234"
     }
   ]
 }
