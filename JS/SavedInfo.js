@@ -211,17 +211,24 @@ const Display = async (event) => {
 
 function handleActionBtn(index) {
     const currentDropdown = document.getElementById(`action-data-${index}`);
-
-
+    
+    // Close all other dropdowns first
     document.querySelectorAll('[id^="action-data-"]').forEach(drop => {
-        if (drop !== currentDropdown) {
-            drop.classList.add("hidden");
-        }
+      if (drop !== currentDropdown) {
+        drop.classList.add("hidden");
+      }
     });
-
-
+    
+    // Toggle current dropdown
     currentDropdown.classList.toggle("hidden");
-}
+    
+    // Position the dropdown properly on mobile
+    if (window.innerWidth <= 768) {
+      const btnRect = document.getElementById(`action-ED-${index}`).getBoundingClientRect();
+      currentDropdown.style.left = 'auto';
+      currentDropdown.style.right = '0';
+    }
+  }
 
 
 document.addEventListener('click', (event) => {

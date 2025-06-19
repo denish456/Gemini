@@ -1140,3 +1140,304 @@ main {
     display: none;
   }
 }
+
+
+
+
+/* Update the mobile specific styles for sidebar */
+@media (max-width: 767px) {
+  .main-content {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    width: 280px !important; /* Fixed width for mobile */
+    height: 100vh;
+    transition: transform 0.3s ease-out;
+  }
+
+  .main-content.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .main-content:not(:hover):not(.pinned) {
+    width: 280px !important; /* Override the desktop hover behavior */
+  }
+
+  .gemini-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    height: 56px;
+    padding: 0 10px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Hide upgrade button on mobile */
+  .gemini-header > .flex.space-x-2 > button:first-child {
+    display: none;
+  }
+
+  /* Adjust model toggle position */
+  .gemini-header > .relative {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Position Gemini logo properly */
+  .gemini-header h1.text-2xl {
+    font-size: 1.25rem;
+    padding-top: 0;
+    margin-left: 50px; /* Make space for mobile menu button */
+  }
+
+  /* Adjust model toggle button */
+  #model-toggle {
+    width: 80px;
+    font-size: 12px;
+    padding: 0 5px;
+    margin-left: 0;
+  }
+
+  /* Center account dropdown properly */
+  #account {
+    position: static;
+  }
+
+  /* Adjust profile dropdown for mobile */
+  #profile-dropdown {
+    right: 10px;
+    left: auto;
+    width: 95%;
+    max-width: 400px;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+  }
+
+  .backdrop.active {
+    display: block;
+  }
+}
+
+/* Add these media queries at the end of your existing CSS */
+
+@media (max-width: 1024px) {
+  .gemini-chat-content-wrapper {
+    max-width: 90%;
+    padding: 0 15px;
+  margin: 0 auto;
+  }
+  
+  .gemini-header {
+    padding: 0 15px;
+  }
+  
+  #model-dropdown {
+    left: 0;
+    transform: translateX(0);
+    width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gemini-data {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .gemini-header {
+    width: 100% !important;
+    padding: 0 10px;
+  }
+  
+  .main-content:hover ~ .gemini-header,
+  .main-content.pinned ~ .gemini-header {
+    width: 100% !important;
+  }
+  
+  .gemini-chat-content-wrapper {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  
+  .input-area-wrapper {
+    padding-bottom: 20px;
+  }
+  
+  #profile-dropdown {
+    right: 10px;
+    width: 95%;
+    max-width: none;
+  }
+  
+  .input-area-buttons > div {
+    gap: 5px;
+  }
+  
+  .input-area-buttons .group {
+    padding: 0 5px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gemini-header {
+    z-index: 100;
+    background-color: var(--bg-main);
+  }
+  
+  .main-chat-area {
+    padding-top: 0;
+  }
+  
+  #model-toggle {
+    width: 70px;
+    font-size: 11px;
+  }
+
+  #profile-dropdown {
+    width: 90%;
+  }
+  .gemini-header button {
+    padding: 5px 10px;
+    font-size: 11px;
+    margin-right: 0;
+  }
+  
+  .input-area-wrapper {
+    padding: 5px;
+    padding-bottom: 15px;
+  }
+  
+  #user-input {
+    font-size: 14px;
+  }
+  
+  .input-area-buttons > div {
+    gap: 3px;
+  }
+  
+  .input-area-buttons .group {
+    padding: 0 3px;
+    font-size: 11px;
+  }
+  
+  #plus-dropdown {
+    width: 200px;
+  }
+  
+  .gemini-header h1.text-2xl {
+    font-size: 1.1rem;
+    margin-left: 45px;
+  }
+}
+
+/* Ensure the chat area stays properly positioned */
+.main-chat-area {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Make sure the input area doesn't overflow on small screens */
+.input-area-wrapper .border-2 {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  background: var(--sidebar-bg);
+  border: none;
+  color: var(--sidebar-text);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+@media (max-width: 767px) {
+  /* Show mobile menu button */
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  /* Adjust header for mobile */
+  .gemini-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    height: 56px;
+    padding: 0 10px;
+    z-index: 100;
+  }
+  
+  /* Adjust model toggle for mobile */
+  #model-toggle {
+    width: 80px;
+    font-size: 12px;
+    padding: 0 5px;
+    margin-left: 40px; /* Make space for hamburger */
+  }
+  
+  /* Adjust main content area */
+  .gemini-data {
+    margin-top: 56px; /* Push content below fixed header */
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  /* Sidebar mobile styles */
+  .main-content {
+    width: 280px !important;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-out;
+    z-index: 1000;
+  }
+  
+  .main-content.sidebar-open {
+    transform: translateX(0);
+  }
+  
+  /* Backdrop for sidebar */
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+  }
+  
+  .backdrop.active {
+    display: block;
+  }
+}

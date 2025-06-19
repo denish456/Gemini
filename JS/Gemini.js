@@ -1055,9 +1055,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
-
-
     if (mainContent && geminiData) {
         mainContent.addEventListener('mouseenter', () => {
             if (window.innerWidth >= 768) { /* Handled by CSS :hover */ }
@@ -1185,6 +1182,8 @@ document.addEventListener('DOMContentLoaded', function () {
     renderRecentChats();
 });
 
+
+
 function loadChatWithHistoryAnimation(chatId) {
     if (currentChatId === chatId) return;
 
@@ -1241,3 +1240,15 @@ function loadChatWithHistoryAnimation(chatId) {
         createNewChat();
     }
 }
+
+// Mobile menu toggle functionality
+document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+    document.getElementById('main-content').classList.toggle('sidebar-open');
+    document.getElementById('backdrop').classList.toggle('active');
+  });
+  
+  // Close sidebar when clicking backdrop
+  document.getElementById('backdrop').addEventListener('click', function() {
+    document.getElementById('main-content').classList.remove('sidebar-open');
+    this.classList.remove('active');
+  });

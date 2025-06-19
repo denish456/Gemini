@@ -235,6 +235,7 @@
             padding: 4px 8px;
             cursor: pointer;
             white-space: nowrap;
+            color: var(--bg-main);
         }
     </style>
 </head>
@@ -253,7 +254,8 @@
                         </div>
 
                         <div class="main-inner-right">
-                            <a href="Search.html" class="flex items-center justify-center" id="search-icon"> <span class="material-icons">search</span> </a>
+                            <a href="Search.html" class="flex items-center justify-center" id="search-icon"> <span
+                                    class="material-icons">search</span> </a>
                             <span class="search-span">Search</span>
                         </div>
                     </div>
@@ -308,10 +310,10 @@
                                     <span class="material-symbols-outlined"> extension</span>
                                     Apps
                                 </li>
-                               <li>
+                                <li>
                                     <a href="Public_Links.html" class="w-[100%] items-center flex gap-5">
                                         <span class="material-symbols-outlined"> link </span>
-                                         Your public links
+                                        Your public links
                                     </a>
                                 </li>
                                 <li class="submenu" id="themeOptions">
@@ -424,14 +426,7 @@
                 </div>
 
                 <div class="flex space-x-2 items-center">
-                    <button class="h-9 rounded-md flex items-center justify-center text-xs font-semibold px-6 mr-3"
-                        style="background-color: var(--sidebar-hover);">
-                        <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_red_4ed1cbfcbc6c9e84c31b987da73fc4168aec8445.svg"
-                            class="w-4 h-4 mr-2" alt="">
-                        Upgrade
-                    </button>
-
-                  <div id="account"></div>
+                    <div id="account"></div>
                 </div>
             </div>
         </div>
@@ -636,8 +631,8 @@
     </div>
 
 
-    
-   <script>
+
+    <script>
         const accountData = JSON.parse(localStorage.getItem('login'))
 
         console.log(accountData);
@@ -746,7 +741,7 @@
 
         let expanded = false;
 
-      
+
 
         // Toggle button for showing/hiding extra cards
         toggleBtn.addEventListener("click", () => {
@@ -764,7 +759,6 @@
             });
         });
 
-       
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
