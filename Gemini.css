@@ -330,7 +330,7 @@ a {
 }
 
 .main-content.pinned ~ .gemini-data {
-  width: 82%;
+  width: calc(100% - 260px);
 }
 
 /* Remove old desktop sidebar width classes as margin is now static */
@@ -369,7 +369,6 @@ a {
   }
 
   .main-inner {
-    flex-direction: column;
     align-items: flex-start;
   }
 
@@ -415,8 +414,8 @@ a {
 
 /* For desktop pinned state */
 .pinned {
-  width: 18% !important;
-  min-width: 18% !important;
+  width: 260px !important;
+  min-width: 260px !important;
 }
 
 /* Backdrop styling */
@@ -445,12 +444,12 @@ a {
 
 
 .main-content:not(:hover):not(.pinned) {
-  width: 5%;
+  width: 72px;
 }
 
 .main-content:hover,
 .main-content.pinned {
-  width: 18%;
+  width: 260px;
 }
 
 .gemini-header {
@@ -461,12 +460,12 @@ a {
 }
 
 .main-content:not(:hover):not(.pinned)~.gemini-header {
-  width: 95%;
+  width: calc(100% - 72px);
 }
 
 .main-content:hover~.gemini-header,
 .main-content.pinned~.gemini-header {
-  width: 82%;
+  width: calc(100% - 260px);
 }
 
 .main-scroll-area {
@@ -712,16 +711,6 @@ a {
   transform: translateX(0);
   transform-origin: top right;
 }
-
-@media (max-width: 767px) {
-  #profile-dropdown {
-    left: 50%;
-    /* Center on mobile */
-    right: auto;
-    transform: translateX(-50%);
-  }
-}
-
 
 .dropdown-menu ul {
   list-style: none;
@@ -1216,8 +1205,7 @@ main {
   #profile-dropdown {
     right: 10px;
     left: auto;
-    width: 95%;
-    max-width: 400px;
+    transform: translatey(-50%);
   }
 
   .backdrop {
@@ -1281,12 +1269,6 @@ main {
     padding-bottom: 20px;
   }
   
-  #profile-dropdown {
-    right: 10px;
-    width: 95%;
-    max-width: none;
-  }
-  
   .input-area-buttons > div {
     gap: 5px;
   }
@@ -1303,21 +1285,20 @@ main {
     background-color: var(--bg-main);
   }
   
-  .main-chat-area {
+  .gemini-container .main-chat-area {
     padding-top: 0;
   }
   
   #model-toggle {
-    width: 70px;
-    font-size: 11px;
+    display: none;
   }
 
   #profile-dropdown {
-    width: 90%;
+    width: 270px;
   }
   .gemini-header button {
     padding: 5px 10px;
-    font-size: 11px;
+    font-size: 15px;
     margin-right: 0;
   }
   
@@ -1347,6 +1328,15 @@ main {
     font-size: 1.1rem;
     margin-left: 55px;
   }
+
+  .dropdown-menu{
+    left: 0;
+    width: auto;
+  }
+
+  .theme-options{
+    left: 40%;
+  }
 }
 
 /* Ensure the chat area stays properly positioned */
@@ -1370,7 +1360,7 @@ main {
   top: 50%;
   transform: translateY(-50%);
   z-index: 1001;
-  background: var(--sidebar-bg);
+  /* background: var(--sidebar-bg); */
   border: none;
   color: var(--sidebar-text);
   width: 40px;
@@ -1400,7 +1390,7 @@ main {
   
   /* Adjust model toggle for mobile */
   #model-toggle {
-    width: 80px;
+    width: 95px;
     height: auto;
     font-size: 12px;
     padding: 0 5px;
@@ -1408,9 +1398,10 @@ main {
   }
   
   /* Adjust main content area */
-  .gemini-data {
-    margin-top: 56px; /* Push content below fixed header */
+  .gemini-container {
+    margin-top: 50px; /* Push content below fixed header */
     margin-left: 0;
+    height: 91vh;
     width: 100%;
   }
   

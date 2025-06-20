@@ -894,6 +894,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (window.innerWidth < 768) {
                 // Mobile behavior - toggle sidebar visibility
                 mainContent.classList.toggle('sidebar-open');
+                mainContent.classList.toggle('pinned');
                 backdrop.classList.toggle('active');
 
                 // Ensure pinned state is consistent
@@ -922,7 +923,9 @@ document.addEventListener('DOMContentLoaded', function () {
             backdrop.classList.remove('active');
         } else {
             // On mobile - remove pinned state
+             mainContent.classList.remove('sidebar-open');
             mainContent.classList.remove('pinned');
+            backdrop.classList.remove('active');
         }
     });
 
@@ -1244,11 +1247,13 @@ function loadChatWithHistoryAnimation(chatId) {
 // Mobile menu toggle functionality
 document.getElementById('mobileMenuBtn').addEventListener('click', function () {
     document.getElementById('main-content').classList.toggle('sidebar-open');
+    document.getElementById('main-content').classList.toggle('pinned');
     document.getElementById('backdrop').classList.toggle('active');
 });
 
 // Close sidebar when clicking backdrop
 document.getElementById('backdrop').addEventListener('click', function () {
     document.getElementById('main-content').classList.remove('sidebar-open');
+    document.getElementById('main-content').classList.remove('pinned');
     this.classList.remove('active');
 });

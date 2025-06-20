@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // Use history.back() to go to the previous page
             window.history.back();
 
-            // Alternatively, you can use:
-            // window.location.href = '/'; // Goes to home page
-            // or specify a specific URL:
-            // window.location.href = '/previous-page.html';
+                // Alternatively, you can use:
+                // window.location.href = '/'; // Goes to home page
+                // or specify a specific URL:
+                // window.location.href = '/previous-page.html';
         });
     }
 });
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const toggleBtn = document.getElementById('toggleDropdown');
-    const dropdownMenu = document.getElementById('dropdownMenu');
+    const dropdownMenu = document.getElementById('dropdownMenuknowlage');
     const uploadOption = document.getElementById('uploadOption');
     const fileInput = document.getElementById('fileInput');
     const fileText = document.getElementById('fileText');
