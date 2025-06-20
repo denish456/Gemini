@@ -167,9 +167,7 @@
                 display: flex !important;
             }
 
-            .desktop-hidden {
-                display: none !important;
-            }
+           
         }
 
         /* Responsive adjustments */
@@ -197,6 +195,14 @@
         @media (max-width: 767px) {
             .main-container {
                 padding: 1rem !important;
+            }
+
+            .newGems-add-container {
+                flex-direction: column;
+            }
+
+            .newGems-data-detail {
+                width: 100% !important;
             }
 
             .content-container {
@@ -229,7 +235,10 @@
 </head>
 
 <body>
+
     <div class="w-[100%]">
+        <div class="backdrop" id="backdrop"></div>
+
         <div class="flex w-[100%] ">
             <div class="main-content" id="main-content">
                 <div class="main-scroll-area">
@@ -307,9 +316,9 @@
                                     <span class="material-symbols-outlined">light_mode</span>
                                     Theme
                                     <ul class="theme-options">
-                                        <li>System</li>
-                                        <li>Light</li>
-                                        <li>Dark ✔</li>
+                                        <li data-theme="system">System</li>
+                                        <li data-theme="light">Light</li>
+                                        <li data-theme="dark">Dark</li>
                                     </ul>
                                 </li>
 
@@ -342,7 +351,9 @@
                 </div>
             </div>
             <div class="z-10 gemini-header p-2 flex items-center justify-between">
-                <div class="relative">
+                <div class="relative ">
+
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
                     <h1 class="text-2xl pt-2" style="color: var(--text-main);">Gemini</h1>
                     <div class="relative">
                         <button id="model-toggle"
@@ -419,22 +430,21 @@
                             class="w-4 h-4 mr-2" alt="">
                         Upgrade
                     </button>
-
                     <div id="account"></div>
                 </div>
             </div>
         </div>
-        <div class="gemini-data  ">
+         <div class="gemini-data  ">
             <div class="main-chat-area">
                 <div class="chat-content-wrapper" style="background-color: var(--bg-main);">
-                    <div class="flex p-10 gap-5 w-[100%] justify-center main-container">
+                    <div class=" newGems-add-container flex p-10 gap-5 w-[100%] justify-center main-container">
                         <button id="backButton" class="flex justify-center w-[5%] min-w-[40px] desktop-hidden">
                             <span
                                 class="material-symbols-outlined rounded-full hover:bg-[var(--icon-hover-bg)] text-[24px] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">
                                 arrow_back_ios
                             </span>
                         </button>
-                        <div class="p-5 w-[95%] flex flex-col rounded-3xl content-container"
+                        <div class="newGems-data-detail p-5 w-[95%] flex flex-col rounded-3xl content-container"
                             style="background-color: var(--container-bg);">
                             <div class="flex items-center justify-between w-[100%] header-content">
                                 <div class="flex items-center gap-4">
@@ -613,7 +623,7 @@
                                                     +
                                                 </button>
                                             </div>
-                                            <div id="dropdownMenu"
+                                            <div id="dropdownMenuknowlage"
                                                 class="absolute bottom-full mb-2 right-0 w-56 rounded-xl shadow-lg py-2 z-50 hidden"
                                                 style="background-color: var(--dropdown-bg); color: var(--text-color);">
                                                 <div id="uploadOption"
@@ -812,7 +822,7 @@
                             </div>
 
                             <div class="flex justify-center items-center gap-[2px]">
-                                <div onclick={handleRedirectLogin()}  class="px-4 py-4 flex items-center text-sm justify-start rounded-s-full cursor-pointer w-[45%]"
+                                <div onclick={handleRedirectLogin()}  class="px-4 h-[60px] py-4 flex items-center text-sm justify-start rounded-s-full cursor-pointer w-[45%]"
                                     style="background-color: var(--bg-main); color: var(--text-main);">
                                     <div class="w-6 h-6 rounded-full items-center justify-center flex mr-2"
                                         style="background-color: var(--sidebar-hover);">
@@ -823,7 +833,7 @@
                                     </div>
                                     Add account
                                 </div>
-                                <div onclick={handleRemoveLogin()} class="px-4 py-4 flex items-center text-sm justify-start rounded-e-full cursor-pointer w-[45%]"
+                                <div onclick={handleRemoveLogin()} class="px-4 h-[60px] py-4 flex items-center text-sm justify-start rounded-e-full cursor-pointer w-[45%]"
                                     style="background-color: var(--bg-main); color: var(--text-main);">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                         class="mr-2" width="24px" fill="currentColor">

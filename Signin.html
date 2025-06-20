@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -22,7 +25,7 @@
             --add-btn-hover: #1054c2;
             --add-btn-text: #fff;
         }
-
+ 
         body.dark {
             --bg-main: #1B1C1D;
             --sidebar-bg: #282a2c;
@@ -35,7 +38,7 @@
             --add-btn-hover: #97bdfa;
             --add-btn-text: #062E6F;
         }
-
+ 
         .material-icons,
         .material-symbols-outlined {
             font-family: 'Material Icons';
@@ -53,19 +56,19 @@
         }
     </style>
 </head>
-
+ 
 <body class="bg-[--bg-main]  dark min-h-screen flex items-center justify-center px-4">
     <div class="bg-[--sidebar-bg] rounded-2xl shadow-2xl p-8 w-full max-w-md">
          <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold text-center text-[--text-main] ">Sign in to Gemini</h2>
+            <h2 class="text-xl sm:text-3xl font-bold text-center text-[--text-main] ">Sign in to Gemini</h2>
             <a href="Gemini.html">
                 <span
-                    class="material-symbols-outlined text-3xl font-bold text-center text-[--text-main] cursor-pointer">
+                    class="material-symbols-outlined text-xl sm:text-3xl font-bold text-center text-[--text-main] cursor-pointer">
                     home
                 </span>
             </a>
         </div>
-
+ 
         <form id="signInForm" class="space-y-5">
             <!-- Email -->
             <div>
@@ -78,7 +81,7 @@
                 <input type="email" id="email" name="email" required
                     class="w-full px-4 py-2 border text-[--textarea-text] bg-[--input-bg] rounded-lg focus:[--input-border-focus] " />
             </div>
-
+ 
             <!-- Password -->
             <div class="relative">
                 <label class="block text-sm font-medium text-[--textarea-text] mb-1" for="password">Password</label>
@@ -86,7 +89,7 @@
                     class="w-full px-4 py-2 border text-[--textarea-text] bg-[--input-bg] rounded-lg focus:[--input-border-focus] " />
                 <span id="togglePassword"
                     class="absolute right-3 material-symbols-outlined top-[38px] text-[--add-btn] cursor-pointer select-none">visibility</span>
-
+ 
             </div>
             <!-- Confirm Password -->
             <div class="relative">
@@ -97,38 +100,44 @@
                 <span id="toggleConfirmPassword"
                     class="absolute right-3 material-symbols-outlined top-[38px] text-[--add-btn] cursor-pointer select-none">visibility</span>
             </div>
-
-
+ 
+ 
             <!-- Submit Button -->
             <button type="submit"
                 class="w-full bg-[--add-btn] hover:bg-[--add-btn-hover] text-[--add-btn-text] font-bold py-2 rounded-lg transition-all duration-200">
                 Sign In
             </button>
-
+ 
             <!-- Link -->
             <p class="text-sm text-center text-[--textarea-text] mt-4">
                 Already have account ?
                 <a href="Login.html" class="text-[--add-btn] hover:underline">Login</a>
             </p>
+            <div class="flex gap-5 items-center mt-4 justify-center">
+                <a href=""><i class="fa-brands fa-apple text-3xl text-[#666666] hover:text-[--add-btn]"></i></a>
+                <a href=""><i class="fa-brands fa-facebook text-2xl text-[#666666] hover:text-[--add-btn]"></i></a>
+                <a href=""><i class="fa-brands fa-google text-2xl text-[#666666] hover:text-[--add-btn]"></i></a>
+            </div>
         </form>
     </div>
-
+ 
       <script>
         const theme = localStorage.getItem('theme')
-
+ 
         console.log(theme);
-        
-
+       
+ 
         if (theme === 'dark') {
-            document.body.classList.add('dark'); 
+            document.body.classList.add('dark');
         } else {
             document.body.classList.remove('dark');
         }
-
-
+ 
+ 
     </script>
-
+ 
     <script src="./JS/Signin.js"> </script>
 </body>
-
+ 
 </html>
+ 
