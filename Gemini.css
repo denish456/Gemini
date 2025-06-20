@@ -29,8 +29,8 @@
   --add-btn: #1E64D4;
   --add-btn-text: #fff;
   --add-diseble-btn: #E3E3E3;
-  --add-diseble-btn-text:#9c9c9c;
-  --textarea-text:#1f1f1f;
+  --add-diseble-btn-text: #9c9c9c;
+  --textarea-text: #1f1f1f;
 }
 
 body.dark {
@@ -65,12 +65,12 @@ body.dark {
   --add-btn: #A8C7FA;
   --add-btn-text: #062E6F;
   --add-diseble-btn: #373838;
-  --add-diseble-btn-text:#9c9c9c;
-  --textarea-text:#e3e3e3;
+  --add-diseble-btn-text: #9c9c9c;
+  --textarea-text: #e3e3e3;
 
 }
 
-/* Apply these variables to elements */
+
 body {
   background-color: var(--bg-main);
   color: var(--text-main);
@@ -119,13 +119,13 @@ body {
   background-color: var(--dropdown-hover);
 }
 
-/* Update the Gemini chat interface colors */
+
 .gemini-header {
   background-color: var(--bg-main);
   border-bottom-color: var(--border-color);
 }
 
-/* Tooltip background and text */
+
 .expand,
 .collapse,
 .keep-menu-expanded,
@@ -138,7 +138,7 @@ body {
   color: var(--tooltip-text);
 }
 
-/* Specific styles for elements whose colors are dynamic */
+
 #model-toggle,
 #model-dropdown,
 #profile-dropdown {
@@ -150,7 +150,7 @@ body {
   background-color: var(--sidebar-hover);
 }
 
-/* Upgrade button */
+
 .gemini-header button.bg-\[\#3d3f42\] {
   background-color: var(--sidebar-hover);
   color: var(--accent-blue);
@@ -169,7 +169,7 @@ body.dark .gemini-header button.bg-\[\#3d3f42\] img {
 }
 
 
-/* Profile text/buttons within dropdown */
+
 #profile-dropdown .text-white {
   color: var(--dropdown-text);
 }
@@ -201,7 +201,7 @@ body.dark .gemini-header button.bg-\[\#3d3f42\] img {
   color: var(--accent-blue);
 }
 
-/* Input Area Styles */
+
 .gemini-details .border-2.border-\[\#4a5050\].rounded-3xl.bg-black.px-3.pt-3.text-\[\#9a9b9c\].pb-12 {
   border-color: var(--border-color);
   background-color: var(--input-bg);
@@ -213,7 +213,7 @@ body.dark .gemini-header button.bg-\[\#3d3f42\] img {
 }
 
 
-/* Chat Bubbles */
+
 .p-3.max-w-\[80\%\] {
   color: var(--gemini-bubble-text);
 }
@@ -227,7 +227,7 @@ body.dark .gemini-header button.bg-\[\#3d3f42\] img {
   color: var(--user-bubble-text);
 }
 
-/* SVG Fills (inherit parent's color) */
+
 .material-icons,
 .material-symbols-outlined,
 #openBtn svg,
@@ -239,7 +239,7 @@ body.dark .gemini-header button.bg-\[\#3d3f42\] img {
   fill: currentColor;
 }
 
-/* Specific SVG overrides if they should maintain an accent color */
+
 #model-dropdown svg[fill="#34a853"] {
   fill: var(--accent-green);
 }
@@ -249,7 +249,7 @@ body.dark .gemini-header button.bg-\[\#3d3f42\] img {
 }
 
 
-/* ==================== Global ==================== */
+
 body {
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
@@ -258,7 +258,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -277,7 +277,7 @@ body {
   background-color: var(--scroll-thumb-hover);
 }
 
-/* Links & Lists */
+
 ul {
   list-style: none;
   padding: 0;
@@ -289,7 +289,7 @@ a {
   text-decoration: none;
 }
 
-/* ==================== Material Icons ==================== */
+
 .material-icons,
 .material-symbols-outlined {
   font-family: 'Material Icons';
@@ -306,8 +306,8 @@ a {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ==================== Main Content Sidebar ==================== */
-/* Default for desktop and larger screens */
+
+
 .main-content {
   height: 100vh;
   padding: 20px 16px 0;
@@ -321,7 +321,7 @@ a {
   z-index: 100;
 }
 
-/* Adjust main content width based on sidebar state for desktop */
+
 .gemini-data {
   flex-grow: 1;
   margin-left: 72px;
@@ -329,11 +329,11 @@ a {
   width: calc(100% - 72px);
 }
 
-.main-content.pinned ~ .gemini-data {
+.main-content.pinned~.gemini-data {
   width: calc(100% - 260px);
 }
 
-/* Remove old desktop sidebar width classes as margin is now static */
+
 .gemini-data.sidebar-collapsed-desktop,
 .gemini-data.sidebar-expanded-desktop {
   margin-left: 72px;
@@ -341,7 +341,7 @@ a {
 }
 
 
-/* Mobile specific styles for sidebar (starts hidden) */
+
 @media (max-width: 767px) {
   .main-content {
     position: fixed;
@@ -349,14 +349,14 @@ a {
     top: 0;
     transform: translateX(-100%);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-    /* Shadow for drawer effect */
+
     z-index: 1000;
-    /* Ensure it's on top of everything */
+
   }
 
   .main-content.sidebar-open {
     transform: translateX(0);
-    /* Slide in */
+
   }
 
   .drawer-data li span,
@@ -387,7 +387,7 @@ a {
   .gemini-data {
     width: 100%;
     margin-left: 0 !important;
-    /* Override desktop margins */
+
   }
 
   .backdrop {
@@ -399,7 +399,7 @@ a {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
     display: none;
-    /* Hidden by default */
+
   }
 
   .backdrop.active {
@@ -407,18 +407,18 @@ a {
   }
 }
 
-/* For mobile sidebar */
+
 .sidebar-open {
   transform: translateX(0) !important;
 }
 
-/* For desktop pinned state */
+
 .pinned {
   width: 260px !important;
   min-width: 260px !important;
 }
 
-/* Backdrop styling */
+
 #backdrop {
   position: fixed;
   top: 0;
@@ -434,7 +434,7 @@ a {
   display: block;
 }
 
-/* Initial sidebar state (hidden on mobile) */
+
 @media (max-width: 767px) {
   #main-content {
     transform: translateX(-100%);
@@ -490,13 +490,13 @@ a {
   position: relative;
 }
 
-/* Desktop hover/pinned states for icons */
+
 .main-content:hover .main-inner-right,
 .main-content.pinned .main-inner-right {
   display: flex;
 }
 
-/* Hides the search icon when sidebar is collapsed (not hovered, not pinned) */
+
 .main-content:not(:hover):not(.pinned) .main-inner-right {
   display: none;
 }
@@ -505,7 +505,7 @@ a {
   display: none;
 }
 
-/* ==================== Buttons ==================== */
+
 #openBtn,
 #search-icon {
   width: 100%;
@@ -529,7 +529,7 @@ a {
   color: var(--text-muted) !important;
 }
 
-/* ==================== Drawer List ==================== */
+
 .drawer {
   padding-top: 30px;
 }
@@ -551,8 +551,8 @@ a {
   background-color: var(--sidebar-hover);
 }
 
-/* Collapsed sidebar text hide */
-.main-content:not(:hover):not(.pinned) .drawer-data > li {
+
+.main-content:not(:hover):not(.pinned) .drawer-data>li {
   padding: 12px 0;
   justify-content: center;
 }
@@ -572,7 +572,7 @@ a {
   display: inline-block;
 }
 
-/* ==================== Tooltip & Labels ==================== */
+
 .expand,
 .collapse,
 .keep-menu-expanded,
@@ -593,7 +593,7 @@ a {
   z-index: 10;
 }
 
-/* Tooltip positions */
+
 .expand,
 .collapse,
 .keep-menu-expanded,
@@ -612,7 +612,7 @@ a {
   margin-left: 0;
 }
 
-/* Show tooltips */
+
 .main-inner-left:hover .expand,
 .main-inner-left:hover .collapse,
 .main-inner-left:hover .keep-menu-expanded,
@@ -625,7 +625,7 @@ a {
   visibility: visible;
 }
 
-/* Expand/Collapse Toggle Visibility for desktop */
+
 .main-content:not(.pinned) .collapse,
 .main-content:not(.pinned) .keep-menu-expanded {
   display: none;
@@ -635,7 +635,7 @@ a {
   display: none;
 }
 
-/* Override specific hover behavior for tooltips based on pinned state */
+
 .main-content.pinned .main-inner-left:hover .collapse {
   display: block;
 }
@@ -656,7 +656,7 @@ a {
   transform: translateX(-50%);
 }
 
-/* ==================== Bottom Settings Area ==================== */
+
 .setting-help {
   padding: 12px 0;
 }
@@ -665,12 +665,12 @@ a {
   position: relative;
 }
 
-/* ==================== Utility Classes ==================== */
+
 .border-border-4a5050 {
   border: 1px solid var(--border-color) !important;
 }
 
-/* Dropdown transition for model and profile */
+
 #model-dropdown,
 #profile-dropdown {
   opacity: 0;
@@ -688,7 +688,7 @@ a {
   pointer-events: auto;
 }
 
-/* General dropdown menu styling */
+
 .dropdown-menu {
   position: absolute;
   bottom: -19%;
@@ -704,7 +704,7 @@ a {
   margin-bottom: 10px;
 }
 
-/* Profile dropdown specific positioning */
+
 #profile-dropdown {
   right: 0;
   left: auto;
@@ -783,7 +783,7 @@ a {
   background-color: var(--dropdown-bg);
 }
 
-/* Animations */
+
 .send-appear {
   animation: sendAppear 0.25s ease-out forwards;
 }
@@ -800,7 +800,7 @@ a {
   }
 }
 
-/* Chat Interface Specifics */
+
 .gemini-data {
   display: flex;
   flex-direction: column;
@@ -819,7 +819,7 @@ a {
 }
 
 
-/* Main chat content area including chat history and input */
+
 .main-chat-area {
   flex-grow: 1;
   display: flex;
@@ -830,7 +830,7 @@ a {
   padding-top: 70px;
 }
 
-/* Inner wrapper for chat history and input - this is what gets centered */
+
 .chat-content-wrapper {
   width: 100%;
   display: flex;
@@ -850,14 +850,14 @@ a {
   max-width: 50rem;
 }
 
-/* Chat history area */
+
 #chat-history {
   flex-grow: 1;
   overflow-y: auto;
   position: relative;
 }
 
-/* Input Area wrapper - fixed at bottom, does not scroll */
+
 .input-area-wrapper {
   flex-shrink: 0;
   padding: 8px;
@@ -865,7 +865,7 @@ a {
   background-color: var(--bg-main);
 }
 
-/* Adjust input area position for buttons */
+
 .input-area-buttons {
   position: absolute;
   bottom: 8px;
@@ -873,7 +873,7 @@ a {
   right: 12px;
 }
 
-/* Styles for recent chats in sidebar */
+
 .recent-section {
   padding-top: 20px;
   padding-bottom: 10px;
@@ -895,7 +895,7 @@ a {
   display: block;
 }
 
-/* Adjust collapsed recent list items to be centered */
+
 .main-content:not(:hover):not(.pinned) .recent-section li {
   padding: 12px 0;
   justify-content: center;
@@ -929,7 +929,7 @@ a {
   flex-shrink: 0;
 }
 
-/* Kebab Menu Styling */
+
 .kebab-menu-wrapper {
   margin-left: auto;
   height: 100%;
@@ -939,7 +939,7 @@ a {
   transition: opacity 0.2s ease-out;
 }
 
-/* Show kebab menu wrapper when sidebar is expanded */
+
 .main-content:hover .kebab-menu-wrapper,
 .main-content.pinned .kebab-menu-wrapper {
   opacity: 1;
@@ -994,7 +994,7 @@ a {
   }
 }
 
-/* public links  */
+
 
 .container {
   max-width: 1200px;
@@ -1133,7 +1133,7 @@ main {
 
 
 
-/* Update the mobile specific styles for sidebar */
+
 @media (max-width: 767px) {
   .main-content {
     position: fixed;
@@ -1142,7 +1142,7 @@ main {
     transform: translateX(-100%);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    width: 280px !important; /* Fixed width for mobile */
+    width: 280px !important;
     height: 100vh;
     transition: transform 0.3s ease-out;
   }
@@ -1152,7 +1152,7 @@ main {
   }
 
   .main-content:not(:hover):not(.pinned) {
-    width: 280px !important; /* Override the desktop hover behavior */
+    width: 280px !important;
   }
 
   .gemini-header {
@@ -1169,26 +1169,26 @@ main {
     justify-content: space-between;
   }
 
-  /* Hide upgrade button on mobile */
-  .gemini-header > .flex.space-x-2 > button:first-child {
+
+  .gemini-header>.flex.space-x-2>button:first-child {
     display: none;
   }
 
-  /* Adjust model toggle position */
-  .gemini-header > .relative {
+
+  .gemini-header>.relative {
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  /* Position Gemini logo properly */
+
   .gemini-header h1.text-2xl {
     font-size: 1.25rem;
     padding-top: 0;
-    margin-left: 50px; /* Make space for mobile menu button */
+    margin-left: 50px;
   }
 
-  /* Adjust model toggle button */
+
   #model-toggle {
     width: 80px;
     font-size: 12px;
@@ -1196,12 +1196,12 @@ main {
     margin-left: 0;
   }
 
-  /* Center account dropdown properly */
+
   #account {
     position: static;
   }
 
-  /* Adjust profile dropdown for mobile */
+
   #profile-dropdown {
     right: 10px;
     left: auto;
@@ -1224,19 +1224,19 @@ main {
   }
 }
 
-/* Add these media queries at the end of your existing CSS */
+
 
 @media (max-width: 1024px) {
   .gemini-chat-content-wrapper {
     max-width: 90%;
     padding: 0 15px;
-  margin: 0 auto;
+    margin: 0 auto;
   }
-  
+
   .gemini-header {
     padding: 0 15px;
   }
-  
+
   #model-dropdown {
     left: 0;
     transform: translateX(0);
@@ -1249,30 +1249,30 @@ main {
     margin-left: 0;
     width: 100%;
   }
-  
+
   .gemini-header {
     width: 100% !important;
     padding: 0 10px;
   }
-  
-  .main-content:hover ~ .gemini-header,
-  .main-content.pinned ~ .gemini-header {
+
+  .main-content:hover~.gemini-header,
+  .main-content.pinned~.gemini-header {
     width: 100% !important;
   }
-  
+
   .gemini-chat-content-wrapper {
     max-width: 100%;
     padding: 0 10px;
   }
-  
+
   .input-area-wrapper {
     padding-bottom: 20px;
   }
-  
-  .input-area-buttons > div {
+
+  .input-area-buttons>div {
     gap: 5px;
   }
-  
+
   .input-area-buttons .group {
     padding: 0 5px;
     font-size: 12px;
@@ -1284,11 +1284,11 @@ main {
     z-index: 100;
     background-color: var(--bg-main);
   }
-  
+
   .gemini-container .main-chat-area {
     padding-top: 0;
   }
-  
+
   #model-toggle {
     display: none;
   }
@@ -1296,63 +1296,64 @@ main {
   #profile-dropdown {
     width: 270px;
   }
+
   .gemini-header button {
     padding: 5px 10px;
     font-size: 15px;
     margin-right: 0;
   }
-  
+
   .input-area-wrapper {
     padding: 5px;
     padding-bottom: 15px;
   }
-  
+
   #user-input {
     font-size: 14px;
   }
-  
-  .input-area-buttons > div {
+
+  .input-area-buttons>div {
     gap: 3px;
   }
-  
+
   .input-area-buttons .group {
     padding: 0 3px;
     font-size: 11px;
   }
-  
+
   #plus-dropdown {
     width: 200px;
   }
-  
+
   .gemini-header h1.text-2xl {
     font-size: 1.1rem;
     margin-left: 55px;
   }
 
-  .dropdown-menu{
+  .dropdown-menu {
     left: 0;
     width: auto;
   }
 
-  .theme-options{
+  .theme-options {
     left: 40%;
   }
 }
 
-/* Ensure the chat area stays properly positioned */
+
 .main-chat-area {
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
 }
 
-/* Make sure the input area doesn't overflow on small screens */
+
 .input-area-wrapper .border-2 {
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Mobile Menu Button */
+
 .mobile-menu-btn {
   display: none;
   position: absolute;
@@ -1360,7 +1361,7 @@ main {
   top: 50%;
   transform: translateY(-50%);
   z-index: 1001;
-  /* background: var(--sidebar-bg); */
+
   border: none;
   color: var(--sidebar-text);
   width: 40px;
@@ -1371,12 +1372,12 @@ main {
 }
 
 @media (max-width: 767px) {
-  /* Show mobile menu button */
+
   .mobile-menu-btn {
     display: block;
   }
-  
-  /* Adjust header for mobile */
+
+
   .gemini-header {
     position: fixed;
     top: 0;
@@ -1387,37 +1388,37 @@ main {
     padding: 0 10px;
     z-index: 100;
   }
-  
-  /* Adjust model toggle for mobile */
+
+
   #model-toggle {
     width: 95px;
     height: auto;
     font-size: 12px;
     padding: 0 5px;
-    margin-left: 0px; /* Make space for hamburger */
+    margin-left: 0px;
   }
-  
-  /* Adjust main content area */
+
+
   .gemini-container {
-    margin-top: 50px; /* Push content below fixed header */
+    margin-top: 50px;
     margin-left: 0;
     height: 91vh;
     width: 100%;
   }
-  
-  /* Sidebar mobile styles */
+
+
   .main-content {
     width: 280px !important;
     transform: translateX(-100%);
     transition: transform 0.3s ease-out;
     z-index: 1000;
   }
-  
+
   .main-content.sidebar-open {
     transform: translateX(0);
   }
-  
-  /* Backdrop for sidebar */
+
+
   .backdrop {
     position: fixed;
     top: 0;
@@ -1428,7 +1429,7 @@ main {
     z-index: 999;
     display: none;
   }
-  
+
   .backdrop.active {
     display: block;
   }
