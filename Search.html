@@ -78,6 +78,8 @@
 <body class="min-h-screen flex items-center justify-center transition-colors duration-300">
 
     <div class="w-[100%]">
+        <div class="backdrop" id="backdrop"></div>
+
         <div class="flex w-[100%] ">
             <div class="main-content" id="main-content">
                 <div class="main-scroll-area">
@@ -128,7 +130,7 @@
                             <span>Setting & Help</span>
                             <span class="seting-span">Setting & Help</span>
                         </li>
-                        <div class="dropdown-menu p-5" id="dropdownMenu">
+                        <div class="dropdown-menu" id="dropdownMenu">
                             <ul>
                                 <li>
                                     <span class="material-symbols-outlined">history</span>
@@ -139,12 +141,12 @@
                                         <span class="material-symbols-outlined"> person </span>
                                         Saved info
                                     </a>
+                                    <!-- <span class="dot"></span> -->
                                 </li>
                                 <li>
                                     <span class="material-symbols-outlined"> extension</span>
                                     Apps
                                 </li>
-
                                 <li>
                                     <a href="Public_Links.html" class="w-[100%] items-center flex gap-5">
                                         <span class="material-symbols-outlined"> link </span>
@@ -155,9 +157,9 @@
                                     <span class="material-symbols-outlined">light_mode</span>
                                     Theme
                                     <ul class="theme-options">
-                                        <li>System</li>
-                                        <li>Light</li>
-                                        <li>Dark ✔</li>
+                                        <li data-theme="system">System</li>
+                                        <li data-theme="light">Light</li>
+                                        <li data-theme="dark">Dark</li>
                                     </ul>
                                 </li>
 
@@ -190,7 +192,9 @@
                 </div>
             </div>
             <div class="z-10 gemini-header p-2 flex items-center justify-between">
-                <div class="relative">
+                <div class="relative ">
+
+                    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
                     <h1 class="text-2xl pt-2" style="color: var(--text-main);">Gemini</h1>
                     <div class="relative">
                         <button id="model-toggle"
@@ -267,8 +271,7 @@
                             class="w-4 h-4 mr-2" alt="">
                         Upgrade
                     </button>
-
-                   <div id="account"></div>
+                    <div id="account"></div>
                 </div>
             </div>
         </div>
@@ -395,7 +398,7 @@
                             </div>
 
                             <div class="flex justify-center items-center gap-[2px]">
-                                <div onclick={handleRedirectLogin()}  class="px-4 py-4 flex items-center text-sm justify-start rounded-s-full cursor-pointer w-[45%]"
+                                <div onclick={handleRedirectLogin()}  class="px-4 h-[60px] py-4 flex items-center text-sm justify-start rounded-s-full cursor-pointer w-[45%]"
                                     style="background-color: var(--bg-main); color: var(--text-main);">
                                     <div class="w-6 h-6 rounded-full items-center justify-center flex mr-2"
                                         style="background-color: var(--sidebar-hover);">
@@ -406,7 +409,7 @@
                                     </div>
                                     Add account
                                 </div>
-                                <div onclick={handleRemoveLogin()} class="px-4 py-4 flex items-center text-sm justify-start rounded-e-full cursor-pointer w-[45%]"
+                                <div onclick={handleRemoveLogin()} class="px-4 h-[60px] py-4 flex items-center text-sm justify-start rounded-e-full cursor-pointer w-[45%]"
                                     style="background-color: var(--bg-main); color: var(--text-main);">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                         class="mr-2" width="24px" fill="currentColor">

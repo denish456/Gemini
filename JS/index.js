@@ -10,16 +10,24 @@ document.addEventListener('DOMContentLoaded', function () {
     if (openBtn) {
         openBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+
             if (window.innerWidth < 768) {
+                // Mobile behavior - toggle sidebar visibility
                 mainContent.classList.toggle('sidebar-open');
+                mainContent.classList.toggle('pinned');
                 backdrop.classList.toggle('active');
+
+                // Ensure pinned state is consistent
+                if (mainContent.classList.contains('sidebar-open')) {
+                    mainContent.classList.remove('pinned');
+                }
             } else {
+                // Desktop behavior - toggle pinned state
                 mainContent.classList.toggle('pinned');
             }
         });
     }
 
-    // Backdrop click to close sidebar on mobile
     if (backdrop) {
         backdrop.addEventListener('click', () => {
             mainContent.classList.remove('sidebar-open');
@@ -28,17 +36,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Responsive behavior
-    if (mainContent && geminiData) {
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+            // On desktop - ensure sidebar is visible and backdrop hidden
+            mainContent.classList.remove('sidebar-open');
+            backdrop.classList.remove('active');
+        } else {
+            // On mobile - remove pinned state
+            mainContent.classList.remove('pinned');
+             mainContent.classList.remove('sidebar-open');
+            backdrop.classList.remove('active');
+        }
+    });
+
+
+     if (mainContent && geminiData) {
         mainContent.addEventListener('mouseenter', () => {
             if (window.innerWidth >= 768) { /* Handled by CSS :hover */ }
         });
-        
         mainContent.addEventListener('mouseleave', () => {
-            if (window.innerWidth >= 768 && !mainContent.classList.contains("pinned")) { 
-                /* Handled by CSS :not(:hover) */ 
-            }
+            if (window.innerWidth >= 768 && !mainContent.classList.contains("pinned")) { /* Handled by CSS :not(:hover) */ }
         });
-        
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 768) {
                 mainContent.classList.remove('sidebar-open');
@@ -214,4 +232,19 @@ document.addEventListener('click', function (e) {
         dropdown.style.display = 'none';
         document.getElementById('setting-help').classList.remove('setingbackgroundChange');
     }
+});
+
+
+// Mobile menu toggle functionality
+document.getElementById('mobileMenuBtn').addEventListener('click', function () {
+    document.getElementById('main-content').classList.toggle('sidebar-open');
+    document.getElementById('main-content').classList.toggle('pinned');
+    document.getElementById('backdrop').classList.toggle('active');
+});
+
+// Close sidebar when clicking backdrop
+document.getElementById('backdrop').addEventListener('click', function () {
+    document.getElementById('main-content').classList.remove('sidebar-open');
+    document.getElementById('main-content').classList.remove('pinned');
+    this.classList.remove('active');
 });
