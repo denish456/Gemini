@@ -886,45 +886,17 @@ document.addEventListener('DOMContentLoaded', function () {
         createNewChat();
     }
     renderRecentChats();
-    // Sidebar toggle functionality
+
+    
     if (openBtn) {
         openBtn.addEventListener('click', (e) => {
             e.stopPropagation();
 
-            if (window.innerWidth < 768) {
-                // Mobile behavior - toggle sidebar visibility
-                mainContent.classList.toggle('sidebar-open');
-                backdrop.classList.toggle('active');
-
-                // Ensure pinned state is consistent
-                if (mainContent.classList.contains('sidebar-open')) {
-                    mainContent.classList.remove('pinned');
-                }
-            } else {
-                // Desktop behavior - toggle pinned state
+           
                 mainContent.classList.toggle('pinned');
-            }
-        });
+        })
     }
 
-    if (backdrop) {
-        backdrop.addEventListener('click', () => {
-            mainContent.classList.remove('sidebar-open');
-            backdrop.classList.remove('active');
-        });
-    }
-
-    // Responsive behavior
-    window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768) {
-            // On desktop - ensure sidebar is visible and backdrop hidden
-            mainContent.classList.remove('sidebar-open');
-            backdrop.classList.remove('active');
-        } else {
-            // On mobile - remove pinned state
-            mainContent.classList.remove('pinned');
-        }
-    });
 
     if (search_icon) {
         search_icon.addEventListener('click', () => {

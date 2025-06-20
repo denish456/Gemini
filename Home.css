@@ -1,0 +1,535 @@
+/* --- Root Variables (Adjust these as per your theme) --- */
+/* Assuming these are defined in Gemini.css or you can put them here */
+:root {
+    --bg-main: #f0f2f5; /* Light gray background */
+    --text-main: #1a1a1a; /* Dark text */
+    --text-muted: #5f6368; /* Muted text for sub-labels */
+    --sidebar-bg: #ffffff; /* White sidebar background */
+    --sidebar-text: #3c4043; /* Sidebar item text */
+    --sidebar-hover: #e8f0fe; /* Light blue on hover */
+    --dropdown-bg: #ffffff; /* White dropdown background */
+    --dropdown-text: #1a1a1a; /* Dropdown item text */
+    --dropdown-hover: #f0f0f0; /* Light gray dropdown hover */
+    --dropdown-border: #dadce0; /* Light gray border for dropdowns */
+    --accent-blue: #1a73e8; /* Google blue for links/buttons */
+    --accent-green: #34a853; /* Green checkmark */
+    --add-btn: #dadce0; /* Light gray for add button */
+    --add-btn-text: #202124; /* Dark text for add button */
+}
+
+
+/* --- General Layout --- */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll on transitions */
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.app-container {
+    height: 100vh; /* Make the container fill the viewport height */
+}
+
+/* Main Content Area (Left Column for Sidebar) */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push settings to bottom */
+    z-index: 100; /* Ensure sidebar is above main content */
+    background-color: var(--sidebar-bg); /* Consistent with drawer */
+    transition: width 0.3s ease, transform 0.3s ease; /* For desktop expansion and mobile slide */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05); /* Subtle shadow for sidebar */
+    padding-top: 10px; /* Space from top */
+}
+
+/* Area within sidebar that scrolls (e.g., New Chat, Recent) */
+.main-scroll-area {
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    flex-grow: 1; /* Takes available space */
+}
+
+/* Header within the sidebar (hamburger, search) */
+.main-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px 10px 10px; /* Adjust padding */
+    border-bottom: 1px solid var(--dropdown-border); /* Separator */
+    margin-bottom: 10px; /* Space below header */
+}
+
+.main-inner-left,
+.main-inner-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.main-inner-left button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-main);
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.main-inner-left button:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.main-inner-left .expand,
+.main-inner-left .collapse,
+.main-inner-right .search-span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    display: none; /* Controlled by JS/media queries */
+}
+
+.main-inner-right #search-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.main-inner-right #search-icon:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.main-inner-right .material-icons {
+    font-size: 24px;
+    color: var(--text-main);
+}
+
+
+/* Sidebar Drawer Itself (nested within main-content) */
+.drawer {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow content to fill space */
+}
+
+.drawer-data li {
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    overflow: hidden; /* Hide text overflow when collapsed */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.drawer-data li:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.drawer-data li a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.drawer-data li .material-symbols-outlined {
+    font-size: 24px;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+/* Specific drawer sections */
+.recent-section {
+    padding: 10px 15px;
+    margin-top: 20px;
+    flex-grow: 1; /* Allow to take available space */
+}
+
+.recent-section h3 {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    padding-left: 15px;
+}
+
+.recent-section ul li {
+    padding: 8px 15px;
+    border-radius: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Ellipsis for long recent chat names */
+}
+
+/* Settings & Help section at the bottom of the sidebar */
+.setting-help {
+    margin-top: auto; /* Pushes it to the bottom */
+    padding-top: 10px;
+    border-top: 1px solid var(--dropdown-border); /* Separator */
+    position: relative; /* For dropdown positioning */
+}
+
+.setting-help .seting-span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: none; /* Controlled by JS/media queries */
+}
+
+/* Dropdown menu for settings & help */
+.dropdown-menu {
+    position: absolute;
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--dropdown-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 101;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    padding: 0;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dropdown-menu ul li {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 0;
+}
+
+.dropdown-menu ul li:hover {
+    background-color: var(--dropdown-hover);
+}
+
+.dropdown-menu ul li a {
+    color: inherit;
+    text-decoration: none;
+    width: 100%;
+}
+
+.dropdown-menu .material-symbols-outlined {
+    font-size: 20px;
+}
+
+/* Nested submenu for Theme and Help */
+.submenu .theme-options,
+.submenu .help-options {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: var(--dropdown-bg);
+    border: 1px solid var(--dropdown-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 102;
+    min-width: 150px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    padding: 5px 0;
+}
+
+.submenu:hover .theme-options,
+.submenu:hover .help-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.submenu .theme-options li,
+.submenu .help-options li {
+    padding: 8px 15px;
+    white-space: nowrap;
+}
+
+.location-info {
+    padding: 10px 15px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--dropdown-border);
+    margin-top: 10px;
+}
+
+.location-info a {
+    color: var(--accent-blue);
+    text-decoration: none;
+}
+
+/* Overlay for mobile when sidebar is open */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Header Styles (Independent of Sidebar for layout) --- */
+.gemini-header {
+    position: fixed; /* Fixed position so it stays at the top */
+    top: 0;
+    right: 0;
+    background-color: var(--sidebar-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 50; /* Below sidebar, above main content */
+    transition: left 0.3s ease, width 0.3s ease; /* Smooth transition for shifting */
+    height: 60px; /* Fixed height for header */
+}
+
+/* Profile dropdown (needs custom class for show/hide) */
+#profile-dropdown {
+    display: none; /* Hidden by default */
+}
+
+#profile-dropdown.show-profile-dropdown {
+    display: block; /* Show when active */
+}
+
+/* Main Content Area that shifts */
+.gemini-data {
+    flex-grow: 1;
+    /* This padding-top compensates for the fixed header */
+    padding-top: 60px; /* Height of the header */
+    transition: margin-left 0.3s ease; /* Smooth transition for content shift */
+    overflow-y: auto; /* Allow content to scroll */
+    height: 100vh; /* Fill remaining height */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+/* --- Responsive Behavior (Media Queries) --- */
+
+/* Mobile / Small Screens (up to 767px) */
+@media (max-width: 767px) {
+    .main-content {
+        position: fixed; /* Sidebar is fixed on mobile */
+        top: 0;
+        left: 0;
+        width: 250px; /* Full width for mobile sidebar */
+        height: 100vh;
+        transform: translateX(0); /* Initially visible */
+    }
+
+    .main-content.collapsed-mobile {
+        transform: translateX(-100%); /* Slide off-screen when collapsed */
+    }
+
+    /* Shift main content to the right to make space for the mobile sidebar */
+    .gemini-data {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+
+    .gemini-data.collapsed-mobile {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Header for mobile: spans full width, but shifts right when sidebar is out */
+    .gemini-header {
+        left: 0;
+        width: 100%;
+    }
+
+    .gemini-header.shifted-mobile {
+        left: 250px;
+        width: calc(100% - 250px);
+    }
+
+    /* Hamburger button is always visible on mobile */
+    .main-inner-left button {
+        display: block;
+    }
+
+    /* Hide text labels in sidebar for mobile (only icons visible) */
+    .drawer-data li span:not(.material-symbols-outlined),
+    .recent-section h3,
+    .recent-section ul li,
+    .setting-help span:not(.material-symbols-outlined) {
+        display: none;
+    }
+
+    /* Hide expand/collapse text in main-inner-left */
+    .main-inner-left .expand,
+    .main-inner-left .collapse {
+        display: none;
+    }
+
+    /* Center icons when text is hidden */
+    .drawer-data li {
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* Remove padding from recent section when labels are hidden */
+    .recent-section,
+    .recent-section h3 {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .dropdown-menu {
+        /* Position for dropdown on mobile, might need adjustment */
+        bottom: unset; /* Remove bottom positioning */
+        top: 60px; /* Position below header */
+        left: 10px;
+        right: 10px;
+        width: auto; /* Auto width to fit screen */
+        transform: translateY(10px) translateX(0);
+    }
+}
+
+
+/* Tablet and Desktop / Large Screens (768px and up) */
+@media (min-width: 768px) {
+    .main-content {
+        position: relative; /* Part of the flow on desktop */
+        width: 70px; /* Collapsed width by default */
+        height: 100vh; /* Full height */
+        box-shadow: none; /* No shadow when part of flow */
+        transform: translateX(0) !important; /* Override mobile transform */
+        flex-shrink: 0; /* Prevent it from shrinking */
+    }
+
+    .main-content.expanded-desktop {
+        width: 250px; /* Expanded width on desktop */
+    }
+
+    /* Shift main content to the right to make space for the desktop sidebar */
+    .gemini-data {
+        margin-left: 70px; /* Default margin for collapsed desktop sidebar */
+        width: calc(100% - 70px);
+    }
+
+    .gemini-data.expanded-desktop {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+
+    /* Header for desktop: positioned relative to main-content and gemini-data */
+    .gemini-header {
+        left: 70px; /* Default left for collapsed sidebar */
+        width: calc(100% - 70px);
+    }
+
+    .gemini-header.expanded-desktop {
+        left: 250px;
+        width: calc(100% - 250px);
+    }
+
+    /* Hamburger button is always visible on desktop */
+    .main-inner-left button {
+        display: block;
+    }
+
+    /* Show expand/collapse text on desktop */
+    .main-inner-left .expand {
+        display: inline-block; /* Initially show expand */
+    }
+    .main-inner-left .collapse {
+        display: none; /* Initially hide collapse */
+    }
+    .main-content.expanded-desktop .main-inner-left .expand {
+        display: none; /* Hide expand when expanded */
+    }
+    .main-content.expanded-desktop .main-inner-left .collapse {
+        display: inline-block; /* Show collapse when expanded */
+    }
+
+
+    /* Text labels in sidebar are hidden by default, shown when expanded */
+    .drawer-data li span:not(.material-symbols-outlined),
+    .recent-section h3,
+    .recent-section ul li,
+    .setting-help span:not(.material-symbols-outlined) {
+        display: none;
+    }
+
+    .main-content.expanded-desktop .drawer-data li span:not(.material-symbols-outlined),
+    .main-content.expanded-desktop .recent-section h3,
+    .main-content.expanded-desktop .recent-section ul li,
+    .main-content.expanded-desktop .setting-help span:not(.material-symbols-outlined) {
+        display: inline-block; /* Show text labels when expanded */
+    }
+
+    /* Center icons when collapsed, align left when expanded */
+    .drawer-data li {
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .main-content.expanded-desktop .drawer-data li {
+        justify-content: flex-start;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Adjust padding for recent section header/items when collapsed vs expanded */
+    .recent-section {
+        padding-left: 0; /* Remove padding when collapsed */
+    }
+    .recent-section h3 {
+        text-align: center; /* Center "Recent" when collapsed */
+    }
+    .main-content.expanded-desktop .recent-section {
+        padding-left: 15px; /* Add padding when expanded */
+    }
+    .main-content.expanded-desktop .recent-section h3 {
+        text-align: left; /* Align left when expanded */
+    }
+
+    /* Dropdown menus for setting-help should be relative to the icon, not entire drawer */
+    .setting-help .dropdown-menu {
+        bottom: unset; /* Remove bottom positioning */
+        top: -10px; /* Position next to the icon */
+        left: calc(100% + 5px); /* Position to the right of the sidebar */
+        width: 300px; /* Fixed width */
+        transform: translateY(0) translateX(10px);
+    }
+    .setting-help .dropdown-menu.show {
+        transform: translateY(0) translateX(0);
+    }
+
+    /* Hide overlay on desktop */
+    .overlay {
+        display: none;
+    }
+}
