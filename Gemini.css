@@ -1345,7 +1345,7 @@ main {
   
   .gemini-header h1.text-2xl {
     font-size: 1.1rem;
-    margin-left: 45px;
+    margin-left: 55px;
   }
 }
 
@@ -1401,9 +1401,10 @@ main {
   /* Adjust model toggle for mobile */
   #model-toggle {
     width: 80px;
+    height: auto;
     font-size: 12px;
     padding: 0 5px;
-    margin-left: 40px; /* Make space for hamburger */
+    margin-left: 0px; /* Make space for hamburger */
   }
   
   /* Adjust main content area */

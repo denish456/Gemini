@@ -1242,13 +1242,13 @@ function loadChatWithHistoryAnimation(chatId) {
 }
 
 // Mobile menu toggle functionality
-document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+document.getElementById('mobileMenuBtn').addEventListener('click', function () {
     document.getElementById('main-content').classList.toggle('sidebar-open');
     document.getElementById('backdrop').classList.toggle('active');
-  });
-  
-  // Close sidebar when clicking backdrop
-  document.getElementById('backdrop').addEventListener('click', function() {
+});
+
+// Close sidebar when clicking backdrop
+document.getElementById('backdrop').addEventListener('click', function () {
     document.getElementById('main-content').classList.remove('sidebar-open');
     this.classList.remove('active');
-  });
+});
