@@ -1,0 +1,78 @@
+:root {
+  --bg-main: #FFFFFF;
+  --bg-hover: #E2E7EB;
+  --text-main: #1F1F1F;
+  --text-muted: #5F6368;
+  --scroll-track: #F0F4F9;
+  --scroll-thumb: #D5D9DC;
+  --scroll-thumb-hover: #ADB3B8;
+  --tooltip-bg: #5F6368;
+  --tooltip-text: #FFFFFF;
+  --border-color: #DADCE0;
+  --sidebar-bg: #f0f4f9;
+  --sidebar-text: #575b5f;
+  --sidebar-hover: #e1e4ea;
+  --dropdown-bg: #f0f4f9;
+  --dropdown-border: #DADCE0;
+  --dropdown-text: #1F1F1F;
+  --dropdown-hover: #F0F4F9;
+  --input-bg: #FFFFFF;
+  --input-border-focus: #4285F4;
+  --user-bubble-bg: #E8F0FE;
+  --user-bubble-text: #1F1F1F;
+  --gemini-bubble-bg: transparent;
+  --gemini-bubble-text: #1F1F1F;
+  --accent-blue: #4285F4;
+  --accent-green: #34A853;
+  --form-theme: #F0F4F9;
+  --examples-btn-hover: #DBE6F9;
+  --add-btn: #1E64D4;
+  --add-btn-text: #fff;
+  --add-diseble-btn: #E3E3E3;
+  --add-diseble-btn-text: #9c9c9c;
+  --textarea-text: #1f1f1f;
+}
+
+body.dark {
+  --bg-main: #1b1c1d;
+  --bg-hover: #2b2d2e;
+  --text-main: #E8EAED;
+  --text-muted: #9AA0A6;
+  --scroll-track: #1e293b;
+  --scroll-thumb: #4a5568;
+  --scroll-thumb-hover: #64748b;
+  --tooltip-bg: #282a2c;
+  --tooltip-text: #E8EAED;
+  --border-color: #4a5050;
+  --sidebar-bg: #282a2c;
+  --sidebar-text: #a2a9b0;
+  --sidebar-hover: #303134;
+  --dropdown-bg: #282a2c;
+  --dropdown2-bg: #1b1c1d;
+  --dropdown-border: #3c4043;
+  --dropdown-text: #E8EAED;
+  --dropdown-hover: #3b3d3f;
+  --input-border-focus: #9BBBEF;
+  --user-bubble-bg: #333537;
+  --user-bubble-text: #E8EAED;
+  --gemini-bubble-bg: transparent;
+  --gemini-bubble-text: #E8EAED;
+  --form-theme: #1F1F1F;
+  --accent-blue: #8AB4F8;
+  --accent-green: #6AA56A;
+  --input-bg: #1B1C1D;
+  --examples-btn-hover: #30373F;
+  --add-btn: #A8C7FA;
+  --add-btn-text: #062E6F;
+  --add-diseble-btn: #373838;
+  --add-diseble-btn-text: #9c9c9c;
+  --textarea-text: #e3e3e3;
+
+}
+
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+
+}
