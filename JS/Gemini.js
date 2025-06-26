@@ -113,7 +113,7 @@ function loadChatSession(chatId, shouldAnimate = false) {
         // COMPLETELY clear the chat history
         chatHistoryDiv.innerHTML = '';
 
-        // Hide greeting if present
+        // Hide greeting when loading an existing chat
         if (greetingDiv) {
             greetingDiv.style.display = 'none';
         }
@@ -152,10 +152,12 @@ function loadChatSession(chatId, shouldAnimate = false) {
 function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDisplay = false) {
     if (!chatHistoryDiv) return;
 
+    // Hide greeting when first message is added
     if (greetingDiv && greetingDiv.style.display !== 'none') {
         greetingDiv.style.display = 'none';
     }
 
+    // Rest of your existing addMessage code...
     const messageDiv = document.createElement('div');
     messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
 
@@ -207,6 +209,7 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
     }
 }
 
+
 function updateActiveChatUI(activeChatId) {
     document.querySelectorAll('#recent-chats li').forEach(li => {
         li.classList.remove('active-chat');
@@ -216,7 +219,6 @@ function updateActiveChatUI(activeChatId) {
     });
 }
 
-
 function createNewChat() {
     saveCurrentChatSession();
 
@@ -224,20 +226,21 @@ function createNewChat() {
     chatHistoryDiv.innerHTML = '';
     userInput.value = '';
 
+    // Show greeting for new chat
     if (greetingDiv) {
-        greetingDiv.style.display = 'flex';
+        greetingDiv.style.display = 'flex'; // Show greeting
     }
 
-    // Reset other UI elements
     resetChatUI();
 
-    // Update localStorage
     let data = getChatData();
     data.activeChatId = currentChatId;
     setChatData(data);
 
     updateActiveChatUI(currentChatId);
+    updateGreetingVisibility();
 }
+
 function resetChatUI() {
     userInput.style.height = 'auto';
     if (previewImg) previewImg.src = '';
@@ -824,6 +827,16 @@ function autoResize(textarea) {
     }
 }
 
+function updateGreetingVisibility() {
+    if (greetingDiv && chatHistoryDiv) {
+        if (chatHistoryDiv.children.length > 0) {
+            greetingDiv.style.display = 'none'; // Hide if there are messages
+        } else {
+            greetingDiv.style.display = 'flex'; // Show if no messages
+        }
+    }
+}
+
 // Event listeners and initial setup for DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
     // Assign elements here
@@ -923,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function () {
             backdrop.classList.remove('active');
         } else {
             // On mobile - remove pinned state
-             mainContent.classList.remove('sidebar-open');
+            mainContent.classList.remove('sidebar-open');
             mainContent.classList.remove('pinned');
             backdrop.classList.remove('active');
         }
@@ -1187,8 +1200,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-function loadChatWithHistoryAnimation(chatId) {
-    if (currentChatId === chatId) return;
+function loadChatSession(chatId, shouldAnimate = false) {
+    // Prevent multiple loads of the same chat
+    if (currentChatId === chatId || isLoadingChat) return;
+
+    isLoadingChat = true;
 
     // Save current chat before switching
     saveCurrentChatSession();
@@ -1199,10 +1215,10 @@ function loadChatWithHistoryAnimation(chatId) {
     if (chatToLoad) {
         currentChatId = chatId;
 
-        // Clear the chat history
+        // COMPLETELY clear the chat history
         chatHistoryDiv.innerHTML = '';
 
-        // Hide greeting if present
+        // Hide greeting when loading an existing chat
         if (greetingDiv) {
             greetingDiv.style.display = 'none';
         }
@@ -1257,3 +1273,23 @@ document.getElementById('backdrop').addEventListener('click', function () {
     document.getElementById('main-content').classList.remove('pinned');
     this.classList.remove('active');
 });
+
+
+
+function selectOption(clickedElement) {
+    // Remove 'selected' class and hide all check icons
+    document.querySelectorAll('.option').forEach(option => {
+        option.classList.remove('selected');
+        const checkIcon = option.querySelector('.fa-circle-check');
+        if (checkIcon) {
+            checkIcon.classList.add('hidden');
+        }
+    });
+
+    // Add 'selected' class and show check icon for clicked option
+    clickedElement.classList.add('selected');
+    const clickedCheckIcon = clickedElement.querySelector('.fa-circle-check');
+    if (clickedCheckIcon) {
+        clickedCheckIcon.classList.remove('hidden');
+    }
+}

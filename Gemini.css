@@ -15,7 +15,7 @@
   --dropdown-bg: #f0f4f9;
   --dropdown-border: #DADCE0;
   --dropdown-text: #1F1F1F;
-  --dropdown-hover: #F0F4F9;
+  --dropdown-hover: #dfe3e7;
   --input-bg: #FFFFFF;
   --input-border-focus: #4285F4;
   --user-bubble-bg: #E8F0FE;
@@ -306,7 +306,9 @@ a {
   -webkit-font-smoothing: antialiased;
 }
 
-
+.material-symbols-outlined{
+  display: block !important;
+}
 
 .main-content {
   height: 100vh;
@@ -342,7 +344,7 @@ a {
 
 
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .main-content {
     position: fixed;
     left: 0;
@@ -435,7 +437,7 @@ a {
 }
 
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   #main-content {
     transform: translateX(-100%);
     transition: transform 0.3s ease;
@@ -1134,7 +1136,7 @@ main {
 
 
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .main-content {
     position: fixed;
     left: 0;
@@ -1266,7 +1268,7 @@ main {
   }
 
   .input-area-wrapper {
-    padding-bottom: 20px;
+    padding-bottom: 30px;
   }
 
   .input-area-buttons>div {
@@ -1305,8 +1307,12 @@ main {
 
   .input-area-wrapper {
     padding: 5px;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
   }
+
+  .group:hover .group-hover\:opacity-100 {
+    opacity: 0 !important;
+}
 
   #user-input {
     font-size: 14px;
@@ -1317,7 +1323,7 @@ main {
   }
 
   .input-area-buttons .group {
-    padding: 0 3px;
+    padding: 10px;
     font-size: 11px;
   }
 
@@ -1337,6 +1343,10 @@ main {
 
   .theme-options {
     left: 40%;
+  }
+
+  .x-gem{
+
   }
 }
 
@@ -1371,7 +1381,7 @@ main {
   font-size: 20px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
 
   .mobile-menu-btn {
     display: block;
@@ -1434,3 +1444,8 @@ main {
     display: block;
   }
 }
+
+.hidden {
+  display: none;
+}
+
