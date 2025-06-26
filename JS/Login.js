@@ -36,28 +36,12 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             alert('Invalid email or password');
         }
  
- 
- 
+
     } catch (error) {
         console.log(error);
  
     }
  
- 
-    // fetch(`http://localhost:8080/signinData?email=${email.value}&password=${password.value}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         if (data.length > 0) {
- 
-    //             window.location.href = 'Gemini.html';
-    //         } else {
-    //             alert('Invalid email or password.');
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('Login error:', error);
-    //         alert('Error during login. Try again.');
-    //     });
 });
  
  
