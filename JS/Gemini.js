@@ -113,9 +113,9 @@ function loadChatSession(chatId, shouldAnimate = false) {
         // COMPLETELY clear the chat history
         chatHistoryDiv.innerHTML = '';
 
-        // Hide greeting when loading an existing chat
+        // Hide greeting if present
         if (greetingDiv) {
-            greetingDiv.style.display = 'none';
+            greetingDiv.style.display = 'block';
         }
 
         // Track seen messages to prevent duplicates
@@ -152,12 +152,10 @@ function loadChatSession(chatId, shouldAnimate = false) {
 function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDisplay = false) {
     if (!chatHistoryDiv) return;
 
-    // Hide greeting when first message is added
     if (greetingDiv && greetingDiv.style.display !== 'none') {
         greetingDiv.style.display = 'none';
     }
 
-    // Rest of your existing addMessage code...
     const messageDiv = document.createElement('div');
     messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
 
@@ -209,7 +207,6 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
     }
 }
 
-
 function updateActiveChatUI(activeChatId) {
     document.querySelectorAll('#recent-chats li').forEach(li => {
         li.classList.remove('active-chat');
@@ -219,6 +216,7 @@ function updateActiveChatUI(activeChatId) {
     });
 }
 
+
 function createNewChat() {
     saveCurrentChatSession();
 
@@ -226,21 +224,20 @@ function createNewChat() {
     chatHistoryDiv.innerHTML = '';
     userInput.value = '';
 
-    // Show greeting for new chat
     if (greetingDiv) {
-        greetingDiv.style.display = 'flex'; // Show greeting
+        greetingDiv.style.display = 'flex';
     }
 
+    // Reset other UI elements
     resetChatUI();
 
+    // Update localStorage
     let data = getChatData();
     data.activeChatId = currentChatId;
     setChatData(data);
 
     updateActiveChatUI(currentChatId);
-    updateGreetingVisibility();
 }
-
 function resetChatUI() {
     userInput.style.height = 'auto';
     if (previewImg) previewImg.src = '';
@@ -827,16 +824,6 @@ function autoResize(textarea) {
     }
 }
 
-function updateGreetingVisibility() {
-    if (greetingDiv && chatHistoryDiv) {
-        if (chatHistoryDiv.children.length > 0) {
-            greetingDiv.style.display = 'none'; // Hide if there are messages
-        } else {
-            greetingDiv.style.display = 'flex'; // Show if no messages
-        }
-    }
-}
-
 // Event listeners and initial setup for DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
     // Assign elements here
@@ -845,9 +832,13 @@ document.addEventListener('DOMContentLoaded', function () {
     search_icon = document.getElementById('search-icon');
     setting_help = document.getElementById('setting-help');
     geminiData = document.querySelector('.gemini-data');
+
     backdrop = document.getElementById('backdrop');
+    
     newChatButton = document.getElementById('new-chat-button');
+
     chatHistoryDiv = document.getElementById('chat-history');
+    
     userInput = document.getElementById('user-input');
     sendButton = document.getElementById('send-button');
     sendIconContainer = document.getElementById('send-icon');
@@ -858,7 +849,9 @@ document.addEventListener('DOMContentLoaded', function () {
     removePreviewBtn = document.getElementById('remove-preview');
     triggerUpload = document.getElementById('trigger-upload');
     recentChatsUl = document.getElementById('recent-chats');
+
     greetingDiv = document.getElementById('greeting');
+    
     plusButton = document.getElementById('plus-button');
     plusDropdown = document.getElementById('plus-dropdown');
 
@@ -936,7 +929,7 @@ document.addEventListener('DOMContentLoaded', function () {
             backdrop.classList.remove('active');
         } else {
             // On mobile - remove pinned state
-            mainContent.classList.remove('sidebar-open');
+             mainContent.classList.remove('sidebar-open');
             mainContent.classList.remove('pinned');
             backdrop.classList.remove('active');
         }
@@ -1200,11 +1193,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-function loadChatSession(chatId, shouldAnimate = false) {
-    // Prevent multiple loads of the same chat
-    if (currentChatId === chatId || isLoadingChat) return;
-
-    isLoadingChat = true;
+function loadChatWithHistoryAnimation(chatId) {
+    if (currentChatId === chatId) return;
 
     // Save current chat before switching
     saveCurrentChatSession();
@@ -1215,10 +1205,10 @@ function loadChatSession(chatId, shouldAnimate = false) {
     if (chatToLoad) {
         currentChatId = chatId;
 
-        // COMPLETELY clear the chat history
+        // Clear the chat history
         chatHistoryDiv.innerHTML = '';
 
-        // Hide greeting when loading an existing chat
+        // Hide greeting if present
         if (greetingDiv) {
             greetingDiv.style.display = 'none';
         }

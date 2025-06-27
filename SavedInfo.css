@@ -418,7 +418,7 @@ body.dark {
 
 /* Prevent Zooming on Input Focus */
 @media (max-width: 768px) {
-  input, textarea, button, select {
+  input, textarea, select {
     font-size: 16px !important;
   }
 }

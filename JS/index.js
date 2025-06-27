@@ -248,3 +248,21 @@ document.getElementById('backdrop').addEventListener('click', function () {
     document.getElementById('main-content').classList.remove('pinned');
     this.classList.remove('active');
 });
+
+function selectOption(clickedElement) {
+    // Remove 'selected' class and hide all check icons
+    document.querySelectorAll('.option').forEach(option => {
+        option.classList.remove('selected');
+        const checkIcon = option.querySelector('.fa-circle-check');
+        if (checkIcon) {
+            checkIcon.classList.add('hidden');
+        }
+    });
+
+    // Add 'selected' class and show check icon for clicked option
+    clickedElement.classList.add('selected');
+    const clickedCheckIcon = clickedElement.querySelector('.fa-circle-check');
+    if (clickedCheckIcon) {
+        clickedCheckIcon.classList.remove('hidden');
+    }
+}
