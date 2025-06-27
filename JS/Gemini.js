@@ -115,7 +115,7 @@ function loadChatSession(chatId, shouldAnimate = false) {
 
         // Hide greeting if present
         if (greetingDiv) {
-            greetingDiv.style.display = 'none';
+            greetingDiv.style.display = 'block';
         }
 
         // Track seen messages to prevent duplicates
@@ -832,9 +832,13 @@ document.addEventListener('DOMContentLoaded', function () {
     search_icon = document.getElementById('search-icon');
     setting_help = document.getElementById('setting-help');
     geminiData = document.querySelector('.gemini-data');
+
     backdrop = document.getElementById('backdrop');
+    
     newChatButton = document.getElementById('new-chat-button');
+
     chatHistoryDiv = document.getElementById('chat-history');
+    
     userInput = document.getElementById('user-input');
     sendButton = document.getElementById('send-button');
     sendIconContainer = document.getElementById('send-icon');
@@ -845,7 +849,9 @@ document.addEventListener('DOMContentLoaded', function () {
     removePreviewBtn = document.getElementById('remove-preview');
     triggerUpload = document.getElementById('trigger-upload');
     recentChatsUl = document.getElementById('recent-chats');
+
     greetingDiv = document.getElementById('greeting');
+    
     plusButton = document.getElementById('plus-button');
     plusDropdown = document.getElementById('plus-dropdown');
 
@@ -1257,3 +1263,23 @@ document.getElementById('backdrop').addEventListener('click', function () {
     document.getElementById('main-content').classList.remove('pinned');
     this.classList.remove('active');
 });
+
+
+
+function selectOption(clickedElement) {
+    // Remove 'selected' class and hide all check icons
+    document.querySelectorAll('.option').forEach(option => {
+        option.classList.remove('selected');
+        const checkIcon = option.querySelector('.fa-circle-check');
+        if (checkIcon) {
+            checkIcon.classList.add('hidden');
+        }
+    });
+
+    // Add 'selected' class and show check icon for clicked option
+    clickedElement.classList.add('selected');
+    const clickedCheckIcon = clickedElement.querySelector('.fa-circle-check');
+    if (clickedCheckIcon) {
+        clickedCheckIcon.classList.remove('hidden');
+    }
+}

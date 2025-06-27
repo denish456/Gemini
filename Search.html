@@ -10,6 +10,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./Gemini.css">
     <title>Chat Search</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
             --bg-main: #ffffff;
@@ -100,7 +103,7 @@
                     <div class="drawer" id="drawer">
                         <ul class="drawer-data ">
                             <li id="new-chat-button">
-                                <a href="Gemini.html" class="w-[100%] items-center flex gap-5"> <span
+                                <a href="Gemini.html" class="items-center flex gap-5"> <span
                                         class="material-symbols-outlined">edit_square</span>
                                     <span>New Chat</span>
                                 </a>
@@ -193,71 +196,75 @@
             </div>
             <div class="z-10 gemini-header p-2 flex items-center justify-between">
                 <div class="relative ">
-
                     <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-                    <h1 class="text-2xl pt-2" style="color: var(--text-main);">Gemini</h1>
-                    <div class="relative">
-                        <button id="model-toggle"
-                            class="mt-1 rounded-full flex items-center justify-center w-[100px] h-6 font-medium text-sm"
-                            style="background-color: var(--sidebar-bg); color: var(--sidebar-text);">
-                            <span class="pl-2 font-semibold">2.5 Flash</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
-                                fill="currentColor">
-                                <path d="M0 0h24v24H0V0z" fill="none" />
-                                <path d="M7 10l5 5 5-5H7z" />
-                            </svg>
-                        </button>
+                    <div class="pl-48px">
+                        <h1 class="text-2xl " style="color: var(--text-main);">Gemini</h1>
+                        <div class="relative">
+                            <button id="model-toggle"
+                                class="mt-1 rounded-full flex items-center justify-center w-[100px] h-6 font-medium text-sm "
+                                style="background-color: var(--sidebar-bg); color: var(--sidebar-text);">
+                                <span class="pl-2 font-semibold">2.5 Flash</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
+                                    fill="currentColor">
+                                    <path d="M0 0h24v24H0V0z" fill="none" />
+                                    <path d="M7 10l5 5 5-5H7z" />
+                                </svg>
+                            </button>
 
-                        <div id="model-dropdown"
-                            class="absolute left-[10%] -translate-x-1/2 top-full mt-1 w-[315px] max-w-[90vw] sm:max-w-xs rounded-xl shadow-lg z-50 py-2"
-                            style="background-color: var(--dropdown-bg); border-color: var(--dropdown-border); color: var(--dropdown-text);">
-                            <div class="px-4 py-2 text-sm font-medium" style="color: var(--text-muted);">Choose your
-                                model
-                            </div>
+                            <div id="model-dropdown"
+                                class="absolute left-[10%] -translate-x-1/2 top-full mt-1 w-[315px] sm:max-w-xs rounded-xl shadow-lg z-50 py-2"
+                                style="background-color: var(--dropdown-bg); border-color: var(--dropdown-border); color: var(--dropdown-text);">
+                                <div class="px-4 py-2 text-sm font-medium" style="color: var(--text-muted);">Choose your
+                                    model</div>
 
-                            <div class="px-5 py-3 cursor-pointer hover:bg-[var(--dropdown-hover)]"
-                                style="color: var(--dropdown-text);">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs">2.5 Flash</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="var(--accent-green)">
-                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
-                                    </svg>
-                                </div>
-                                <div class="text-xs mt-0" style="color: var(--text-muted);">Fast all-around help</div>
-                            </div>
-
-                            <div class="px-5 py-2 cursor-pointer hover:bg-[var(--dropdown-hover)]"
-                                style="color: var(--dropdown-text);">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs">2.5 Pro (preview)</span>
-                                </div>
-                                <div class="text-xs" style="color: var(--text-muted);">Reasoning, math & code</div>
-                            </div>
-                            <div class="px-5 py-2 cursor-pointer hover:bg-[var(--dropdown-hover)]"
-                                style="color: var(--dropdown-text);">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs">Personalization (preview)</span>
-                                </div>
-                                <div class="text-xs" style="color: var(--text-muted);">Based on your Search history
-                                </div>
-                            </div>
-
-                            <div class="px-5 pb-3 justify-center flex items-center">
-                                <div class="cursor-pointer">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-xs" style="color: var(--dropdown-text);">Upgrade to Google AI
-                                            Pro</span>
+                                <!-- Option 1 - Default selected -->
+                                <div class="option flex justify-between items-center px-5 py-2 cursor-pointer hover:bg-[var(--dropdown-hover)] selected"
+                                    style="color: var(--dropdown-text);" onclick="selectOption(this)">
+                                    <div class="justify-between items-center">
+                                        <span class="text-xs font-semibold">2.5 Flash</span>
+                                        <div class="text-xs mt-0">Fast all-around help</div>
                                     </div>
-                                    <div class="text-xs" style="color: var(--text-muted);">Get our most capable models &
-                                        features</div>
+                                    <i class="fa-regular fa-circle-check"></i>
                                 </div>
-                                <div class="pl-5">
-                                    <button
-                                        class="h-9 rounded-full justify-center flex items-center text-sm font-semibold w-[100px]"
-                                        style="background-color: var(--sidebar-hover); color: var(--accent-blue);">
-                                        Upgrade
-                                    </button>
+
+                                <!-- Option 2 -->
+                                <div class="option flex justify-between items-center px-5 py-2 cursor-pointer hover:bg-[var(--dropdown-hover)] selected"
+                                    style="color: var(--dropdown-text);" onclick="selectOption(this)">
+                                    <div class="justify-between items-center">
+                                        <span class="text-xs font-semibold">2.5 Pro (preview)</span>
+                                        <div class="text-xs">Reasoning, math & code</div>
+                                    </div>
+                                    <i class="fa-regular fa-circle-check hidden"></i>
+                                </div>
+
+                                <!-- Option 3 -->
+                                <div class="option flex justify-between items-center px-5 py-2 cursor-pointer hover:bg-[var(--dropdown-hover)] selected"
+                                    style="color: var(--dropdown-text);" onclick="selectOption(this)">
+                                    <div class="justify-between items-center">
+                                        <span class="text-xs font-semibold">Personalization (preview)</span>
+                                        <div class="text-xs">Based on your Search history </div>
+                                    </div>
+                                    <i class="fa-regular fa-circle-check hidden"></i>
+                                </div>
+
+                                <div class="px-5 pb-3 justify-center flex items-center">
+                                    <div class="cursor-pointer">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-xs font-semibold"
+                                                style="color: var(--dropdown-text);">Upgrade
+                                                to Google AI
+                                                Pro</span>
+                                        </div>
+                                        <div class="text-xs">Get our most capable models &
+                                            features</div>
+                                    </div>
+                                    <div class="pl-5">
+                                        <button
+                                            class="h-9 rounded-full justify-center flex items-center text-sm  w-[100px]"
+                                            style="background-color: var(--sidebar-hover); color: var(--accent-blue);">
+                                            Upgrade
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -345,7 +352,7 @@
     </div>
 
 
-   <script>
+    <script>
         const accountData = JSON.parse(localStorage.getItem('login'))
 
         console.log(accountData);
