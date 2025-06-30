@@ -13,395 +13,220 @@
 
     <style>
         :root {
-  --bg-main: #FFFFFF;
-  --bg-hover: #E2E7EB;
-  --text-main: #1F1F1F;
-  --text-muted: #5F6368;
-  --scroll-track: #F0F4F9;
-  --scroll-thumb: #D5D9DC;
-  --scroll-thumb-hover: #ADB3B8;
-  --tooltip-bg: #5F6368;
-  --tooltip-text: #FFFFFF;
-  --border-color: #DADCE0;
-  --sidebar-bg: #f0f4f9;
-  --sidebar-text: #575b5f;
-  --sidebar-hover: #e1e4ea;
-  --dropdown-bg: #f0f4f9;
-  --dropdown-border: #DADCE0;
-  --dropdown-text: #1F1F1F;
-  --dropdown-hover: #F0F4F9;
-  --input-bg: #FFFFFF;
-  --input-border-focus: #4285f4;
-  --user-bubble-bg: #E8F0FE;
-  --user-bubble-text: #1F1F1F;
-  --gemini-bubble-bg: transparent;
-  --gemini-bubble-text: #1F1F1F;
-  --accent-blue: #4285F4;
-  --accent-green: #34A853;
-  --form-theme: #F0F4F9;
-  --examples-btn-hover: #DBE6F9;
-  --add-btn: #1E64D4;
-  --add-btn-text: #fff;
-  --add-diseble-btn: #E3E3E3;
-  --add-diseble-btn-text: #9c9c9c;
-  --textarea-text: #1f1f1f;
-  --box-Shadow:rgb(60,64,67);
-}
+            --bg-main: #FFFFFF;
+            --bg-hover: #E2E7EB;
+            --text-main: #1F1F1F;
+            --text-muted: #5F6368;
+            --scroll-track: #F0F4F9;
+            --scroll-thumb: #D5D9DC;
+            --scroll-thumb-hover: #ADB3B8;
+            --tooltip-bg: #5F6368;
+            --tooltip-text: #FFFFFF;
+            --border-color: #DADCE0;
+            --sidebar-bg: #f0f4f9;
+            --sidebar-text: #575b5f;
+            --sidebar-hover: #e1e4ea;
+            --dropdown-bg: #f0f4f9;
+            --dropdown-border: #DADCE0;
+            --dropdown-text: #1F1F1F;
+            --dropdown-hover: #F0F4F9;
+            --input-bg: #FFFFFF;
+            --input-border-focus: #4285f4;
+            --user-bubble-bg: #E8F0FE;
+            --user-bubble-text: #1F1F1F;
+            --gemini-bubble-bg: transparent;
+            --gemini-bubble-text: #1F1F1F;
+            --accent-blue: #4285F4;
+            --accent-green: #34A853;
+            --form-theme: #F0F4F9;
+            --examples-btn-hover: #DBE6F9;
+            --add-btn: #1E64D4;
+            --add-btn-text: #fff;
+            --add-diseble-btn: #E3E3E3;
+            --add-diseble-btn-text: #9c9c9c;
+            --textarea-text: #1f1f1f;
+            --box-Shadow: rgb(60, 64, 67);
+        }
 
-body.dark {
-  --bg-main: #1b1c1d;
-  --bg-hover: #2b2d2e;
-  --text-main: #E8EAED;
-  --text-muted: #9AA0A6;
-  --scroll-track: #1e293b;
-  --scroll-thumb: #4a5568;
-  --scroll-thumb-hover: #64748b;
-  --tooltip-bg: #282a2c;
-  --tooltip-text: #E8EAED;
-  --border-color: #4a5050;
-  --sidebar-bg: #282a2c;
-  --sidebar-text: #a2a9b0;
-  --sidebar-hover: #303134;
-  --dropdown-bg: #282a2c;
-  --dropdown2-bg: #1b1c1d;
-  --dropdown-border: #3c4043;
-  --dropdown-text: #E8EAED;
-  --dropdown-hover: #3b3d3f;
-  --input-border-focus: #9BBBEF;
-  --user-bubble-bg: #333537;
-  --user-bubble-text: #E8EAED;
-  --gemini-bubble-bg: transparent;
-  --gemini-bubble-text: #E8EAED;
-  --form-theme: #1F1F1F;
-  --accent-blue: #8AB4F8;
-  --accent-green: #6AA56A;
-  --input-bg: #1B1C1D;
-  --examples-btn-hover: #30373F;
-  --add-btn: #A8C7FA;
-  --add-btn-text: #062E6F;
-  --add-diseble-btn: #373838;
-  --add-diseble-btn-text: #9c9c9c;
-  --textarea-text: #e3e3e3;
- --box-Shadow: #080808;
-}
+        body.dark {
+            --bg-main: #1b1c1d;
+            --bg-hover: #2b2d2e;
+            --text-main: #E8EAED;
+            --text-muted: #9AA0A6;
+            --scroll-track: #1e293b;
+            --scroll-thumb: #4a5568;
+            --scroll-thumb-hover: #64748b;
+            --tooltip-bg: #282a2c;
+            --tooltip-text: #E8EAED;
+            --border-color: #4a5050;
+            --sidebar-bg: #282a2c;
+            --sidebar-text: #a2a9b0;
+            --sidebar-hover: #303134;
+            --dropdown-bg: #282a2c;
+            --dropdown2-bg: #1b1c1d;
+            --dropdown-border: #3c4043;
+            --dropdown-text: #E8EAED;
+            --dropdown-hover: #3b3d3f;
+            --input-border-focus: #9BBBEF;
+            --user-bubble-bg: #333537;
+            --user-bubble-text: #E8EAED;
+            --gemini-bubble-bg: transparent;
+            --gemini-bubble-text: #E8EAED;
+            --form-theme: #1F1F1F;
+            --accent-blue: #8AB4F8;
+            --accent-green: #6AA56A;
+            --input-bg: #1B1C1D;
+            --examples-btn-hover: #30373F;
+            --add-btn: #A8C7FA;
+            --add-btn-text: #062E6F;
+            --add-diseble-btn: #373838;
+            --add-diseble-btn-text: #9c9c9c;
+            --textarea-text: #e3e3e3;
+            --box-Shadow: #080808;
+        }
 
 
-body {
-  background-color: var(--bg-main);
-  color: var(--text-main);
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
 
-}
+        }
     </style>
 </head>
 
 <body class="">
 
 
-  
-
-<div class="flex gap-10 p-5">
-    <button class="border px-5 py-3" id="open_help_center">Help Center</button>
-    <button class="border px-5 py-3" id="feedback_open">FeddBack</button>
-</div>
-   
-
-
-
     <!-- *******Upgrade********* -->
 
-        <div
-            class="lg:w-[30%] xl:w-[26%]  md:w-[50%] w-[100%] m-auto items-center text-center pt-[80px] pb-[200px] sm:pb-[150px] md:pb-[140px] lg:pb-[130px] ">
-            <div class="flex justify-center">
-                <img width="45px"
-                    src="https://www.gstatic.com/lamda/images/gemini_sparkle_red_4ed1cbfcbc6c9e84c31b987da73fc4168aec8445.svg"
-                    alt="">
-
-            </div>
-            <h2 class=" text-4xl text-[--text-muted] mt-3">Gemini</h2>
-            <p class="text-[24px] text-[--text-main] mt-5 mb-4">Get Gemini Pro and more with a Google AI plan</p>
-            <div class="flex justify-center flex-col">
-                <p class="text-[20px] text-[#137333] font-medium"><span class="line-through">₹1,950</span> ₹0 for 1
-                    month,
-                </p>
-                <p class="text-[20px] text-[#137333] font-medium">₹1,950/month after</p>
-            </div>
-            <div class="flex justify-center flex-col border rounded-lg p-4 text-left mt-5 gap-4">
-                <p class="text-[14px] text-[--text-main]">More access to our most capable models</p>
-
-                <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
-                        style="color: #005eff;"></i><span
-                        class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Create
-                        high-quality video clips with Veo</span></p>
-
-                <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
-                        style="color: #005eff;"></i><span
-                        class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Unlock
-                        access to premium features, including Deep Research</span></p>
-
-                <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
-                        style="color: #005eff;"></i><span
-                        class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Understand
-                        large books and reports with 1,500 pages of file uploads</span></p>
-
-                <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
-                        style="color: #005eff;"></i><span
-                        class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Experience
-                        our most capable AI models</span></p>
-
-                <p class="text-[14px] text-[--text-main]">Also included in this Google One subscription</p>
-
-
-                <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
-                        style="color: #005eff;"></i><span
-                        class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1"><b>NotebookLM:</b>
-                        our research and writing assistant with 5x higher limits</span></p>
-
-                <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
-                        style="color: #005eff;"></i><span
-                        class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Gemini
-                        in Gmail, Docs, Vids & more</span></p>
-
-                <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
-                        style="color: #005eff;"></i><span
-                        class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1"><b>2
-                            TB</b> of total storage</span></p>
-
-                <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
-                        style="color: #005eff;"></i><span
-                        class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Other
-                        premium benefits</span></p>
-
-            </div>
-            <div class="text-left py-5 border-b-2 mb-5">
-                <p class="text-[14px] text-[--text-main] mb-2 font-medium">Explore plans</p>
-                <span class="text-[14px] text-[--text-muted]">Compare and find the right Google AI plans for you</span>
-            </div>
-        </div>
-
-
-        <div
-            class="fixed bottom-0 flex flex-col gap-3 justify-center  left-0 w-full bg-[--bg-main] py-5 drop-shadow-[0_-4px_4px_rgba(0,0,0,0.2)] items-center px-2 text-center">
-            <button id="get_offer"
-                class="bg-[--add-btn] text-[--add-btn-text] text-md hover:bg-[#9BBBEF] py-2 px-5 rounded-3xl max-w-[110px] font-semibold flex justify-center">
-                Get offer
-            </button>
-            <p class="text-[14px] text-[--text-muted]">Cancel anytime. By subscribing, you agree to Google One terms, AI
-                credits, and offers. Age limits, language availability, system requirements, and other restrictions may
-                apply. See how Google handles data.</p>
-        </div>
-
-
-        <div id="get_offer_modal"
-            class="bg-[--form-theme] lg:w-[34%] z-[999]   md:w-[60%] sm:w-[80%] w-[90%] p-5 rounded-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden rounded-2xl shadow-lg hidden">
-            <div class="flex justify-between items-center mb-5 border-b-2 pb-2">
-                <p class="text-xl text-[--text-muted]">Google Play</p>
-                <button id="get_offer_close">
-                    <i class="fa-solid fa-xmark text-2xl text-[--text-muted]"></i>
-                </button>
-            </div>
-
-            <h5 class="text-2xl font-medium mb-1 text-[--text-main]">Add payment method to your Google Account</h5>
-            <p id="get_offer_user" class="text-lg text-[--text-muted] font-medium"></p>
-
-            <p class="text-[14px] text-[--text-muted] my-4 font-medium">Add a payment method to your Google Account to
-                start
-                your free trial. You won't be charged if you cancel before Jul 26, 2025.</p>
-
-            <div>
-                <a href=""
-                    class="flex gap-5 items-center text-lg font-medium text-[--text-main] hover:bg-[--bg-hover] py-4 px-2"><i
-                        class="fa-solid fa-credit-card"></i>Add Card</a>
-                <a href=""
-                    class="flex gap-5 items-center text-lg font-medium text-[--text-main] hover:bg-[--bg-hover] py-4 px-2">
-                    <img src="https://www.gstatic.com/android/market_images/phone/ic_upi_bw.png" width="40px" alt="">
-                    Pay with UPI</a>
-                <a href=""
-                    class="flex gap-5 items-center text-lg font-medium text-[--text-main] hover:bg-[--bg-hover] py-4 px-2">
-                    <img src="https://play-lh.googleusercontent.com/cLoY1LUlKHXk6U2Rrko1-ICqFRkpW8fv45wSuPEH5-D9qQhJfF5KXo2mL8-zy6PplCyZ"
-                        width="35px" alt="">
-                    Redeem Code</a>
-
-                <a href=""
-                    class="flex gap-5 items-center  font-medium text-[--text-main] hover:bg-[--bg-hover] py-4 px-2">
-                    <i class="fa-solid fa-mobile"></i>
-                    <p class="flex flex-col">
-                        <span class="text-lg">Pay on your phone</span>
-                        <span class="text-md text-[--text-muted] font-normal">More payment options available. A
-                            notification
-                            will be sent to all your devices.</span>
-                    </p>
-                </a>
-
-            </div>
+    <div
+        class="lg:w-[30%] xl:w-[26%]  md:w-[50%] w-[100%] m-auto items-center text-center pt-[80px] pb-[200px] sm:pb-[150px] md:pb-[140px] lg:pb-[130px] ">
+        <div class="flex justify-center">
+            <img width="45px"
+                src="https://www.gstatic.com/lamda/images/gemini_sparkle_red_4ed1cbfcbc6c9e84c31b987da73fc4168aec8445.svg"
+                alt="">
 
         </div>
-
-
-
-
-          <!-- Help Center -->
-
-    <div id="help_Data"
-        class="flex flex-col hidden  justify-start fixed top-[100px] rounded-2xl right-[10px] bg-[--bg-main] shadow-[0_1px_3px_0_rgba(60,64,67,0.3),_0_4px_8px_3px_rgba(60,64,67,0.15)]  lg:w-[23%] md:w-[40%] sm:w-[50%] w-[90%] h-[70vh] overflow-y-auto">
-
-        <!-- Sticky Header -->
-        <div class="sticky top-0 left-0 py-3 pb-8 w-full flex items-center justify-between bg-[--bg-main] z-10">
-            <p class="text-2xl text-[--text-main] text-center w-full">Help</p>
-            <button id="help_close" class="absolute right-4 top-3">
-                <i class="fa-solid fa-xmark text-2xl text-[--text-main]"></i>
-            </button>
+        <h2 class=" text-4xl text-[--text-muted] mt-3">Gemini</h2>
+        <p class="text-[24px] text-[--text-main] mt-5 mb-4">Get Gemini Pro and more with a Google AI plan</p>
+        <div class="flex justify-center flex-col">
+            <p class="text-[20px] text-[#137333] font-medium"><span class="line-through">₹1,950</span> ₹0 for 1
+                month,
+            </p>
+            <p class="text-[20px] text-[#137333] font-medium">₹1,950/month after</p>
         </div>
+        <div class="flex justify-center flex-col border rounded-lg p-4 text-left mt-5 gap-4">
+            <p class="text-[14px] text-[--text-main]">More access to our most capable models</p>
 
-        <!-- Scrollable Content -->
-        <div class="text-[--text-main] space-y-3 pb-4 text-left">
-            <h6 class="text-[16px] text-[--text-main] ps-4">Popular help resources</h6>
+            <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
+                    style="color: #005eff;"></i><span
+                    class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Create
+                    high-quality video clips with Veo</span></p>
 
+            <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
+                    style="color: #005eff;"></i><span
+                    class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Unlock
+                    access to premium features, including Deep Research</span></p>
 
-            <div class="flex items-center gap-3 hover:bg-[--dropdown-hover] py-2 px-4 cursor-pointer">
-                <div
-                    class="w-[40px] h-[40px] min-h-[40px] min-w-[40px] rounded-full bg-[--examples-btn-hover]  flex justify-center items-center ">
-                    <i class="fa-regular fa-file-lines text-[--add-btn]"></i>
-                </div>
-                <span class="text-[16px] text-[--text-main]">Manage & delete your Gemini Apps activity</span>
-            </div>
-            <div class="flex items-center gap-3 hover:bg-[--dropdown-hover] py-2 px-4 cursor-pointer">
-                <div
-                    class="w-[40px] h-[40px] min-h-[40px] min-w-[40px] rounded-full bg-[--examples-btn-hover] flex justify-center items-center">
-                    <i class="fa-regular fa-file-lines text-[--add-btn]"></i>
-                </div>
-                <span class="text-[16px] text-[--text-main]">Use Gemini Apps</span>
-            </div>
-            <div class="flex items-center gap-3 hover:bg-[--dropdown-hover] py-2 px-4 cursor-pointer">
-                <div
-                    class="w-[40px] h-[40px] min-h-[40px] min-w-[40px] rounded-full bg-[--examples-btn-hover] flex justify-center items-center">
-                    <i class="fa-regular fa-file-lines text-[--add-btn]"></i>
-                </div>
-                <span class="text-[16px] text-[--text-main]">Use & manage apps in Gemini</span>
-            </div>
-            <div class="flex items-center gap-3 hover:bg-[--dropdown-hover] py-2 px-4 cursor-pointer">
-                <div
-                    class="w-[40px] h-[40px] min-h-[40px] min-w-[40px] rounded-full bg-[--examples-btn-hover] flex justify-center items-center">
-                    <i class="fa-regular fa-file-lines text-[--add-btn]"></i>
-                </div>
-                <span class="text-[16px] text-[--text-main]">Find & manage your recent chats in Gemini Apps</span>
-            </div>
-            <div class="flex items-center gap-3 hover:bg-[--dropdown-hover] py-2 px-4 cursor-pointer">
-                <div
-                    class="w-[40px] h-[40px] min-h-[40px] min-w-[40px] rounded-full bg-[--examples-btn-hover] flex justify-center items-center">
-                    <i class="fa-regular fa-file-lines text-[--add-btn]"></i>
-                </div>
-                <span class="text-[16px] text-[--text-main]">Where you can use the Gemini web app</span>
-            </div>
+            <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
+                    style="color: #005eff;"></i><span
+                    class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Understand
+                    large books and reports with 1,500 pages of file uploads</span></p>
+
+            <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
+                    style="color: #005eff;"></i><span
+                    class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Experience
+                    our most capable AI models</span></p>
+
+            <p class="text-[14px] text-[--text-main]">Also included in this Google One subscription</p>
 
 
-            <a href="" class="text-[14px] text-[--add-btn] w-full block hover:bg-[--bg-hover] py-4 px-10">Visit help
-                forum <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
+                    style="color: #005eff;"></i><span
+                    class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1"><b>NotebookLM:</b>
+                    our research and writing assistant with 5x higher limits</span></p>
 
-            <div class="bg-[--dropdown-hover] py-3 mx-5 rounded-full flex items-center px-5 cursor-pointer">
-                <i class="fa-solid fa-magnifying-glass me-3"></i>
-                <input type="search" class="w-full bg-transparent outline-none border-0 cursor-pointer">
-            </div>
+            <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
+                    style="color: #005eff;"></i><span
+                    class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Gemini
+                    in Gmail, Docs, Vids & more</span></p>
 
-            <div class="py-4 border-t-[8px] border-b-[8px] border-[--border-color]-500">
-                <p class="text-[--text-main] ps-4">Need more help?</p>
-                <div class="flex items-center gap-3 hover:bg-[--dropdown-hover] py-2 px-4 mt-3  cursor-pointer">
-                    <div
-                        class="w-[40px] h-[40px] min-h-[40px] min-w-[40px] rounded-full bg-[--examples-btn-hover] flex justify-center items-center">
-                        <i class="fa-solid fa-message text-[--add-btn]"></i>
-                    </div>
-                    <div>
-                        <p class="text-[--text-main] text-[16px]">Ask the Help Community</p>
-                        <span class="text-[--text-muted] text-[16px]">Get answers from community experts</span>
-                    </div>
-                </div>
+            <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
+                    style="color: #005eff;"></i><span
+                    class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1"><b>2
+                        TB</b> of total storage</span></p>
 
-            </div>
+            <p class="flex gap-5 items-center "><i class="fa-solid fa-check text-[24px]  no-underline "
+                    style="color: #005eff;"></i><span
+                    class="underline text-[14px] decoration-dotted text-[--text-muted] underline-offset-4 decoration-1">Other
+                    premium benefits</span></p>
 
-            <div class="flex items-center gap-3 hover:bg-[--dropdown-hover] py-2 px-4 mt-3  cursor-pointer">
-                <div
-                    class="w-[40px] h-[40px] min-h-[40px] min-w-[40px] rounded-full bg-[--examples-btn-hover] flex justify-center items-center">
-                    <i class="fa-solid fa-circle-exclamation text-[--add-btn]"></i>
-                </div>
-                <p class="text-[16px] text-[--add-btn] font-medium">Report a problem</p>
-            </div>
+        </div>
+        <div class="text-left py-5 border-b-2 mb-5">
+            <p class="text-[14px] text-[--text-main] mb-2 font-medium">Explore plans</p>
+            <span class="text-[14px] text-[--text-muted]">Compare and find the right Google AI plans for you</span>
         </div>
     </div>
 
 
-
-    <!-- *********** -->
-
-
-
-     <!-- ************Feedback********* -->
-<div class="w-full h-[100%]">
-    <div id="feedback-data"
-        class="flex flex-col hidden justify-between fixed top-0 right-0 rounded-l-2xl bg-[#1F1F1F] shadow-[0_1px_3px_0_rgba(60,64,67,0.3),_0_4px_8px_3px_rgba(60,64,67,0.15)] lg:w-[28%] md:w-[40%] sm:w-[50%] w-[90%] h-[100vh] overflow-hidden">
-
-        <!-- Sticky Header -->
-        <div
-            class="sticky top-0 left-0 py-5 px-4 w-full flex items-center justify-between bg-[#1F1F1F] shadow-[0_1px_4px_rgba(0,0,0,0.6)] z-10">
-            <p class="text-lg text-white w-full">Send feedback to Google</p>
-            <button id="feedback_close" class="absolute right-4 w-[50px] h-[50px] rounded-full top-3 hover:bg-[#303134]">
-                <i class="fa-solid fa-xmark text-2xl text-white"></i>
-            </button>
-        </div>
-
-        <!-- Scrollable Content + Bottom -->
-        <div class="flex flex-col justify-between h-full overflow-y-auto">
-            <div class="space-y-3 text-white p-4 text-left">
-                <h6 class="text-[14px]">Describe your feedback (required)</h6>
-
-                <textarea name="feedback_message" id="feedback_message"
-                    placeholder="Tell us what prompted this feedback..." rows="4"
-                    class="w-full bg-transparent border rounded p-2 outline-none focus:ring-2 focus:ring-[#8AB4F8] focus:border-0 text-[16px] text-white"></textarea>
-
-
-                <span class="text-[12px]">Please don’t include any sensitive information <i
-                        class="fa-regular fa-circle-question"></i></span>
-
-                <p class="text-[16px]">A screenshot will help us better understand your feedback.</p>
-
-                <div
-                    class="w-full border text-center text-[#7cacf8] rounded-md py-2 hover:border-[#7cacf8] hover:bg-[#2A3039] cursor-pointer">
-                    <p class="text-[15px]"><i class="fa-solid fa-desktop"></i> Capture screenshot</p>
-                </div>
-            </div>
-
-            <!-- Fixed Bottom Section -->
-            <div class="mt-auto  bg-[#1F1F1F] ">
-                <div class="flex items-center gap-2 mb-4 px-4">
-                    <input type="checkbox" name="checkbox" id="checkbox"
-                        class="w-5 h-5 bg-[#1F1F1F] accent-[#7CACF8] cursor-pointer border rounded" />
-                    <label for="checkbox" class="text-white cursor-pointer">
-                        We may email you for more information or updates
-                    </label>
-                </div>
-
-                <p class="text-[14px] text-white mb-4 px-4">
-                    Some account and system information may be sent to Google. We will use it to fix problems and
-                    improve
-                    our services, subject to our Privacy Policy and Terms of Service. We may email you for more
-                    information
-                    or updates. Go to Legal Help to ask for content changes for legal reasons.
-                </p>
-
-                <div class="text-end shadow-[0_-4px_6px_rgba(0,0,0,0.15)] mt-2 p-4">
-                    <button id="sendBtn" disabled class="bg-[#373737] py-2 px-6 rounded-lg text-white text-[16px]">
-                        Send
-                    </button>
-
-                </div>
-            </div>
-        </div>
+    <div
+        class="fixed bottom-0 flex flex-col gap-3 justify-center  left-0 w-full bg-[--bg-main] py-5 drop-shadow-[0_-4px_4px_rgba(0,0,0,0.2)] items-center px-2 text-center">
+        <button id="get_offer"
+            class="bg-[--add-btn] text-[--add-btn-text] text-md hover:bg-[#9BBBEF] py-2 px-5 rounded-3xl max-w-[110px] font-semibold flex justify-center">
+            Get offer
+        </button>
+        <p class="text-[14px] text-[--text-muted]">Cancel anytime. By subscribing, you agree to Google One terms, AI
+            credits, and offers. Age limits, language availability, system requirements, and other restrictions may
+            apply. See how Google handles data.</p>
     </div>
 
 
+    <div id="get_offer_modal"
+        class="bg-[--form-theme] lg:w-[34%] z-[999]   md:w-[60%] sm:w-[80%] w-[90%] p-5 rounded-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute hidden rounded-2xl shadow-lg hidden">
+        <div class="flex justify-between items-center mb-5 border-b-2 pb-2">
+            <p class="text-xl text-[--text-muted]">Google Play</p>
+            <button id="get_offer_close">
+                <i class="fa-solid fa-xmark text-2xl text-[--text-muted]"></i>
+            </button>
+        </div>
 
-</div>
+        <h5 class="text-2xl font-medium mb-1 text-[--text-main]">Add payment method to your Google Account</h5>
+        <p id="get_offer_user" class="text-lg text-[--text-muted] font-medium"></p>
+
+        <p class="text-[14px] text-[--text-muted] my-4 font-medium">Add a payment method to your Google Account to
+            start
+            your free trial. You won't be charged if you cancel before Jul 26, 2025.</p>
+
+        <div>
+            <a href=""
+                class="flex gap-5 items-center text-lg font-medium text-[--text-main] hover:bg-[--bg-hover] py-4 px-2"><i
+                    class="fa-solid fa-credit-card"></i>Add Card</a>
+            <a href=""
+                class="flex gap-5 items-center text-lg font-medium text-[--text-main] hover:bg-[--bg-hover] py-4 px-2">
+                <img src="https://www.gstatic.com/android/market_images/phone/ic_upi_bw.png" width="40px" alt="">
+                Pay with UPI</a>
+            <a href=""
+                class="flex gap-5 items-center text-lg font-medium text-[--text-main] hover:bg-[--bg-hover] py-4 px-2">
+                <img src="https://play-lh.googleusercontent.com/cLoY1LUlKHXk6U2Rrko1-ICqFRkpW8fv45wSuPEH5-D9qQhJfF5KXo2mL8-zy6PplCyZ"
+                    width="35px" alt="">
+                Redeem Code</a>
+
+            <a href="" class="flex gap-5 items-center  font-medium text-[--text-main] hover:bg-[--bg-hover] py-4 px-2">
+                <i class="fa-solid fa-mobile"></i>
+                <p class="flex flex-col">
+                    <span class="text-lg">Pay on your phone</span>
+                    <span class="text-md text-[--text-muted] font-normal">More payment options available. A
+                        notification
+                        will be sent to all your devices.</span>
+                </p>
+            </a>
+
+        </div>
+
+    </div>
 
 
-<!-- ************************************************* -->
+    <!-- ************************************************* -->
 
 
     <!-- Upgrade js -->
@@ -427,53 +252,6 @@ body {
 
 
     </script>
-
-
-    <!-- *****help js***** -->
-    <script>
-        const help_Data = document.getElementById('help_Data');
-        const help_close = document.getElementById('help_close');
-        const open_help_center = document.getElementById('open_help_center');
-
-
-
-        open_help_center.addEventListener('click', () =>
-            help_Data.classList.remove('hidden')
-        );
-        help_close.addEventListener('click', () =>
-            help_Data.classList.add('hidden')
-        );
-    </script>
-
-
-    <!-- feedback js -->
-    <script>
-        const feedback_message = document.getElementById("feedback_message");
-        const sendBtn = document.getElementById("sendBtn");
-        const feedback_close = document.getElementById("feedback_close");
-        const feedback_open = document.getElementById("feedback_open");
-        const feedback_data = document.getElementById("feedback-data");
-
-        feedback_open.addEventListener('click', () =>
-            feedback_data.classList.remove('hidden')
-        );
-        feedback_close.addEventListener('click', () =>
-            feedback_data.classList.add('hidden')
-        );
-
-        feedback_message.addEventListener("input", function () {
-            if (feedback_message.value.trim().length > 0) {
-                sendBtn.disabled = false;
-                sendBtn.classList.remove("bg-[#373737]", "text-white");
-                sendBtn.classList.add("bg-[#7CACF8]", "text-[#062E6F]");
-            } else {
-                sendBtn.disabled = true;
-                sendBtn.classList.remove("bg-[#7CACF8]", "text-[#062E6F]");
-                sendBtn.classList.add("bg-[#373737]", "text-white");
-            }
-        });
-    </script>
-
 
 
 </body>
