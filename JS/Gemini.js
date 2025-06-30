@@ -417,7 +417,7 @@ function renderViewToggle(totalChats) {
         toggleBtn.id = 'view-toggle-btn';
         // Add classes for sticky positioning
         toggleBtn.className = 'text-sm w-full py-3 px-2 hover:bg-[--sidebar-hover] text-[--sidebar-text] rounded-full text-left ' +
-                              'sticky bottom-0 bg-[var(--sidebar-bg)] z-10'; // Added sticky, bottom, bg, z-index, and border
+            'sticky bottom-0 bg-[var(--sidebar-bg)] z-10'; // Added sticky, bottom, bg, z-index, and border
         toggleBtn.addEventListener('click', () => {
             showAllChats = !showAllChats;
             renderRecentChats();
@@ -570,15 +570,13 @@ async function getGeminiResponse(promptContent, imageData = null) {
     chatHistory.push({ role: "user", parts: parts });
 
     const payload = { contents: chatHistory };
-    // IMPORTANT: Replace "" with your actual Gemini API Key here.
-    // You can obtain one from Google AI Studio: https://aistudio.google.com/app/apikey
-    const apiKey = "AIzaSyDMZvV2eF4oCYXOk8gaS9GWh2u0jLv1OcU"; // YOUR_API_KEY_HERE
 
-    // Use gemini-2.0-flash for text generation and image understanding
+    const apiKey = "AIzaSyDMZvV2eF4oCYXOk8gaS9GWh2u0jLv1OcU";
+
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     try {
-        // Add a loading indicator
+
         const loadingDiv = document.createElement('div');
         loadingDiv.className = 'loading-indicator';
         loadingDiv.textContent = 'Gemini is thinking...';
@@ -591,7 +589,6 @@ async function getGeminiResponse(promptContent, imageData = null) {
             body: JSON.stringify(payload)
         });
 
-        // Remove loading indicator
         chatHistoryDiv.removeChild(loadingDiv);
 
         if (!response.ok) {
@@ -609,13 +606,62 @@ async function getGeminiResponse(promptContent, imageData = null) {
             return "No response from Gemini. Please try again.";
         }
     } catch (error) {
-        // Ensure loading indicator is removed even on network error
+
         const loadingDiv = chatHistoryDiv.querySelector('.loading-indicator');
         if (loadingDiv) {
             chatHistoryDiv.removeChild(loadingDiv);
         }
         console.error("Network or parsing error calling Gemini API:", error);
         return `An error occurred while connecting to Gemini: ${error.message}`;
+    }
+}
+
+const chatHistory = document.getElementById('chat-history');
+
+
+function getChatData() {
+    return JSON.parse(localStorage.getItem('chatData')) || { chats: [] };
+}
+
+
+function setChatData(data) {
+    localStorage.setItem('chatData', JSON.stringify(data));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const data = getChatData();
+
+    if (data.chats && data.chats.length > 0) {
+        if (greetingDiv) {
+            greetingDiv.style.display = 'none';
+        }
+
+        if (data.chats.length > 0) {
+            const mostRecentChat = data.chats.sort((a, b) => b.timestamp - a.timestamp)[0];
+            loadChat(mostRecentChat.id);
+        }
+
+    } else {
+        if (greetingDiv) {
+            greetingDiv.style.display = 'flex';
+        }
+    }
+
+    renderRecentChats();
+});
+function loadChat(chatId) {
+    const data = getChatData();
+    const chatToLoad = data.chats.find(chat => chat.id === chatId);
+
+    if (chatToLoad) {
+        currentChatId = chatId;
+        chatHistory.innerHTML = '';
+        chatToLoad.messages.forEach(msg => {
+
+            addMessage(msg.text, msg.isUser, msg.imageUrl, false, false);
+        });
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+
     }
 }
 
@@ -636,7 +682,7 @@ async function sendMessage() {
 
     // Rest of your existing sendMessage code...
     addMessage(message, true, imageUrl, true, true);
-    
+
     const geminiResponse = await getGeminiResponse(message, imageUrl);
     addMessage(geminiResponse, false, null, true, false);
 
@@ -833,11 +879,11 @@ document.addEventListener('DOMContentLoaded', function () {
     geminiData = document.querySelector('.gemini-data');
 
     backdrop = document.getElementById('backdrop');
-    
+
     newChatButton = document.getElementById('new-chat-button');
 
     chatHistoryDiv = document.getElementById('chat-history');
-    
+
     userInput = document.getElementById('user-input');
     sendButton = document.getElementById('send-button');
     sendIconContainer = document.getElementById('send-icon');
@@ -850,7 +896,7 @@ document.addEventListener('DOMContentLoaded', function () {
     recentChatsUl = document.getElementById('recent-chats');
 
     greetingDiv = document.getElementById('greeting');
-    
+
     plusButton = document.getElementById('plus-button');
     plusDropdown = document.getElementById('plus-dropdown');
 
@@ -928,7 +974,7 @@ document.addEventListener('DOMContentLoaded', function () {
             backdrop.classList.remove('active');
         } else {
             // On mobile - remove pinned state
-             mainContent.classList.remove('sidebar-open');
+            mainContent.classList.remove('sidebar-open');
             mainContent.classList.remove('pinned');
             backdrop.classList.remove('active');
         }
