@@ -419,7 +419,7 @@ function renderViewToggle(totalChats) {
     if (!toggleBtn) {
         toggleBtn = document.createElement('button');
         toggleBtn.id = 'view-toggle-btn';
-        toggleBtn.className = 'text-sm text-blue-500 mt-2 ml-2';
+        toggleBtn.className = 'text-sm w-full py-3 px-2 hover:bg-[--sidebar-hover] text-[--sidebar-text] rounded-full text-left';
         toggleBtn.addEventListener('click', () => {
             showAllChats = !showAllChats;
             renderRecentChats();
@@ -429,9 +429,10 @@ function renderViewToggle(totalChats) {
     if (totalChats <= 5) {
         toggleBtn.style.display = 'none';
     } else {
-        toggleBtn.textContent = showAllChats ? 'View Less' : 'View More';
+        toggleBtn.textContent = showAllChats ? 'Show Less' : 'Show More';
         toggleBtn.style.display = 'block';
     }
+ 
 }
 
 document.addEventListener('click', (e) => {

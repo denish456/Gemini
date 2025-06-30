@@ -68,33 +68,31 @@
 
                 <div class="setting-help" id="setting-help">
                     <ul class="drawer-data">
-                        <li class="dropdown-toggle" onclick="toggleDropdown()">
+                        <li class="dropdown-toggle " onclick="toggleDropdown()">
                             <a class="material-symbols-outlined">settings</a>
                             <span>Setting & Help</span>
                             <span class="seting-span">Setting & Help</span>
                         </li>
-                    </ul>
- 
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <ul>
-                                <li>
-                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <ul>
+                                <li class="first">
+                                    <span class="material-symbols-outlined">history</span>
                                     Activity
                                 </li>
                                 <li>
-                                    <a href="SavedInfo.html " class="w-[100%] items-center flex">
-                                        <i class="fa-solid fa-user"></i>
+                                    <a href="SavedInfo.html " class="w-[100%] items-center flex gap-5">
+                                        <span class="material-symbols-outlined"> person </span>
                                         Saved info
                                     </a>
                                     <!-- <span class="dot"></span> -->
                                 </li>
                                 <li>
-                                    <i class="fa-solid fa-puzzle-piece"></i>
+                                    <span class="material-symbols-outlined"> extension</span>
                                     Apps
                                 </li>
                                 <li>
-                                    <a href="Public_Links.html" class="w-[100%] items-center flex ">
-                                        <i class="fa-solid fa-link"></i>
+                                    <a href="Public_Links.html" class="w-[100%] items-center flex gap-5">
+                                        <span class="material-symbols-outlined"> link </span>
                                         Your public links
                                     </a>
                                 </li>
@@ -107,16 +105,16 @@
                                         <li data-theme="dark">Dark</li>
                                     </ul>
                                 </li>
- 
+
                                 <li>
                                     <span class="material-symbols-outlined"> feedback</span>
                                     Send feedback
                                 </li>
-                                <li class="submenu" id="helpOptions">
+                                <li class="submenu last" id="helpOptions">
                                     <span class="material-symbols-outlined"> quiz </span>
                                     Help
                                     <ul class="help-options">
-                                        <li id="open_help_center"> <span class="material-symbols-outlined">
+                                        <li><span class="material-symbols-outlined">
                                                 help
                                             </span>Help Center</li>
                                         <li><span class="material-symbols-outlined">
@@ -127,12 +125,13 @@
                                     </ul>
                                 </li>
                             </ul>
- 
+
                             <div class="location-info">
                                 <div>Nana Varachha, Surat, Gujarat, India</div>
                                 <div><a href="#">From your IP address</a> • <a href="#">Update location</a></div>
                             </div>
-                    </div>
+                        </div>
+                    </ul>
                 </div>
 
             </div>
@@ -231,12 +230,10 @@
                         <div id="greeting"
                             class="absolute inset-0 flex items-center justify-center pointer-events-none">
                             <h1 class="text-3xl font-medium"> Meet </h1>
-                                <h1
-                                    class="text-3xl font-medium bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
-                                    Gemini 
-                                </h1>
-                                <h1 class="text-3xl font-medium"> , your personal AI assistant </h1>
-                            
+                            <h1
+                                class="text-3xl font-medium bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
+                                Gemini
+                            </h1>
                         </div>
                     </div>
 
