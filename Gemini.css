@@ -710,7 +710,7 @@ a {
   }
 }
  
-/* Mobile Style (≤767px) */
+/* Mobile Style (≤768px) */
 @media (max-width: 767px) {
   .dropdown-toggle {
     position: unset !important;
@@ -766,7 +766,6 @@ a {
 .dropdown-menu ul {
   list-style: none;
   margin: 0;
-  padding: 0;
 }
 
 .dropdown-menu li {
@@ -1374,8 +1373,8 @@ main {
   }
 
 
-  .theme-options {
-    left: 40%;
+  .theme-options,.help-options {
+    left: 62% !important;
   }
 
   #model-dropdown {
@@ -1403,6 +1402,11 @@ main {
   } */
 }
 
+@media (max-width: 320px) {
+  .theme-options,.help-options {
+    left: 48% !important;
+  }
+}
 
 .main-chat-area {
   width: 100%;
@@ -1505,3 +1509,8 @@ main {
 .pl-5 .h-9{
   font-size: 15px;
 }
+
+#recent-chats li:hover .kebab-menu-wrapper{
+  display: flex;
+}
+

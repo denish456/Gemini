@@ -74,7 +74,7 @@
                             <span class="seting-span">Setting & Help</span>
                         </li>
                         <div class="dropdown-menu" id="dropdownMenu">
-                            <ul>
+                            <ul class="pb-2">
                                 <li class="first">
                                     <span class="material-symbols-outlined">history</span>
                                     Activity
@@ -227,14 +227,16 @@
             <div class="main-chat-area">
                 <div class="chat-content-wrapper gemini-chat-content-wrapper" style="background-color: var(--bg-main);">
                     <div id="chat-history" class=" space-y-4 relative">
-                        <div id="greeting"
-                            class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <h1 class="text-3xl font-medium"> Meet </h1>
-                            <h1
-                                class="text-3xl font-medium bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
-                                Gemini
-                            </h1>
-                        </div>
+
+                    </div>
+
+                    <div id="greeting-div"
+                        class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <!-- <h1 class="text-3xl font-medium"> Meet </h1> -->
+                        <h1
+                            class="text-3xl font-medium bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
+                          Meet Gemini.
+                        </h1>
                     </div>
 
                     <div class="input-area-wrapper">
@@ -434,8 +436,13 @@
                             </div>
                         </div>
                     </div> `
+
+
+
         } else {
+
             document.getElementById('account').innerHTML = `<button class="bg-[--add-btn]  text-[--add-btn-text] font-bold py-2 px-4 rounded-lg" onclick={handleRedirectLogin()}>Login</button>`
+
         }
 
         const handleRemoveLogin = () => {
