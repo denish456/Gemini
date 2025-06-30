@@ -1406,9 +1406,14 @@ main {
     justify-content: space-between;
   }
 
-  /* .x-gem{
-
-  } */
+    .items-center .p-2{
+  font-size: 12px !important;
+  }
+ 
+  .text-center .text-sm{
+    font-size: 12px;
+  }
+ 
 }
 
 @media (max-width: 320px) {
