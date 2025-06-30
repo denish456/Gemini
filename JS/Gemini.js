@@ -238,6 +238,7 @@ function createNewChat() {
 
     updateActiveChatUI(currentChatId);
 }
+
 function resetChatUI() {
     userInput.style.height = 'auto';
     if (previewImg) previewImg.src = '';
@@ -303,18 +304,14 @@ function renderRecentChats() {
             li.classList.add('active-chat');
         }
 
-        const icon = document.createElement('a');
-        icon.className = 'material-symbols-outlined text-xl flex-shrink-0';
-        icon.textContent = 'chat_bubble';
 
         const span = document.createElement('span');
         span.textContent = chat.title || "Untitled Chat";
         span.className = 'flex-grow text-ellipsis overflow-hidden';
 
-        li.appendChild(icon);
         li.appendChild(span);
         const kebabMenuWrapper = document.createElement('div');
-        kebabMenuWrapper.className = 'kebab-menu-wrapper absolute right-2 top-1/2 -translate-y-1/2 flex items-center z-20';
+        kebabMenuWrapper.className = 'kebab-menu-wrapper hidden absolute right-2 top-1/2 -translate-y-1/2 flex items-center z-20';
 
         kebabMenuWrapper.innerHTML = `
 <button class="kebab-button material-icons-outlined rounded-full w-8 h-8 flex items-center justify-center">
@@ -413,26 +410,29 @@ function renderRecentChats() {
 }
 
 function renderViewToggle(totalChats) {
-
     let toggleBtn = document.getElementById('view-toggle-btn');
 
     if (!toggleBtn) {
         toggleBtn = document.createElement('button');
         toggleBtn.id = 'view-toggle-btn';
-        toggleBtn.className = 'text-sm w-full py-3 px-2 hover:bg-[--sidebar-hover] text-[--sidebar-text] rounded-full text-left';
+        // Add classes for sticky positioning
+        toggleBtn.className = 'text-sm w-full py-3 px-2 hover:bg-[--sidebar-hover] text-[--sidebar-text] rounded-full text-left ' +
+                              'sticky bottom-0 bg-[var(--sidebar-bg)] z-10'; // Added sticky, bottom, bg, z-index, and border
         toggleBtn.addEventListener('click', () => {
             showAllChats = !showAllChats;
             renderRecentChats();
         });
-        recentChatsUl.parentElement.appendChild(toggleBtn); // Make sure UL is wrapped in a div
+        recentChatsUl.parentElement.appendChild(toggleBtn);
     }
+
     if (totalChats <= 5) {
         toggleBtn.style.display = 'none';
     } else {
-        toggleBtn.textContent = showAllChats ? 'Show Less' : 'Show More';
+        toggleBtn.innerHTML = showAllChats
+            ? `View Less <i class="fa-solid fa-angle-up ms-2"></i>`
+            : `View More <i class="fa-solid fa-angle-down ms-2"></i>`;
         toggleBtn.style.display = 'block';
     }
- 
 }
 
 document.addEventListener('click', (e) => {
@@ -628,15 +628,18 @@ async function sendMessage() {
         return;
     }
 
-    // Display user message instantly
-    addMessage(message, true, imageUrl, true, true);
+    // Hide the greeting div when sending a message
+    const greetingDiv = document.getElementById('greeting-div');
+    if (greetingDiv) {
+        greetingDiv.style.display = 'none';
+    }
 
-    // Call Gemini API
+    // Rest of your existing sendMessage code...
+    addMessage(message, true, imageUrl, true, true);
+    
     const geminiResponse = await getGeminiResponse(message, imageUrl);
-    // Display Gemini response with typing effect
     addMessage(geminiResponse, false, null, true, false);
 
-    // Save the full interaction (user message + Gemini response) to localStorage
     let data = getChatData();
     let currentChat = data.chats.find(chat => chat.id === currentChatId);
 
@@ -652,14 +655,12 @@ async function sendMessage() {
         currentChat.timestamp = Date.now();
     }
 
-    // Append the user's message
     currentChat.messages.push({
         text: message,
         isUser: true,
         imageUrl: imageUrl,
         timestamp: Date.now()
     });
-    // Append the Gemini's response
     currentChat.messages.push({
         text: geminiResponse,
         isUser: false,
@@ -669,7 +670,6 @@ async function sendMessage() {
     setChatData(data);
     renderRecentChats();
 
-    // Clear input and preview area
     userInput.value = '';
     updateSendButtonState();
     userInput.style.height = 'auto';
@@ -677,8 +677,6 @@ async function sendMessage() {
     previewContainer.classList.add("hidden");
     fileInput.value = '';
     hasImage = false;
-
-
 }
 
 
