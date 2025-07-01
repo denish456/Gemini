@@ -1146,7 +1146,7 @@ function toggleDropdown() {
     if (menu) {
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         if (window.innerWidth >= 768) {
-            mainContent.classList.toggle('pinned');
+            mainContent.classList.add('pinned');
             setting_help.classList.toggle('setingbackgroundChange');
         }
     }

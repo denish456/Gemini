@@ -55,6 +55,18 @@
       "name": "denish",
       "email": "denish.kalathiyainfotech@gmail.com",
       "password": "123"
+    },
+    {
+      "id": "f3b5",
+      "name": "vaibahv",
+      "email": "vaibhav.kalathiyainfotech@gmail.com",
+      "password": "Vaibhav2003"
+    },
+    {
+      "id": "856a",
+      "name": "denish",
+      "email": "denish@12345",
+      "password": "123"
     }
   ]
 }
