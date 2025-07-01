@@ -47,9 +47,15 @@ document.getElementById('signInForm').addEventListener('submit', function (e) {
             password: password.value
         })
     })
-        .then(() => {
-            window.location.href = 'Login.html';
-        })
+    .then(() => {
+    
+    localStorage.setItem('login', JSON.stringify({
+        name: name.value,
+        email: email.value
+    }));
+
+    window.location.href = 'gemini.html';
+})
         .catch(error => {
             console.error('Error:', error);
             alert('Failed to save. Try again.');

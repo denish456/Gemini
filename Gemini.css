@@ -13,6 +13,7 @@
   --sidebar-text: #575b5f;
   --sidebar-hover: #e1e4ea;
   --dropdown-bg: #f0f4f9;
+  --dropdown2-bg:#F0F4F9;
   --dropdown-border: #DADCE0;
   --dropdown-text: #1F1F1F;
   --dropdown-hover: #dfe3e7;
@@ -33,6 +34,8 @@
   --textarea-text: #1f1f1f;
   --model-hover: #dfe3e7;
    --box-Shadow: rgb(60, 64, 67);
+   --active-focus-bg:#D3E3FD;
+   
 }
 
 body.dark {
@@ -71,6 +74,7 @@ body.dark {
   --textarea-text: #e3e3e3;
   --model-hover: #393b3d;
     --box-Shadow: #080808;
+     --active-focus-bg:#003355;
 }
 
 
@@ -109,7 +113,7 @@ body {
 }
 
 .dropdown-menu {
-  background-color: var(--dropdown-bg);
+  background-color: var(--dropdown2-bg);
   border-color: var(--dropdown-border);
   color: var(--dropdown-text);
 }
@@ -889,7 +893,7 @@ a {
   flex-direction: column;
   height: 100%;
   background-color: var(--bg-main);
-  border-radius: 0.75rem;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -972,7 +976,8 @@ a {
 }
 
 .recent-section li.active-chat {
-  background-color: var(--sidebar-hover);
+  background-color: var(--active-focus-bg);
+  color: var(--accent-blue);
   font-weight: 600;
 }
 
