@@ -647,11 +647,8 @@
                                     New Gem
                                 </a>
                             </div>
-                            <div
-                                class="rounded-xl p-6 text-center x-gem text-[var(--text-muted)] flex justify-center items-center bg-[var(--your-gems-bg)]">
-                                <i class="fa-regular fa-gem text-xl text-[var(--user-bubble-text)]"></i>
-                                <p class="ml-2 text-lg your-gems-message">The Gems you create will appear here</p>
-                            </div>
+                            <div id="showGems" class="flex flex-col gap-2"></div>
+
                         </div>
                     </div>
                 </div>
@@ -994,6 +991,116 @@
             });
         }
     </script>
+
+    <script>
+
+        const colorPalette = [
+            "#F44336",
+            "#E91E63",
+            "#9C27B0",
+            "#3F51B5",
+            "#2196F3",
+            "#00BCD4",
+            "#009688",
+            "#4CAF50",
+            "#FF9800",
+            "#795548",
+            "#607D8B",
+            "#FF5722",
+            "#673AB7"
+        ];
+
+
+        function getColorFromPalette(name) {
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return colorPalette[Math.abs(hash) % colorPalette.length];
+        }
+
+
+        function getContrastColor(bg) {
+            const hex = bg.replace("#", "");
+            const r = parseInt(hex.substr(0, 2), 16);
+            const g = parseInt(hex.substr(2, 2), 16);
+            const b = parseInt(hex.substr(4, 2), 16);
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            return brightness > 150 ? "#000000" : "#FFFFFF";
+        }
+
+        async function fetchGemsData() {
+            const showGems = document.getElementById("showGems");
+
+            try {
+                const response = await fetch('http://localhost:8080/newGems');
+                const gemsdata = await response.json();
+
+                showGems.innerHTML = "";
+
+                if (gemsdata && gemsdata.length > 0) {
+                    gemsdata.forEach((v) => {
+                        const bgColor = getColorFromPalette(v.gemsName || "default");
+                        const textColor = getContrastColor(bgColor);
+
+                        showGems.innerHTML += `
+                        <div class="rounded-xl p-4 x-gem text-[var(--text-muted)] flex justify-between items-center bg-[var(--your-gems-bg)] hover:bg-[--gems-bg-hover]">
+                            <div class="flex items-center gap-4">
+                                <button
+                                    class="w-8 h-8 rounded-full flex items-center justify-center font-medium"
+                                    style="background-color: ${bgColor}; color: ${textColor};">
+                                    ${v.gemsName?.charAt(0).toUpperCase() || "U"}
+                                </button>
+                                <div class="flex flex-col gap-2">
+                                    <p class="text-[12px] font-medium text-[--text-main]">${v.gemsName || "No Name"}</p>
+                                    <span class="text-[12px] text-[--text-muted]">${v.gemsDescription || ""}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick=handleEditgem('${v.id}') class="hover:bg-[--model-hover] w-10 h-10 rounded-full flex items-center justify-center text-[--text-muted] font-medium">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button  class="hover:bg-[--model-hover] w-10 h-10 rounded-full flex items-center justify-center text-[--text-muted] font-medium">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    });
+                } else {
+                    showGems.innerHTML = `
+                    <div class="rounded-xl p-6 text-center x-gem text-[var(--text-muted)] flex justify-center items-center bg-[var(--your-gems-bg)]">
+                        <i class="fa-regular fa-gem text-xl text-[var(--user-bubble-text)]"></i>
+                        <p class="ml-2 text-lg your-gems-message">The Gems you create will appear here</p>
+                    </div>`;
+                }
+            } catch (err) {
+                console.error("Error fetching gems:", err);
+                showGems.innerHTML = `<p class="text-red-500">Error loading gems</p>`;
+            }
+        }
+
+       async function handleEditgem (id) {
+
+         const response = await fetch('http://localhost:8080/newGems');
+                const gemsdata = await response.json();
+
+                const gem = gemsdata.find((v) => v.id === id);
+
+            console.log(gem);
+
+            localStorage.setItem('editingGem', JSON.stringify(gem));
+            window.location.href = 'NewGem.html';
+        }
+
+        fetchGemsData();
+    </script>
+
+
+
+
+
+
     <script src="./JS/index.js"></script>
     <!-- <script src="./JS/Gemini.js"></script> -->
 

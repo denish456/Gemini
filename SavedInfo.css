@@ -265,6 +265,9 @@ body.dark {
   z-index: 999;
 }
 
+.relative .action{
+  display: flex !important;
+}
 
 .tooltip-custom {
   position: relative;

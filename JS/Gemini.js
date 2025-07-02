@@ -149,63 +149,6 @@ function loadChatSession(chatId, shouldAnimate = false) {
     }
 }
 
-function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDisplay = false) {
-    if (!chatHistoryDiv) return;
-
-    if (greetingDiv && greetingDiv.style.display !== 'none') {
-        greetingDiv.style.display = 'none';
-    }
-
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
-
-    const bubble = document.createElement('div');
-    bubble.className = `p-3 max-w-[80%] break-words whitespace-pre-wrap ${isUser ? 'bg-[var(--user-bubble-bg)] text-[var(--user-bubble-text)] rounded-lg shadow-sm'
-        : 'text-[var(--gemini-bubble-text)] text-base'
-        }`;
-
-    if (isUser) {
-        bubble.style.borderRadius = '24px 4px 24px 24px';
-        const messageTextElement = document.createElement('span');
-        messageTextElement.textContent = text;
-        bubble.appendChild(messageTextElement);
-
-        if (imageUrl) {
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            img.className = 'max-w-[200px] max-h-[200px] rounded-md mt-2';
-            bubble.appendChild(document.createElement('br'));
-            bubble.appendChild(img);
-        }
-    } else {
-        const inlineContainer = document.createElement('div');
-        inlineContainer.className = 'flex items-center gap-4';
-
-        const avatar = document.createElement('img');
-        avatar.src = 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png';
-        avatar.alt = 'Gemini';
-        avatar.className = 'w-6 h-6 rounded-full';
-
-        inlineContainer.appendChild(avatar);
-
-        const messageTextElement = document.createElement('span');
-        if (instantDisplay) {
-            messageTextElement.textContent = text;
-        } else {
-            typewriterEffect(messageTextElement, text, autoScroll);
-        }
-
-        inlineContainer.appendChild(messageTextElement);
-        bubble.appendChild(inlineContainer);
-    }
-
-    messageDiv.appendChild(bubble);
-    chatHistoryDiv.appendChild(messageDiv);
-
-    if (autoScroll) {
-        chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-    }
-}
 
 function updateActiveChatUI(activeChatId) {
     document.querySelectorAll('#recent-chats li').forEach(li => {
@@ -454,6 +397,12 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
         greetingDiv.style.display = 'none';
     }
 
+    const existingFeedbackContainer = chatHistoryDiv.querySelector('.gemini-feedback-container');
+    if (existingFeedbackContainer) {
+        existingFeedbackContainer.remove();
+    }
+
+
     const messageDiv = document.createElement('div');
     messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
 
@@ -492,7 +441,11 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
             inlineContainer.appendChild(messageTextElement); // Append to inlineContainer
         } else {
             inlineContainer.appendChild(messageTextElement); // Append to inlineContainer
-            typewriterEffect(messageTextElement, text, autoScroll); // Type out for new Gemini responses
+            // Pass a callback to typewriterEffect to add icons after typing is complete
+            typewriterEffect(messageTextElement, text, autoScroll, () => {
+                // This callback runs AFTER the typing effect is done
+                appendGeminiFeedbackIcons(bubble); // Pass the bubble element to append icons
+            });
         }
     }
 
@@ -502,10 +455,16 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
     if (isUser && autoScroll) { // Auto-scroll immediately for user's message
         chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
     }
+
+    // If it's a Gemini message and it's being displayed instantly (e.g., from loading history),
+    // append the icons immediately. For new messages, it's done via typewriterEffect callback.
+    if (!isUser && instantDisplay) {
+        appendGeminiFeedbackIcons(bubble);
+    }
 }
 
-// New typewriter effect function
-function typewriterEffect(element, fullText, autoScroll) {
+// Modify typewriterEffect to accept a callback for completion
+function typewriterEffect(element, fullText, autoScroll, callback = null) {
     let i = 0;
     const speed = 20; // typing speed in milliseconds per character
 
@@ -522,9 +481,263 @@ function typewriterEffect(element, fullText, autoScroll) {
             if (autoScroll) {
                 chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
             }
+            // Execute the callback function if provided
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
         }
     }
     type();
+}
+
+function appendGeminiFeedbackIcons(messageBubbleElement) {
+    // Check if the icons already exist for this message to prevent duplicates
+    if (messageBubbleElement.nextElementSibling && messageBubbleElement.nextElementSibling.classList.contains('gemini-feedback-container')) {
+        return; // Icons already there, do nothing
+    }
+
+    const feedbackAndIconsContainer = document.createElement('div');
+    feedbackAndIconsContainer.classList.add('flex', 'flex-col', 'items-start', 'gap-2', 'mt-2', 'ml-10', 'mb-25imp', 'gemini-feedback-container');
+
+    // Icons container
+    const iconsDiv = document.createElement('div');
+    iconsDiv.classList.add('flex', 'items-center');
+    iconsDiv.innerHTML = `
+        <button class="feedback-button h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-feedback-type="like">
+           <i class="text-base fa-regular fa-thumbs-up"></i>
+        </button>
+        <button class="feedback-button h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-feedback-type="dislike">
+           <i class="text-base fa-regular fa-thumbs-down"></i>
+        </button>
+        <button class="h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="regenerate">
+            <i class="text-base fa-solid fa-rotate-right"></i>
+        </button>
+        <button class="h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="share">
+            <i class="text-base fa-solid fa-share-alt"></i>
+        </button>
+        <button class="h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="copy">
+            <i class="text-base fa-regular fa-copy"></i>
+        </button>
+        <button class="relative h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="more">
+            <i class="text-base fa-solid fa-ellipsis-vertical"></i>
+        </button>
+    `;
+    feedbackAndIconsContainer.appendChild(iconsDiv);
+
+    // --- Dropdown for the ellipsis button ---
+    const moreDropdown = document.createElement('ul');
+    moreDropdown.classList.add(
+        'absolute', 'hidden', 'z-20', 'rounded-lg', 'shadow-lg', 'py-2',
+        'text-sm', 'w-57' , 'justify-center', 'flex-col', 'flex' ,
+        'gemini-dropdown-menu'
+    );
+    // Add inline styles to match your theme variables (assuming they are defined globally)
+    moreDropdown.style.backgroundColor = 'var(--dropdown2-bg)'; // Fallback color
+    moreDropdown.style.color = 'var(--dropdown-text)'; // Fallback color
+
+    moreDropdown.innerHTML = `
+        <li>
+            <button class="flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item">
+                <i class="fa-solid fa-check-double"></i> Double-check response
+            </button>
+        </li>
+        <li>
+            <button class="flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item" data-action-type="copy-from-dropdown">
+                <i class="fa-regular fa-copy"></i> Copy
+            </button>
+        </li>
+        <li>
+            <button class="flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item">
+                <i class="fa-solid fa-volume-up"></i> Listen
+            </button>
+        </li>
+        <li>
+            <button class=" flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item">
+                <i class="fa-solid fa-flag"></i> Report legal issue
+            </button>
+        </li>
+    `;
+    feedbackAndIconsContainer.appendChild(moreDropdown);
+
+
+    // Insert the feedback container *after* the messageDiv that contains the bubble
+    messageBubbleElement.parentElement.insertAdjacentElement('afterend', feedbackAndIconsContainer);
+
+    const likeButton = iconsDiv.querySelector('[data-feedback-type="like"]');
+    const dislikeButton = iconsDiv.querySelector('[data-feedback-type="dislike"]');
+    const copyButton = iconsDiv.querySelector('[data-action-type="copy"]');
+    const moreButton = iconsDiv.querySelector('[data-action-type="more"]'); // Get the ellipsis button
+
+    // --- Like/Dislike Button Logic ---
+    likeButton.addEventListener('click', () => {
+        const likeIcon = likeButton.querySelector('i');
+        const dislikeIcon = dislikeButton.querySelector('i');
+
+        likeIcon.classList.toggle('active-feedback-icon');
+        likeIcon.classList.toggle('fa-regular');
+        likeIcon.classList.toggle('fa-solid');
+
+        if (dislikeIcon.classList.contains('active-feedback-icon')) {
+            dislikeIcon.classList.remove('active-feedback-icon');
+            dislikeIcon.classList.remove('fa-solid');
+            dislikeIcon.classList.add('fa-regular');
+        }
+    });
+
+    dislikeButton.addEventListener('click', () => {
+        const likeIcon = likeButton.querySelector('i');
+        const dislikeIcon = dislikeButton.querySelector('i');
+
+        dislikeIcon.classList.toggle('active-feedback-icon');
+        dislikeIcon.classList.toggle('fa-regular');
+        dislikeIcon.classList.toggle('fa-solid');
+
+        if (likeIcon.classList.contains('active-feedback-icon')) {
+            likeIcon.classList.remove('active-feedback-icon');
+            likeIcon.classList.remove('fa-solid');
+            likeIcon.classList.add('fa-regular');
+        }
+    });
+
+    // --- Copy Button Logic (Main Icon) ---
+    copyButton.addEventListener('click', async () => {
+        const copyIcon = copyButton.querySelector('i');
+        const originalIconClass = 'fa-regular fa-copy';
+        const successIconClass = 'fa-solid fa-check';
+
+        // Get the text to copy (the Gemini response)
+        const textToCopy = messageBubbleElement.querySelector('span') ? messageBubbleElement.querySelector('span').textContent : messageBubbleElement.textContent;
+
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+
+            copyIcon.className = `text-base ${successIconClass} copy-success-color`;
+
+            setTimeout(() => {
+                copyIcon.className = `text-base ${originalIconClass}`;
+                copyIcon.classList.remove('copy-success-color');
+            }, 1500);
+
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+    });
+
+   
+    moreButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent the document click listener from immediately closing it
+
+        // Hide any other open dropdowns first
+        document.querySelectorAll('.gemini-dropdown-menu').forEach(dropdown => {
+            if (dropdown !== moreDropdown) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Toggle visibility *before* measuring for accurate offsetWidth/offsetHeight
+        moreDropdown.classList.toggle('hidden');
+
+        // If dropdown is now hidden, we're done for this click
+        if (moreDropdown.classList.contains('hidden')) {
+            return;
+        }
+
+        const buttonRect = moreButton.getBoundingClientRect();
+        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const padding = 10; // Minimum padding from viewport edges
+
+        // Check if screen width is 425px or less for mobile-specific behavior
+        const isMobileScreen = window.matchMedia('(max-width: 425px)').matches;
+
+        // Ensure fixed positioning for accurate viewport relative placement
+        moreDropdown.style.position = 'fixed';
+        // Clear previous positioning to prevent conflicts
+        moreDropdown.style.left = 'auto';
+        moreDropdown.style.right = 'auto';
+        moreDropdown.style.top = 'auto';
+        moreDropdown.style.bottom = 'auto';
+        moreDropdown.style.width = ''; // Clear inline width for desktop behavior (Tailwind w-56 will apply)
+        moreDropdown.style.height = ''; // Clear inline height
+        moreDropdown.style.overflowY = ''; // Clear overflow-y
+
+        if (isMobileScreen) {
+            // --- Mobile Specific Behavior (<= 425px) ---
+
+            // Force open from bottom
+            moreDropdown.style.top = `${buttonRect.bottom + 8}px`; // 8px below the button
+
+            // 100% width with padding
+            moreDropdown.style.width = `${viewportWidth - (2 * padding)}px`;
+            moreDropdown.style.left = `${padding}px`; // Align with left padding
+            moreDropdown.style.right = `${padding}px`; // Align with right padding
+
+            // Ensure dropdown doesn't go off screen bottom if it opens downwards
+            const currentDropdownBottom = moreDropdown.getBoundingClientRect().bottom;
+            if (currentDropdownBottom > viewportHeight) {
+                // If it goes off bottom, adjust top to keep it on screen
+                moreDropdown.style.top = `${viewportHeight - moreDropdown.offsetHeight - padding}px`;
+                
+                if (moreDropdown.getBoundingClientRect().top < padding) {
+                    moreDropdown.style.top = `${padding}px`;
+                    moreDropdown.style.height = `${viewportHeight - (2 * padding)}px`;
+                    moreDropdown.style.overflowY = 'auto';
+                }
+            }
+
+        } else {
+
+            const dropdownWidth = moreDropdown.offsetWidth;
+            const dropdownHeight = moreDropdown.offsetHeight;
+
+            moreDropdown.style.top = `${buttonRect.top - dropdownHeight - 8}px`; 
+            moreDropdown.style.left = `${buttonRect.left - 5}px`; 
+            
+            const currentLeft = moreDropdown.getBoundingClientRect().left;
+            const currentRight = moreDropdown.getBoundingClientRect().right;
+
+            if (currentLeft < padding) { // Goes off left
+                 moreDropdown.style.left = `${padding}px`;
+            } else if (currentRight > viewportWidth - padding) { // Goes off right
+                 moreDropdown.style.left = `${viewportWidth - dropdownWidth - padding}px`;
+            }
+
+            if (moreDropdown.getBoundingClientRect().top < 0) {
+                 moreDropdown.style.top = `${buttonRect.bottom + 5}px`; 
+            }
+        }
+    });
+
+    if (!window.geminiFeedbackDropdownOutsideClickListenerAdded) {
+        document.addEventListener('click', (e) => {
+            document.querySelectorAll('.gemini-dropdown-menu').forEach(dropdown => {
+                const clickedElement = e.target;
+                const dropdownButton = dropdown.previousElementSibling && dropdown.previousElementSibling.classList.contains('flex') ? dropdown.previousElementSibling.querySelector('[data-action-type="more"]') : null;
+
+                if (!dropdown.classList.contains('hidden') &&
+                    !dropdown.contains(clickedElement) &&
+                    (!dropdownButton || !dropdownButton.contains(clickedElement))) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        });
+        window.geminiFeedbackDropdownOutsideClickListenerAdded = true;
+    }
+
+    // --- Copy from Dropdown Logic ---
+    moreDropdown.querySelector('[data-action-type="copy-from-dropdown"]').addEventListener('click', async () => {
+        const textToCopy = messageBubbleElement.querySelector('span') ? messageBubbleElement.querySelector('span').textContent : messageBubbleElement.textContent;
+        try {
+            await navigator.clipboard.writeText(textToCopy);
+            console.log("Text copied from dropdown!");
+            moreDropdown.classList.add('hidden'); // Hide dropdown after copying
+        } catch (err) {
+            console.error('Failed to copy text from dropdown: ', err);
+        }
+    });
+
+    // Scroll to the bottom to make sure icons are visible
+    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
 }
 
 
