@@ -184,7 +184,7 @@ const Display = async (event) => {
                     <p class="break-words text-md text-[--sidebar-text]">${v.message}</p>
                     <div class="relative">
                         <span id="action-ED-${index}" onClick="handleActionBtn(${index})"
-                            class="material-symbols-outlined rounded-full hover:bg-[--bg-hover] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">more_vert</span>
+                            class="action material-symbols-outlined rounded-full hover:bg-[--bg-hover] w-[40px] h-[40px] items-center justify-center flex cursor-pointer">more_vert</span>
                         <div id="action-data-${index}" class="absolute bg-[--dropDown] top-[100%] left-[0%] rounded py-2 shadow-lg hidden z-10">
                             <ul>
                                 <li onclick="handleEdit('${v.id}')" class="tooltip-custom text-md flex items-center hover:bg-[--bg-hover] px-3 py-2 cursor-pointer" data-tooltip="Edit this info">

@@ -565,16 +565,43 @@
 
         console.log(accountData);
 
+        const allAccounts = JSON.parse(localStorage.getItem('accounts')) || [];
+
+        const accountsList = allAccounts
+            .filter(acc => acc.email !== accountData.email)
+            .map(acc => {
+                return `
+        <div onclick="switchAccount('${acc.email}')"
+            class="flex items-center gap-3 sm:p-3 cursor-pointer hover:bg-[var(--sidebar-hover)] rounded-xl">
+            <div class="w-10 h-10 bg-[#78909c] text-white flex items-center justify-center rounded-full font-semibold text-lg">
+                ${acc.name.charAt(0).toUpperCase()}
+            </div>
+            <div class="text-left truncate overflow-hidden">
+                <div class="text-sm font-medium text-[var(--text-main)]">${acc.name}</div>
+                <div class="text-xs text-[var(--text-muted)]">${acc.email}</div>
+            </div>
+        </div>`;
+            }).join('');
+
+
 
         if (accountData) {
             document.getElementById('account').innerHTML =
 
 
                 `<div class="relative ">
+                    <div class="relative group inline-block">
                         <button id="profile-button"
                             class="w-8 h-8 bg-[#78909c] rounded-full flex items-center justify-center text-white font-medium">
                            ${accountData.name.charAt(0).toUpperCase()}
                         </button>
+
+                            <div class="absolute right-0 mt-1 min-w-56 p-2 bg-[#3c4043e6] hidden group-hover:block rounded">
+                                <h5 class="text-[13px] text-[#E8EAED] font-medium m-0">Google Account</h5>
+                                <p class="text-[13px] text-[#9AA0A6] font-medium m-0">${accountData.name}</p>
+                                <p class="text-[13px] text-[#9AA0A6] font-medium m-0">${accountData.email}</p>
+                            </div>
+                    </div>
 
                         <div id="profile-dropdown"
                             class="absolute right-4 top-14 w-[400px] max-w-[90vw] sm:max-w-md rounded-3xl shadow-xl z-50 overflow-hidden"
@@ -624,7 +651,7 @@
                                     </div>
                                     Add account
                                 </div>
-                                <div onclick={handleRemoveLogin()} class="px-4 h-[60px] py-4 flex items-center text-sm justify-start rounded-e-full cursor-pointer w-[45%]"
+                                <div onclick=handleRemoveLogin() class="px-4 h-[60px] py-4 flex items-center text-sm justify-start rounded-e-full cursor-pointer w-[45%]"
                                     style="background-color: var(--bg-main); color: var(--text-main);">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                         class="mr-2" width="24px" fill="currentColor">
@@ -633,7 +660,14 @@
                                     </svg>
                                     Sign out
                                 </div>
+
                             </div>
+                            <!-- All Saved Accounts List -->
+                                <div class="lg:px-4 px-1 pt-2">
+                                    <h4 class="text-xs text-[var(--text-muted)] mb-1">Other accounts</h4>
+                                    ${accountsList}
+                                </div>
+
 
                             <div class="px-4 py-4 flex justify-center items-center text-xs"
                                 style="color: var(--text-muted);">
@@ -649,23 +683,70 @@
 
             document.getElementById('greeting-div').classList.add('hidden')
 
+
         } else {
 
-            document.getElementById('account').innerHTML = `<button class="bg-[--add-btn]  text-[--add-btn-text] font-bold py-2 px-4 rounded-lg" onclick={handleRedirectLogin()}>Login</button>`
-
-
-
+            document.getElementById('account').innerHTML = `
+        <button 
+            class="bg-[--add-btn] text-[--add-btn-text] font-bold py-2 px-4 rounded-lg" 
+            onclick="handleRedirectLogin()">
+            Login
+        </button>`;
 
         }
 
-        const handleRemoveLogin = () => {
-            localStorage.removeItem('login')
-            window.location.href = ''
+        function handleRedirectLogin() {
+            window.location.href = 'login.html?add=true';  // set flag
         }
 
-        const handleRedirectLogin = () => {
-            window.location.href = 'login.html'
+
+        function handleRemoveLogin() {
+            const current = JSON.parse(localStorage.getItem('login'));
+            let accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+
+            if (current) {
+                // Remove current user from saved list
+                accounts = accounts.filter(acc => acc.email !== current.email);
+                localStorage.setItem('accounts', JSON.stringify(accounts));
+            }
+
+            // Set next user as login if available
+            if (accounts.length > 0) {
+                const nextUser = accounts[0]; // First saved user
+                localStorage.setItem('login', JSON.stringify(nextUser));
+                window.location.href = 'Gemini.html'; // Auto redirect to app
+            } else {
+                // No user left, go to login page
+                localStorage.removeItem('login');
+                window.location.href = 'login.html';
+            }
         }
+
+
+
+        function switchAccount(email) {
+            const allAccounts = JSON.parse(localStorage.getItem('accounts')) || [];
+            const user = allAccounts.find(acc => acc.email === email);
+            if (user) {
+                localStorage.setItem('login', JSON.stringify(user));
+                window.location.reload(); // or redirect as needed
+            }
+        }
+
+        function removeAccount(email) {
+            let accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+            accounts = accounts.filter(acc => acc.email !== email);
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+
+            const current = JSON.parse(localStorage.getItem('login'));
+            if (current && current.email === email) {
+                localStorage.removeItem('login');
+                window.location.href = 'login.html';
+            } else {
+                window.location.reload();
+            }
+        }
+
 
     </script>
 

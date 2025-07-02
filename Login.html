@@ -60,8 +60,8 @@
     </style>
 </head>
 
-<body class="bg-[--bg-main]   min-h-screen flex items-center justify-center px-4">
-    <div class="bg-[--sidebar-bg] rounded-2xl shadow-2xl p-8 w-full max-w-md">
+<body class="bg-[--bg-main]   min-h-screen flex items-center justify-center">
+    <div class="bg-[--sidebar-bg] rounded-2xl shadow-2xl sm:p-8 p-3 w-full max-w-md w-full">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl sm:text-3xl font-bold text-center text-[--text-main] ">Login to Gemini</h2>
             <a href="Gemini.html">
@@ -72,23 +72,31 @@
             </a>
         </div>
         <form id="loginForm" class="space-y-5">
-            <div>
-                <label class="block text-sm font-medium text-[--textarea-text] mb-1" for="email">Email</label>
-                <input type="email" id="email" name="email" required
-                    class="w-full px-4 py-2 border text-[--textarea-text] bg-[--input-bg] rounded-lg focus:[--input-border-focus] " />
-            </div>
+           <!-- Email Field -->
+<div>
+    <label class="block text-sm font-medium text-[--textarea-text] mb-1" for="email">Email</label>
+    <input type="email" id="email" name="email"
+        class="w-full px-4 py-2 border text-[--textarea-text] bg-[--input-bg] rounded-lg focus:outline-none focus:ring-2 focus:ring-[--input-border-focus]" />
+    <p id="emailError" class="text-red-500 text-xs mt-1 hidden">Invalid email</p>
+</div>
 
-            <div class="relative">
-                <label class="block text-sm font-medium text-[--textarea-text] mb-1" for="password">Password</label>
-                <input type="password" id="password" name="password" required
-                    class="w-full px-4 py-2 border text-[--textarea-text] bg-[--input-bg] rounded-lg focus:[--input-border-focus] " />
-                <span id="togglePassword"
-                    class="absolute right-3 material-symbols-outlined top-[38px] text-[--add-btn] cursor-pointer select-none">visibility</span>
-            </div>
+<!-- Password Field -->
+<div class="relative">
+    <label class="block text-sm font-medium text-[--textarea-text] mb-1" for="password">Password</label>
+    <input type="password" id="password" name="password"
+        class="w-full px-4 py-2 border text-[--textarea-text] bg-[--input-bg] rounded-lg focus:outline-none focus:ring-2 focus:ring-[--input-border-focus]" />
+    <span id="togglePassword"
+        class="absolute right-3 material-symbols-outlined top-[38px] text-[--add-btn] cursor-pointer select-none">visibility</span>
+    <p id="passwordError" class="text-red-500 text-xs mt-1 hidden">Password must be at least 6 characters</p>
+</div>
+
 
             <div class="text-right mt-1">
                 <a href="forgotPassword.html" class="text-sm text-[--add-btn] hover:underline">Forgot password?</a>
             </div>
+
+
+            <div id="accountList" class="mt-6 space-y-2"></div>
 
 
             <button type="submit"
@@ -140,6 +148,37 @@
         } else {
             document.body.classList.remove('dark');
         }
+
+
+        const savedAccounts = JSON.parse(localStorage.getItem('accounts')) || [];
+
+if (savedAccounts.length > 0) {
+    const container = document.getElementById('accountList');
+
+    container.innerHTML = savedAccounts.map(acc => `
+        <div onclick="switchAccount('${acc.email}')" 
+            class="p-3 truncate cursor-pointer hover:bg-gray-100 rounded flex items-center gap-2 border">
+            <div class="w-10 h-10 bg-blue-400 rounded-full text-white flex items-center justify-center font-bold">
+                ${acc.name.charAt(0).toUpperCase()}
+            </div>
+            <div class=" truncate ">
+                <div class="font-semibold">${acc.name}</div>
+                <div class="text-sm text-gray-500 truncate" style="overflow: inherit;">${acc.email}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+
+function switchAccount(email) {
+    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    const user = accounts.find(acc => acc.email === email);
+
+    if (user) {
+        localStorage.setItem('login', JSON.stringify(user));
+        window.location.href = 'Gemini.html'; // redirect to app
+    }
+}
 
 
     </script>

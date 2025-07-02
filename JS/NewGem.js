@@ -287,3 +287,65 @@ document.addEventListener('DOMContentLoaded', function () {
             knowledgeTooltip.classList.add('hidden');
         }
     });
+
+    window.addEventListener('beforeunload', () => {
+    localStorage.removeItem('editingGem');
+});
+
+
+const myGemsForm = document.getElementById('myGemsForm');
+const nameInput = document.getElementById('nameInput');
+const nameTextarea = document.getElementById('nameTextarea');
+
+let editingGem = JSON.parse(localStorage.getItem('editingGem'));
+
+if (editingGem) {
+    // Set form values for editing
+    nameInput.value = editingGem.gemsName || '';
+    nameTextarea.value = editingGem.message || editingGem.gemsDescription || '';
+    gemTitle.textContent = 'Edit Gem';
+    saveButton.disabled = false;
+}
+
+const handleGemsStore = async (event) => {
+    event.preventDefault();
+
+    const gemsName = nameInput.value.trim();
+    const gemsDescription = nameTextarea.value.trim();
+
+    const gemsData = { gemsName, gemsDescription };
+
+    try {
+        let response;
+        if (editingGem) {
+           
+            response = await fetch(`http://localhost:8080/newGems/${editingGem.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(gemsData),
+            });
+        } else {
+           
+            response = await fetch('http://localhost:8080/newGems', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(gemsData),
+            });
+        }
+
+        if (response.ok) {
+            console.log("Gems data submitted successfully.");
+            localStorage.removeItem('editingGem');
+        } else {
+            console.error("Failed to submit gems data.");
+        }
+    } catch (error) {
+        console.error("Fetch error:", error);
+    }
+};
+
+myGemsForm.addEventListener('submit', handleGemsStore);
