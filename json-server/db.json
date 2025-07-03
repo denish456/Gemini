@@ -71,14 +71,14 @@
   ],
   "newGems": [
     {
-      "gemsName": "vaibhav",
-      "gemsDescription": "vvvvv vvvvvv vvvvvvvvvv vvvvvvv vvvvvvvvv vvvvvvvvvvvv vvvvvvvv vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv vvvvvvvvvvvvvvvvvvvvvvvvvvv vvvvvvvvvvvvvvvvvvvvvvvvv vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
-      "id": "fd5e"
-    },
-    {
       "id": "348e",
       "gemsName": "333",
       "gemsDescription": "667"
+    },
+    {
+      "id": "3989",
+      "gemsName": "456",
+      "gemsDescription": "555"
     }
   ]
 }
