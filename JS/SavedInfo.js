@@ -70,11 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (confirmDeleteBtn) {
-        confirmDeleteBtn.addEventListener('click', () => {
-
-        });
-    }
 
     if (cancelDeleteAll) {
         cancelDeleteAll.addEventListener('click', () => {

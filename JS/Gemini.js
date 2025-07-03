@@ -1150,23 +1150,21 @@ document.addEventListener('DOMContentLoaded', function () {
         createNewChat();
     }
     renderRecentChats();
-    // Sidebar toggle functionality
+
+    // Sidebar toggle
     if (openBtn) {
         openBtn.addEventListener('click', (e) => {
             e.stopPropagation();
 
             if (window.innerWidth < 768) {
-                // Mobile behavior - toggle sidebar visibility
                 mainContent.classList.toggle('sidebar-open');
                 mainContent.classList.toggle('pinned');
                 backdrop.classList.toggle('active');
 
-                // Ensure pinned state is consistent
                 if (mainContent.classList.contains('sidebar-open')) {
                     mainContent.classList.remove('pinned');
                 }
             } else {
-                // Desktop behavior - toggle pinned state
                 mainContent.classList.toggle('pinned');
             }
         });
@@ -1176,20 +1174,25 @@ document.addEventListener('DOMContentLoaded', function () {
         backdrop.addEventListener('click', () => {
             mainContent.classList.remove('sidebar-open');
             backdrop.classList.remove('active');
+            mainContent.classList.remove('pinned');
+            closeSettingsMenu();
         });
     }
 
-    // Responsive behavior
+    // Single resize handler
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 768) {
-            // On desktop - ensure sidebar is visible and backdrop hidden
             mainContent.classList.remove('sidebar-open');
             backdrop.classList.remove('active');
         } else {
-            // On mobile - remove pinned state
-            mainContent.classList.remove('sidebar-open');
             mainContent.classList.remove('pinned');
+            mainContent.classList.remove('sidebar-open');
             backdrop.classList.remove('active');
+            closeSettingsMenu();
+        }
+
+        if (!mainContent.classList.contains('pinned')) {
+            closeSettingsMenu();
         }
     });
 
@@ -1260,6 +1263,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+   // Header model dropdown
     const modelToggle = document.getElementById('model-toggle');
     const modelDropdown = document.getElementById('model-dropdown');
     if (modelToggle && modelDropdown) {
@@ -1267,14 +1271,19 @@ document.addEventListener('DOMContentLoaded', function () {
             e.stopPropagation();
             modelDropdown.classList.toggle('show');
         });
+
         document.addEventListener('click', function (e) {
             if (!modelDropdown.contains(e.target) && !modelToggle.contains(e.target)) {
                 modelDropdown.classList.remove('show');
             }
         });
-        modelDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
+
+        modelDropdown.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
     }
 
+    // Profile dropdown
     const profileButton = document.getElementById('profile-button');
     const profileDropdown = document.getElementById('profile-dropdown');
     if (profileButton && profileDropdown) {
@@ -1282,12 +1291,16 @@ document.addEventListener('DOMContentLoaded', function () {
             e.stopPropagation();
             profileDropdown.classList.toggle('show');
         });
+
         document.addEventListener('click', function (e) {
             if (!profileDropdown.contains(e.target) && e.target !== profileButton) {
                 profileDropdown.classList.remove('show');
             }
         });
-        profileDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
+
+        profileDropdown.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
     }
 
     // Profile image upload
@@ -1297,24 +1310,22 @@ document.addEventListener('DOMContentLoaded', function () {
         profileCircle.addEventListener("click", () => {
             profileInput.click();
         });
+
         profileInput.addEventListener("change", function () {
             const file = this.files[0];
             if (file && file.type.startsWith("image/")) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     const imageUrl = e.target.result;
-                    if (profileCircle) {
-                        profileCircle.innerHTML = "";
-                        profileCircle.style.backgroundImage = `url(${imageUrl})`;
-                        profileCircle.style.backgroundSize = "cover";
-                        profileCircle.style.backgroundPosition = "center";
-                    }
-                    if (profileButton) {
-                        profileButton.innerHTML = "";
-                        profileButton.style.backgroundImage = `url(${imageUrl})`;
-                        profileButton.style.backgroundSize = "cover";
-                        profileButton.style.backgroundPosition = "center";
-                    }
+                    profileCircle.innerHTML = "";
+                    profileCircle.style.backgroundImage = `url(${imageUrl})`;
+                    profileCircle.style.backgroundSize = "cover";
+                    profileCircle.style.backgroundPosition = "center";
+
+                    profileButton.innerHTML = "";
+                    profileButton.style.backgroundImage = `url(${imageUrl})`;
+                    profileButton.style.backgroundSize = "cover";
+                    profileButton.style.backgroundPosition = "center";
                 };
                 reader.readAsDataURL(file);
             }
@@ -1322,18 +1333,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+   // Sidebar hover logic (if needed)
     if (mainContent && geminiData) {
         mainContent.addEventListener('mouseenter', () => {
-            if (window.innerWidth >= 768) { /* Handled by CSS :hover */ }
+            if (window.innerWidth >= 768) {}
         });
         mainContent.addEventListener('mouseleave', () => {
-            if (window.innerWidth >= 768 && !mainContent.classList.contains("pinned")) { /* Handled by CSS :not(:hover) */ }
-        });
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                mainContent.classList.remove('sidebar-open');
-                backdrop.classList.remove('active');
-            }
+            if (window.innerWidth >= 768 && !mainContent.classList.contains("pinned")) {}
         });
     }
 
@@ -1352,28 +1358,72 @@ document.addEventListener('DOMContentLoaded', function () {
     if (clearHistoryButton) {
         clearHistoryButton.addEventListener('click', clearAllHistory);
     }
+
+
+      if (mainContent) {
+        const observer = new MutationObserver(() => {
+            if (!mainContent.classList.contains('pinned')) {
+                closeSettingsMenu();
+            }
+        });
+        observer.observe(mainContent, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    }
 });
 
+
+// Toggle settings dropdown only when pinned
 function toggleDropdown() {
     const menu = document.getElementById('dropdownMenu');
-    if (menu) {
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        if (window.innerWidth >= 768) {
+    const settingHelp = document.getElementById('setting-help');
+    const mainContent = document.getElementById('main-content');
+
+    if (menu && settingHelp && mainContent) {
+        // ✅ Force add pinned class if not present
+        if (!mainContent.classList.contains('pinned')) {
             mainContent.classList.add('pinned');
-            setting_help.classList.toggle('setingbackgroundChange');
         }
+
+        // ✅ Toggle menu display
+        const isVisible = menu.style.display === 'block';
+        menu.style.display = isVisible ? 'none' : 'block';
+        settingHelp.classList.toggle('setingbackgroundChange', !isVisible);
     }
 }
+
+
+// Auto-close settings on document click
 document.addEventListener('click', function (e) {
     const dropdown = document.getElementById('dropdownMenu');
     const button = document.querySelector('.dropdown-toggle');
-    if (dropdown && button && !dropdown.contains(e.target) && !button.contains(e.target)) {
-        dropdown.style.display = 'none';
-        setting_help.classList.remove('setingbackgroundChange');
+    const mainContent = document.getElementById('main-content');
+    const settingHelp = document.getElementById('setting-help');
+
+    if (dropdown && button && mainContent && settingHelp) {
+        if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+            dropdown.style.display = 'none';
+            settingHelp.classList.remove('setingbackgroundChange');
+        }
+
+        if (!mainContent.classList.contains('pinned')) {
+            dropdown.style.display = 'none';
+            settingHelp.classList.remove('setingbackgroundChange');
+        }
     }
-
-
 });
+
+// Close settings menu utility
+function closeSettingsMenu() {
+    const menu = document.getElementById('dropdownMenu');
+    const settingHelp = document.getElementById('setting-help');
+
+    if (menu && settingHelp) {
+        menu.style.display = 'none';
+        settingHelp.classList.remove('setingbackgroundChange');
+    }
+}
 
 // Theme management
 function applyTheme(theme) {
@@ -1508,11 +1558,14 @@ function loadChatWithHistoryAnimation(chatId) {
     }
 }
 
-// Mobile menu toggle functionality
+// Mobile menu toggle
 document.getElementById('mobileMenuBtn').addEventListener('click', function () {
-    document.getElementById('main-content').classList.toggle('sidebar-open');
-    document.getElementById('main-content').classList.toggle('pinned');
-    document.getElementById('backdrop').classList.toggle('active');
+    const mainContent = document.getElementById('main-content');
+    const backdrop = document.getElementById('backdrop');
+
+    mainContent.classList.toggle('sidebar-open');
+    mainContent.classList.toggle('pinned');
+    backdrop.classList.toggle('active');
 });
 
 // Close sidebar when clicking backdrop
@@ -1523,21 +1576,17 @@ document.getElementById('backdrop').addEventListener('click', function () {
 });
 
 
-
+// Option selector with check icon
 function selectOption(clickedElement) {
-    // Remove 'selected' class and hide all check icons
     document.querySelectorAll('.option').forEach(option => {
         option.classList.remove('selected');
         const checkIcon = option.querySelector('.fa-circle-check');
-        if (checkIcon) {
-            checkIcon.classList.add('hidden');
-        }
+        if (checkIcon) checkIcon.classList.add('hidden');
     });
 
-    // Add 'selected' class and show check icon for clicked option
     clickedElement.classList.add('selected');
     const clickedCheckIcon = clickedElement.querySelector('.fa-circle-check');
-    if (clickedCheckIcon) {
-        clickedCheckIcon.classList.remove('hidden');
-    }
+    if (clickedCheckIcon) clickedCheckIcon.classList.remove('hidden');
 }
+
+
