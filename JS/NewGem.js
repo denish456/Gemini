@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    const toggleBtn = document.getElementById('toggleDropdown');
+    const toggleBtnNewgems = document.getElementById('toggleDropdown');
     const dropdownMenu = document.getElementById('dropdownMenuknowlage');
     const uploadOption = document.getElementById('uploadOption');
     const fileInput = document.getElementById('fileInput');
@@ -250,12 +250,12 @@ document.addEventListener('DOMContentLoaded', function () {
         fileInput.value = '';
     });
 
-    toggleBtn.addEventListener('click', () => {
+    toggleBtnNewgems.addEventListener('click', () => {
         dropdownMenu.classList.toggle('hidden');
     });
 
     document.addEventListener('click', (e) => {
-        if (!dropdownMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+        if (!dropdownMenu.contains(e.target) && !toggleBtnNewgems.contains(e.target)) {
             dropdownMenu.classList.add('hidden');
         }
     });
