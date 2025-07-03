@@ -158,12 +158,12 @@ if (savedAccounts.length > 0) {
     container.innerHTML = savedAccounts.map(acc => `
         <div onclick="switchAccount('${acc.email}')" 
             class="p-3 truncate cursor-pointer hover:bg-gray-100 rounded flex items-center gap-2 border">
-            <div class="w-10 h-10 bg-blue-400 rounded-full text-white flex items-center justify-center font-bold">
+            <div class="w-[36px] h-[36px] bg-blue-400 rounded-full text-white flex items-center justify-center font-bold">
                 ${acc.name.charAt(0).toUpperCase()}
             </div>
-            <div class=" truncate ">
+            <div class="text-left truncate overflow-hidden w-[175px] sm:w-auto">
                 <div class="font-semibold">${acc.name}</div>
-                <div class="text-sm text-gray-500 truncate" style="overflow: inherit;">${acc.email}</div>
+                <div class="text-sm text-gray-500 truncate " style="overflow: inherit;">${acc.email}</div>
             </div>
         </div>
     `).join('');

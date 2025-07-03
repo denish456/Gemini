@@ -67,6 +67,8 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
             localStorage.setItem('login', JSON.stringify(user));
             window.location.href = 'Gemini.html';
+        }else {
+            alert('Invalid email or password');
         }
 
 

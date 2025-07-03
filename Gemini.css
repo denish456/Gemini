@@ -36,6 +36,7 @@
    --box-Shadow: rgb(60, 64, 67);
    --active-focus-bg:#D3E3FD;
    --gems-bg-hover:#E9EEF6;
+   --account-hover: #dce1e8;
    
 }
 
@@ -77,6 +78,7 @@ body.dark {
     --box-Shadow: #080808;
      --active-focus-bg:#003355;
      --gems-bg-hover:#333537;
+     --account-hover: #37393b;
 }
 
 
@@ -1299,9 +1301,7 @@ main {
     padding-top: 0;
   }
 
-  #profile-dropdown {
-    width: 270px;
-  }
+
 
   .gemini-header a {
     padding: 5px 10px;
@@ -1528,9 +1528,7 @@ main {
   padding: 0.5rem 0.75rem; 
 }
 
-.main-content:not(.pinned) .dropdown-menu{
-  display: none !important;
-}
+
 #inputWrapper .hidden{
   display: none !important;
 }
@@ -1539,3 +1537,7 @@ main {
   display: none !important;
 }
  
+#toggleAccountsBtn {
+  justify-content: space-between !important;
+  padding: 16px ;
+}

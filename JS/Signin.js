@@ -88,12 +88,30 @@ document.getElementById('signInForm').addEventListener('submit', function (e) {
         })
     })
         .then(() => {
-            localStorage.setItem('login', JSON.stringify({
+            const newUser = {
                 name: name.value,
-                email: email.value
-            }));
+                email: email.value,
+                password: password.value // Include this so it works with login.js
+            };
+
+            localStorage.setItem('login', JSON.stringify(newUser));
+
+            let existingAccounts = JSON.parse(localStorage.getItem('accounts')) || [];
+
+            // Add only if email doesn't already exist
+            if (!existingAccounts.some(acc => acc.email === newUser.email)) {
+                existingAccounts.push(newUser);
+                localStorage.setItem('accounts', JSON.stringify(existingAccounts));
+            }
+
             window.location.href = 'gemini.html';
+
+
+
+            
+
         })
+
         .catch(error => {
             console.error('Error:', error);
             alert('Failed to save. Try again.');
