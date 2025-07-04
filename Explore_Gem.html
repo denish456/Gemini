@@ -874,7 +874,7 @@
     </script>
     <!---------------------------------------------->
 
- 
+
     <script>
         const accountData = JSON.parse(localStorage.getItem('login'))
 
@@ -1092,7 +1092,7 @@
         }
 
 
-  
+
 
     </script>
     <script>
@@ -1235,9 +1235,9 @@
                                     </button>
                                     <div id="gemx-menu-${v.id}" class="gemx-dropdown absolute right-0 bottom-full mb-2 w-56 rounded-xl shadow-xl bg-[--bg-main] text-[--text-main] hidden z-10">
                                         <ul class="py-1 text-sm">
-                                            <li class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover]"><i class="fa-regular fa-comment text-[20px]"></i> New chat</li>
-                                            <li class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover]"><i class="fa-regular fa-copy text-[20px]"></i> Make a copy</li>
-                                            <li onclick="handleDeleteGem('${v.id}')" class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover] "><i class="fa-regular fa-trash-can text-[20px]"></i> Delete</li>
+                                            <li> <a  href="Gemini.html" class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover]"><i class="fa-regular fa-comment text-[20px]"></i> New chat </a></li>
+                                            <li > <a onclick='copyGem(${JSON.stringify(v)})' class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover]"><i class="fa-regular fa-copy text-[20px]"></i> Make a copy </a></li>
+                                            <li > <a onclick="handleDeleteGem('${v.id}')" class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover] "><i class="fa-regular fa-trash-can text-[20px]"></i> Delete </a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -1259,17 +1259,18 @@
         }
 
         async function handleEditgem(id) {
-
             const response = await fetch('http://localhost:8080/newGems');
             const gemsdata = await response.json();
 
             const gem = gemsdata.find((v) => v.id === id);
 
-            console.log(gem);
-
             localStorage.setItem('editingGem', JSON.stringify(gem));
+
+            localStorage.removeItem('copiedGem');
+
             window.location.href = 'NewGem.html';
         }
+
 
         fetchGemsData();
 
@@ -1375,6 +1376,14 @@
         })
 
 
+        function copyGem(selectedGem) {
+            const copiedGem = { ...selectedGem };
+            delete copiedGem.id;
+
+            localStorage.setItem('editingGem', JSON.stringify(copiedGem));
+            localStorage.setItem('copiedGem', 'true');
+            window.location.href = 'NewGem.html';
+        }
     </script>
 
 

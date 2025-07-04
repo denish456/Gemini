@@ -614,9 +614,18 @@
                         style="background-color: var(--dropdown-bg); color: var(--dropdown-text);">
                         
                         <!-- Header -->
-                        <div class="px-4 pt-5 pb-2 text-center text-sm font-medium" style="color: var(--dropdown-text);">
-                        ${accountData.email}
+                       <div class="flex items-center relative px-4 pt-5 pb-2">
+                            <div class="flex-1 text-center text-sm font-medium truncate px-2 max-w-[90%]"
+                                style="color: var(--dropdown-text); ">
+                                ${accountData.email}
+                            </div>
+                            <button id="profile-close"
+                                class="text-lg absolute top-[14px] right-[6px] hover:bg-[var(--sidebar-hover)] w-[36px] h-[36px] rounded-full font-medium text-[var(--text-muted)]">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
                         </div>
+
+
 
                         <!-- Avatar and Welcome -->
                         <div class="px-4 py-4 flex flex-col items-center">
@@ -780,7 +789,7 @@
         }
 
 
-  
+
 
     </script>
     <script>
@@ -806,8 +815,8 @@
         });
 
     </script>
-    
-<!-- ---------------------------------------------- -->
+
+    <!-- ---------------------------------------------- -->
 
 
     <script src="./JS/Gemini.js"></script>

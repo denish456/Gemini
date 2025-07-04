@@ -528,7 +528,7 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
     const moreDropdown = document.createElement('ul');
     moreDropdown.classList.add(
         'absolute', 'hidden', 'z-20', 'rounded-lg', 'shadow-lg', 'py-2',
-        'text-sm', 'w-57' , 'justify-center', 'flex-col', 'flex' ,
+        'text-sm', 'w-57', 'justify-center', 'flex-col', 'flex',
         'gemini-dropdown-menu'
     );
     // Add inline styles to match your theme variables (assuming they are defined globally)
@@ -623,7 +623,7 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
         }
     });
 
-   
+
     moreButton.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent the document click listener from immediately closing it
 
@@ -677,7 +677,7 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
             if (currentDropdownBottom > viewportHeight) {
                 // If it goes off bottom, adjust top to keep it on screen
                 moreDropdown.style.top = `${viewportHeight - moreDropdown.offsetHeight - padding}px`;
-                
+
                 if (moreDropdown.getBoundingClientRect().top < padding) {
                     moreDropdown.style.top = `${padding}px`;
                     moreDropdown.style.height = `${viewportHeight - (2 * padding)}px`;
@@ -690,20 +690,20 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
             const dropdownWidth = moreDropdown.offsetWidth;
             const dropdownHeight = moreDropdown.offsetHeight;
 
-            moreDropdown.style.top = `${buttonRect.top - dropdownHeight - 8}px`; 
-            moreDropdown.style.left = `${buttonRect.left - 5}px`; 
-            
+            moreDropdown.style.top = `${buttonRect.top - dropdownHeight - 8}px`;
+            moreDropdown.style.left = `${buttonRect.left - 5}px`;
+
             const currentLeft = moreDropdown.getBoundingClientRect().left;
             const currentRight = moreDropdown.getBoundingClientRect().right;
 
             if (currentLeft < padding) { // Goes off left
-                 moreDropdown.style.left = `${padding}px`;
+                moreDropdown.style.left = `${padding}px`;
             } else if (currentRight > viewportWidth - padding) { // Goes off right
-                 moreDropdown.style.left = `${viewportWidth - dropdownWidth - padding}px`;
+                moreDropdown.style.left = `${viewportWidth - dropdownWidth - padding}px`;
             }
 
             if (moreDropdown.getBoundingClientRect().top < 0) {
-                 moreDropdown.style.top = `${buttonRect.bottom + 5}px`; 
+                moreDropdown.style.top = `${buttonRect.bottom + 5}px`;
             }
         }
     });
@@ -1156,7 +1156,7 @@ document.addEventListener('DOMContentLoaded', function () {
         openBtn.addEventListener('click', (e) => {
             e.stopPropagation();
 
-            if (window.innerWidth < 768) {
+            if (window.innerWidth <= 768) {
                 mainContent.classList.toggle('sidebar-open');
                 mainContent.classList.toggle('pinned');
                 backdrop.classList.toggle('active');
@@ -1263,7 +1263,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-   // Header model dropdown
+    // Header model dropdown
     const modelToggle = document.getElementById('model-toggle');
     const modelDropdown = document.getElementById('model-dropdown');
     if (modelToggle && modelDropdown) {
@@ -1286,6 +1286,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Profile dropdown
     const profileButton = document.getElementById('profile-button');
     const profileDropdown = document.getElementById('profile-dropdown');
+    const profileClose = document.getElementById('profile-close');
     if (profileButton && profileDropdown) {
         profileButton.addEventListener('click', function (e) {
             e.stopPropagation();
@@ -1298,8 +1299,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+
+
         profileDropdown.addEventListener('click', function (e) {
             e.stopPropagation();
+        });
+    }
+
+    if (profileClose) {
+        profileClose.addEventListener('click', function (e) {
+            e.stopPropagation();
+            profileDropdown.classList.remove('show');
         });
     }
 
@@ -1333,13 +1343,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-   // Sidebar hover logic (if needed)
+    // Sidebar hover logic (if needed)
     if (mainContent && geminiData) {
         mainContent.addEventListener('mouseenter', () => {
-            if (window.innerWidth >= 768) {}
+            if (window.innerWidth >= 768) { }
         });
         mainContent.addEventListener('mouseleave', () => {
-            if (window.innerWidth >= 768 && !mainContent.classList.contains("pinned")) {}
+            if (window.innerWidth >= 768 && !mainContent.classList.contains("pinned")) { }
         });
     }
 
@@ -1360,7 +1370,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-      if (mainContent) {
+    if (mainContent) {
         const observer = new MutationObserver(() => {
             if (!mainContent.classList.contains('pinned')) {
                 closeSettingsMenu();
