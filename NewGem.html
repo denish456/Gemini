@@ -464,8 +464,8 @@
                                 </span>
                             </div>
                         </button>
-                        <form id="myGemsForm" action="" onsubmit="return false;"
-                         class="newGems-data-detail p-5 w-[95%] flex flex-col rounded-3xl content-container"
+                        <form id="myGemsForm" action="" onsubmit=""
+                            class="newGems-data-detail p-5 w-[95%] flex flex-col rounded-3xl content-container"
                             style="background-color: var(--container-bg);">
                             <div class="flex items-center justify-between w-[100%] header-content">
                                 <div class="flex items-center gap-4">
@@ -684,11 +684,10 @@
                                         <div id="previewBox"
                                             class="flex flex-col items-center justify-center border-none border-gray-300 rounded-lg h-96 text-center"
                                             style="color: var(--preview-text);">
-                                            <button
-                                                class="material-symbols-outlined rounded-full text-[30px] w-[50px] h-[50px] flex items-center justify-center mb-10"
+                                            <div id="gem-preview-Name" class="material-symbols-outlined rounded-full text-[30px] w-[50px] h-[50px] flex items-center justify-center mb-10"
                                                 style="background-color: var(--icon-hover-bg); color: var(--preview-text);">
                                                 diamond
-                                            </button>
+                                            </div>
                                             <p id="previewText">To preview your Gem start by giving it a name</p>
                                         </div>
                                         <div class="mt-6 flex items-center gap-2">
@@ -987,7 +986,7 @@
     </script>
     <!---------------------------------------------->
 
-   
+
     <script>
         const accountData = JSON.parse(localStorage.getItem('login'))
 
@@ -1205,9 +1204,10 @@
         }
 
 
-  
+
 
     </script>
+
     <script>
         const toggleBtn = document.getElementById("toggleAccountsBtn");
         const accountList = document.getElementById("accountList");
@@ -1231,8 +1231,9 @@
         });
 
     </script>
-    <script src="./JS/NewGem.js"></script>
+
     <script src="./JS/index.js"></script>
+    <script src="./JS/NewGem.js"></script>
 </body>
 
 </html>
