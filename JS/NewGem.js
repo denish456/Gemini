@@ -32,17 +32,13 @@ function toggleSections(showEditor) {
         if (showEditor) {
             editorSection.classList.add('active');
             previewSection.classList.remove('active');
-            editorToggle.classList.add('bg-[#0B57D0]', 'text-white');
-            editorToggle.classList.remove('bg-gray-300');
-            previewToggle.classList.add('bg-gray-300');
-            previewToggle.classList.remove('bg-[#0B57D0]', 'text-white');
+            editorToggle.classList.add('border-b-2','border-[--add-btn]');
+            previewToggle.classList.remove('border-b-2','border-[--add-btn]');
         } else {
             previewSection.classList.add('active');
             editorSection.classList.remove('active');
-            previewToggle.classList.add('bg-[#0B57D0]', 'text-white');
-            previewToggle.classList.remove('bg-gray-300');
-            editorToggle.classList.add('bg-gray-300');
-            editorToggle.classList.remove('bg-[#0B57D0]', 'text-white');
+            previewToggle.classList.add('border-b-2','border-[--add-btn]');
+            editorToggle.classList.remove('border-b-2','border-[--add-btn]');
         }
     } else {
         // For desktop, always show both sections
