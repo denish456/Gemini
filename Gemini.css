@@ -37,7 +37,7 @@
    --active-focus-bg:#D3E3FD;
    --gems-bg-hover:#E9EEF6;
    --account-hover: #dce1e8;
-   
+   --bg-previewSectionChat:#FFFFFF;
 }
 
 body.dark {
@@ -79,6 +79,7 @@ body.dark {
      --active-focus-bg:#003355;
      --gems-bg-hover:#333537;
      --account-hover: #37393b;
+     --bg-previewSectionChat: #1a1b1c;
 }
 
 
@@ -594,7 +595,7 @@ a {
 .keep-menu-expanded,
 .search-span {
   bottom: -25px;
-  left: -12%;
+  left: -45%;
   transform: translateX(10px);
 }
 
