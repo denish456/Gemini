@@ -469,7 +469,7 @@
                             style="background-color: var(--container-bg);">
                             <div class="flex items-center justify-between w-[100%] header-content">
                                 <div class="flex items-center gap-4">
-                                    <button
+                                    <button type="button"
                                         class="material-symbols-outlined rounded-full text-[30px] w-[50px] h-[50px] flex items-center justify-center gem-icon"
                                         style="background-color: var(--icon-hover-bg);">
                                         diamond
@@ -488,11 +488,11 @@
                             </div>
 
                             <div class="mobile-toggle mt-4 gap-2">
-                                <button id="editorToggle"
+                                <button id="editorToggle" type="button"
                                     class="toggle-btn rounded-full py-2 px-4 text-sm font-semibold">
                                     Editor
                                 </button>
-                                <button id="previewToggle"
+                                <button id="previewToggle" type="button"
                                     class="toggle-btn rounded-full py-2 px-4 text-sm font-semibold">
                                     Preview
                                 </button>
@@ -546,8 +546,8 @@
                                                         style of response do you want?</div>
                                                     <div class="flex justify-start gap-4 font-semibold"
                                                         style="color: var(--tooltip-button-text);">
-                                                        <button class="hover:underline">Got it</button>
-                                                        <button class="hover:underline">Learn more</button>
+                                                        <button type="button" class="hover:underline">Got it</button>
+                                                        <button type="button" class="hover:underline">Learn more</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -560,21 +560,21 @@
                                                 class="w-full h-[250px] border-none outline-none resize-none"
                                                 style="background-color: var(--input-bg); color: var(--text-color); placeholder-color: var(--placeholder-color);"></textarea>
                                             <div class="flex gap-2">
-                                                <button id="undoBtn" class="p-2 rounded-full transition"
+                                                <button id="undoBtn"  class="p-2 rounded-full transition" type="button"
                                                     style="background-color: var(--gray-button-bg); color: var(--text-color);"
                                                     onmouseover="this.style.backgroundColor='var(--gray-button-hover-bg)'"
                                                     onmouseout="this.style.backgroundColor='var(--gray-button-bg)'"
                                                     title="Undo">
                                                     <span class="material-symbols-outlined">undo</span>
                                                 </button>
-                                                <button id="redoBtn" class="p-2 rounded-full transition"
+                                                <button id="redoBtn" class="p-2 rounded-full transition" type="button"
                                                     style="background-color: var(--gray-button-bg); color: var(--text-color);"
                                                     onmouseover="this.style.backgroundColor='var(--gray-button-hover-bg)'"
                                                     onmouseout="this.style.backgroundColor='var(--gray-button-bg)'"
                                                     title="Redo">
                                                     <span class="material-symbols-outlined">redo</span>
                                                 </button>
-                                                <button id="" class="p-2 rounded-full transition"
+                                                <button id="" class="p-2 rounded-full transition" type="button"
                                                     style="background-color: var(--gray-button-bg); color: var(--text-color);"
                                                     onmouseover="this.style.backgroundColor='var(--gray-button-hover-bg)'"
                                                     onmouseout="this.style.backgroundColor='var(--gray-button-bg)'"
@@ -616,8 +616,8 @@
                                                         delete files at any time from here.</div>
                                                     <div class="flex justify-start gap-4 font-semibold"
                                                         style="color: var(--tooltip-button-text);">
-                                                        <button class="hover:underline">Got it</button>
-                                                        <button class="hover:underline">Learn more</button>
+                                                        <button type="button" class="hover:underline">Got it</button>
+                                                        <button type="button" class="hover:underline">Learn more</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -633,7 +633,7 @@
                                                 <div id="imageWrapper" class="relative hidden group">
                                                     <img id="previewImage" class="h-24 w-24 object-cover rounded-md"
                                                         alt="Preview" />
-                                                    <button id="removeImage"
+                                                    <button id="removeImage" 
                                                         class="absolute top-1 right-1 bg-black bg-opacity-60 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                                                         type="button">
                                                         ×
@@ -679,26 +679,30 @@
                                     class="preview-section flex flex-col w-full lg:w-[50%] space-y-1">
                                     <label class="text-md font-semibold" for="user-input"
                                         style="color: var(--text-color);">Preview</label>
-                                    <div class="w-full p-6 rounded-lg shadow h-full"
+                                        
+                                    <div  class="w-full p-6 relative rounded-lg shadow h-full overflow-hidden"
                                         style="background-color: var(--preview-bg);">
+                                        <div id="previewSectionChat" class="w-full h-full absolute top-0 left-0 z-50 opacity-[0.5]"></div>
                                         <div id="previewBox"
                                             class="flex flex-col items-center justify-center border-none border-gray-300 rounded-lg h-96 text-center"
                                             style="color: var(--preview-text);">
-                                            <div id="gem-preview-Name" class="material-symbols-outlined rounded-full text-[30px] w-[50px] h-[50px] flex items-center justify-center mb-10"
-                                                style="background-color: var(--icon-hover-bg); color: var(--preview-text);">
-                                                diamond
+                                            <div  class="rounded-full  w-[50px] h-[50px] flex items-center justify-center mb-10"
+                                                style="background-color: var(--icon-hover-bg); ">
+                                                <span id="gem-preview-Name" class="material-symbols-outlined text-[30px] text-white flex items-center text-center justify-center w-full h-full" 
+                                                style="display: flex !important;"
+                                                >diamond</span>
                                             </div>
                                             <p id="previewText">To preview your Gem start by giving it a name</p>
                                         </div>
                                         <div class="mt-6 flex items-center gap-2">
                                             <div class="input-area-wrapper w-full">
-                                                <div class="relative border rounded-3xl px-6 pt-4 pb-4"
+                                                <div class="relative border rounded-3xl px-6 pt-4 pb-8"
                                                     style="border-color: var(--border-color); background-color: var(--input-bg);">
                                                     <div id="image-preview-container"
                                                         class="mb-2 relative hidden group w-fit">
                                                         <img id="image-preview"
                                                             class="max-w-[100px] max-h-[100px] rounded-md" />
-                                                        <button id="remove-preview"
+                                                        <button id="remove-preview" type="button"
                                                             class="absolute top-1 right-1 w-8 h-8 text-[18px] bg-black bg-opacity-60 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                                             &times;
                                                         </button>
@@ -710,7 +714,7 @@
                                                         style="color: var(--sidebar-text);">
                                                         <div class="flex gap-2 text-sm items-center">
                                                             <div class="relative">
-                                                                <button id="plus-button"
+                                                                <button id="plus-button" type="button"
                                                                     class="group h-10 w-10 flex items-center justify-center rounded-full"
                                                                     style="background-color: var(--input-bg);"
                                                                     onmouseover="this.style.backgroundColor='var(--bg-hover)'"
@@ -725,7 +729,7 @@
                                                                 <div id="plus-dropdown"
                                                                     class="hidden absolute py-2 left-0 bottom-full mb-2 w-48 rounded-lg shadow-lg z-50"
                                                                     style="background-color: var(--dropdown-bg); color: var(--dropdown-text);">
-                                                                    <button id="trigger-upload"
+                                                                    <button id="trigger-upload" type="button"
                                                                         class="w-full text-left px-4 py-2 flex items-center gap-2"
                                                                         onmouseover="this.style.backgroundColor='var(--dropdown-hover)'"
                                                                         onmouseout="this.style.backgroundColor='var(--dropdown-bg)'">
@@ -737,7 +741,7 @@
                                                                         </svg>
                                                                         Upload files
                                                                     </button>
-                                                                    <button
+                                                                    <button type="button"
                                                                         class="w-full text-left px-4 py-2 flex items-center gap-2"
                                                                         onmouseover="this.style.backgroundColor='var(--dropdown-hover)'"
                                                                         onmouseout="this.style.backgroundColor='var(--dropdown-bg)'">
@@ -752,7 +756,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <button id="send-button"
+                                                        <button id="send-button" type="button"
                                                             class="group h-10 w-10 rounded-full flex items-center justify-center relative overflow-hidden transition-all duration-300 hover:bg-[var(--bg-hover)]">
                                                             <span id="mic-icon"
                                                                 class="absolute transition-all duration-300 ease-in-out opacity-100 scale-100 translate-x-0">

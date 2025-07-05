@@ -1,15 +1,22 @@
+// For all button click handlers, ensure they're not submitting
+document.querySelectorAll('button').forEach(button => {
+    if (button.type !== 'submit') {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Your button's functionality
+        });
+    }
+});
+
+
 document.addEventListener('DOMContentLoaded', function () {
     // Back button functionality
     const backButton = document.getElementById('backButton');
     if (backButton) {
-        backButton.addEventListener('click', function () {
-            // Use history.back() to go to the previous page
+        // Example for your back button
+        backButton.addEventListener('click', (e) => {
+            e.preventDefault();
             window.history.back();
-
-            // Alternatively, you can use:
-            // window.location.href = '/'; // Goes to home page
-            // or specify a specific URL:
-            // window.location.href = '/previous-page.html';
         });
     }
 });
@@ -58,8 +65,18 @@ function initializeSections() {
 
 // Only add event listeners if the toggle buttons exist (mobile view)
 if (editorToggle && previewToggle) {
-    editorToggle.addEventListener('click', () => toggleSections(true));
-    previewToggle.addEventListener('click', () => toggleSections(false));
+    document.addEventListener('click', (e) => {
+        // Handle all button clicks in one place
+        if (e.target.closest('#editorToggle')) {
+            e.preventDefault();
+            toggleSections(true);
+        }
+        else if (e.target.closest('#previewToggle')) {
+            e.preventDefault();
+            toggleSections(false);
+        }
+        // Add other button handlers here
+    });
 }
 
 // Handle window resize
@@ -75,15 +92,17 @@ const input = document.getElementById("nameInput");
 const wrapper = document.getElementById("inputWrapper");
 const errorText = document.getElementById("errorText");
 const errorIcon = document.getElementById("errorIcon");
+const previewSectionChat = document.getElementById("previewSectionChat");
 
 // Function to update Save button state
 function updateSaveButtonState() {
     if (input.value.trim() !== "") {
         saveButton.disabled = false;
-
+        previewSectionChat.style.display = "none"
     } else {
         saveButton.disabled = true;
-
+        previewSectionChat.style.display = "block"
+        previewSectionChat.style.backgroundColor = "var(--bg-previewSectionChat)"
     }
 }
 
@@ -95,32 +114,45 @@ input.addEventListener("blur", () => {
         wrapper.classList.add("border-[#B3261E]");
         errorText.classList.remove("hidden");
         errorIcon.classList.remove("hidden");
+        previewSectionChat.style.display = "block"
+        previewSectionChat.style.backgroundColor = "var(--bg-previewSectionChat)"
+
     } else {
         wrapper.classList.remove("border-[#B3261E]");
         wrapper.classList.add("border-transparent");
         errorText.classList.add("hidden");
         errorIcon.classList.add("hidden");
+        previewSectionChat.style.display = "none"
     }
 });
 
+const gemIcon = document.getElementById('gem-preview-Name');
 input.addEventListener("input", () => {
     const trimmedValue = input.value.trim();
     gemTitle.textContent = trimmedValue || 'New Gem';
 
-    // Update icon with first letter
-    const gemIcon = document.getElementById('gem-preview-Name');
+    // Update icon
     if (gemIcon) {
-        gemIcon.textContent = trimmedValue ? trimmedValue[0].toUpperCase() : `diamond`;
+        if (!trimmedValue) {
+            // Show diamond icon if empty
+            gemIcon.textContent = 'diamond';
+            gemIcon.classList.add('material-symbols-outlined');
+        } else {
+            // Show first character (number or letter)
+            gemIcon.textContent = trimmedValue[0].toUpperCase();
+            gemIcon.classList.remove('material-symbols-outlined');
+        }
     }
 
-    // Update preview text
+    // Rest of your existing code...
     if (trimmedValue) {
         previewText.textContent = trimmedValue;
+        previewText.style.color = "var(--text-main)";
     } else {
         previewText.textContent = 'To preview your Gem start by giving it a name';
+        previewText.style.color = "var(--text-muted)";
     }
 
-    // Hide validation errors
     if (trimmedValue) {
         wrapper.classList.remove("border-[#B3261E]");
         wrapper.classList.add("border-transparent");
@@ -144,10 +176,12 @@ const previewText = document.getElementById('previewText');
 const micIcon = document.getElementById('mic-icon');
 const sendIcon = document.getElementById('send-icon');
 
-plusButton.addEventListener('click', () => {
-    plusDropdown.classList.toggle('hidden');
-});
-
+if (plusButton) {
+    plusButton.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevents default button behavior
+        plusDropdown.classList.toggle('hidden'); // Toggles the plus menu
+    });
+}
 triggerUpload.addEventListener('click', () => {
     uploadInput.click();
 });
@@ -194,14 +228,14 @@ function autoResize(textarea) {
     }
 }
 
-document.getElementById('send-button').addEventListener('click', () => {
-    const value = userInput.value.trim();
-    if (value) {
-        previewText.textContent = `Previewing "${value}" Gem`;
-    } else {
-        previewText.textContent = 'To preview your Gem start by giving it a name';
-    }
-});
+// document.getElementById('send-button').addEventListener('click', () => {
+//     const value = userInput.value.trim();
+//     if (value) {
+//         previewText.textContent = `Previewing "${value}" Gem`;
+//     } else {
+//         previewText.textContent = 'To preview your Gem start by giving it a name';
+//     }
+// });
 
 const textarea = document.getElementById('nameTextarea');
 const undoBtn = document.getElementById('undoBtn');
@@ -263,9 +297,12 @@ removeImage.addEventListener('click', () => {
     fileInput.value = '';
 });
 
-toggleBtnNewgems.addEventListener('click', () => {
-    dropdownMenu.classList.toggle('hidden');
-});
+if (toggleBtnNewgems) {
+    toggleBtnNewgems.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevents default button behavior (like form submission)
+        dropdownMenu.classList.toggle('hidden'); // Toggles visibility of dropdown
+    });
+}
 
 document.addEventListener('click', (e) => {
     if (!dropdownMenu.contains(e.target) && !toggleBtnNewgems.contains(e.target)) {
@@ -315,36 +352,6 @@ const nameTextarea = document.getElementById('nameTextarea');
 const editingGem = JSON.parse(localStorage.getItem('editingGem'));
 const isCopy = localStorage.getItem('copiedGem') === 'true';
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Existing code...
-
-    if (editingGem) {
-        const nameInputEl = document.getElementById('nameInput');
-        const nameTextareaEl = document.getElementById('nameTextarea');
-        const gemTitleEl = document.getElementById('gemTitle');
-        const saveBtn = document.getElementById('saveButton');
-
-        nameInputEl.value = isCopy
-            ? `Copy of ${editingGem.gemsName || ''}`.trim()
-            : editingGem.gemsName || '';
-
-        nameTextareaEl.value = editingGem.message || editingGem.gemsDescription || '';
-        gemTitleEl.textContent = nameInputEl.value;
-        saveBtn.disabled = false;
-    }
-
-    // ✅ ✅ ✅ Add form event listener here
-    const form = document.getElementById("myGemsForm");
-    if (form) {
-        form.addEventListener("submit", handleGemsStore);
-    }
-});
-
-
-
-
-console.log(localStorage.getItem('editingGem'));
-console.log(localStorage.getItem('copiedGem'));
 
 
 
@@ -388,7 +395,7 @@ const handleGemsStore = async (event) => {
 
 
             // ✅ Only now refresh the page after successful save
-            location.reload(); 
+            location.reload();
         } else {
             console.error("Failed to submit gems data.");
         }
@@ -397,6 +404,60 @@ const handleGemsStore = async (event) => {
     }
 };
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Existing code...
 
+    if (editingGem) {
+        const nameInputEl = document.getElementById('nameInput');
+        const nameTextareaEl = document.getElementById('nameTextarea');
+        const gemTitleEl = document.getElementById('gemTitle');
+        const saveBtn = document.getElementById('saveButton');
+
+        nameInputEl.value = isCopy
+            ? `Copy of ${editingGem.gemsName || ''}`.trim()
+            : editingGem.gemsName || '';
+
+        nameTextareaEl.value = editingGem.message || editingGem.gemsDescription || '';
+        gemTitleEl.textContent = nameInputEl.value;
+        saveBtn.disabled = false;
+        previewSectionChat.style.display = "none"
+
+         const trimmedValue = input.value.trim();
+    gemTitle.textContent = trimmedValue || 'New Gem';
+
+    // Update icon
+    if (gemIcon) {
+        if (!trimmedValue) {
+            // Show diamond icon if empty
+            gemIcon.textContent = 'diamond';
+            gemIcon.classList.add('material-symbols-outlined');
+        } else {
+            // Show first character (number or letter)
+            gemIcon.textContent = trimmedValue[0].toUpperCase();
+            gemIcon.classList.remove('material-symbols-outlined');
+        }
+    }
+
+    // Rest of your existing code...
+    if (trimmedValue) {
+        previewText.textContent = trimmedValue;
+        previewText.style.color = "var(--text-main)";
+    } else {
+        previewText.textContent = 'To preview your Gem start by giving it a name';
+        previewText.style.color = "var(--text-muted)";
+    }
+
+      
+    } else {
+        previewSectionChat.style.display = "block"
+        previewSectionChat.style.backgroundColor = "var(--bg-previewSectionChat)"
+    }
+
+    // ✅ ✅ ✅ Add form event listener here
+    const form = document.getElementById("myGemsForm");
+    if (form) {
+        form.addEventListener("submit", handleGemsStore);
+    }
+});
 
 
