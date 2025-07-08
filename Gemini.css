@@ -1158,7 +1158,7 @@ main {
 
 @media (max-width: 768px) {
 
-  .main-chat-area {
+  .gemini-main .main-chat-area {
     padding-top: 0 !important;
   }
 
@@ -1304,10 +1304,15 @@ main {
   }
 
   .gemini-container .main-chat-area {
-    padding-top: 0;
+    padding-top: 0 !important;
   }
 
-
+#infoIcon #tooltip{
+  left: -115px !important;
+}
+#knowledgeIcon #knowledgeTooltip{
+  left: -115px !important;
+}
 
   .gemini-header a {
     padding: 5px 10px;
@@ -1450,9 +1455,9 @@ main {
   }
 
   .gemini-container {
-    margin-top: 74px;
+    margin-top: 64px;
     margin-left: 0;
-    height: 490px;
+    height: 88vh;
     width: 100%;
   }
 
