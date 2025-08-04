@@ -1,10 +1,6 @@
 {
   "savedInfo": [
     {
-      "message": "10546m flkj,e\nfe\n\n\n\ncnkhie\ndmke\nmld",
-      "id": "f246"
-    },
-    {
       "id": "8b00",
       "message": "hdud"
     }
@@ -63,6 +59,24 @@
       "name": "vvvvvvvvv",
       "email": "vaibhavvaibhavvaibhavvaibhavvaibhav@gmail.com",
       "password": "123321"
+    },
+    {
+      "id": "e716",
+      "name": "123",
+      "email": "22@gmail.com",
+      "password": "121212"
+    },
+    {
+      "id": "83bf",
+      "name": "012",
+      "email": "0101@gmail.com",
+      "password": "111111"
+    },
+    {
+      "id": "b4b7",
+      "name": "011",
+      "email": "45116@gmail.com",
+      "password": "111111"
     }
   ],
   "newGems": [
@@ -77,13 +91,6 @@
       "gemsDescription": ""
     },
     {
-      "id": "51e3",
-      "gemsName": "vaibhav",
-      "gemsDescription": ""
-    },
-    {
-      "id": "500a",
-      "gemsName": "Copy of vaibhav",
       "gemsDescription": ""
     }
   ]
