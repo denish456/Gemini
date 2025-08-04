@@ -430,7 +430,7 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
 
         const avatar = document.createElement('img');
         avatar.src = 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png';
-        avatar.alt = 'Gemini';
+        avatar.alt = 'YOYO';
         avatar.className = 'w-6 h-6 rounded-full';
 
         inlineContainer.appendChild(avatar);
@@ -776,7 +776,7 @@ async function getGeminiResponse(promptContent, imageData = null) {
 
     // Ensure there's at least one part, otherwise API might reject
     if (parts.length === 0) {
-        console.warn("No content to send to Gemini API.");
+        console.warn("No content to send to YOYO API.");
         return "I need more information to respond. Please provide text or an image.";
     }
 
@@ -792,7 +792,7 @@ async function getGeminiResponse(promptContent, imageData = null) {
 
         const loadingDiv = document.createElement('div');
         loadingDiv.className = 'loading-indicator';
-        loadingDiv.textContent = 'Gemini is thinking...';
+        loadingDiv.textContent = 'YOYO is thinking...';
         chatHistoryDiv.appendChild(loadingDiv);
         chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight; // Scroll to see loading
 
@@ -806,8 +806,8 @@ async function getGeminiResponse(promptContent, imageData = null) {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error("Gemini API error:", errorData);
-            return `Error from Gemini: ${errorData.error ? errorData.error.message : 'Unknown error'}`;
+            console.error("YOYO API error:", errorData);
+            return `Error from YOYO: ${errorData.error ? errorData.error.message : 'Unknown error'}`;
         }
 
         const result = await response.json();
@@ -816,7 +816,7 @@ async function getGeminiResponse(promptContent, imageData = null) {
             result.candidates[0].content.parts.length > 0) {
             return result.candidates[0].content.parts[0].text;
         } else {
-            return "No response from Gemini. Please try again.";
+            return "No response from YOYO. Please try again.";
         }
     } catch (error) {
 
@@ -824,8 +824,8 @@ async function getGeminiResponse(promptContent, imageData = null) {
         if (loadingDiv) {
             chatHistoryDiv.removeChild(loadingDiv);
         }
-        console.error("Network or parsing error calling Gemini API:", error);
-        return `An error occurred while connecting to Gemini: ${error.message}`;
+        console.error("Network or parsing error calling YOYO API:", error);
+        return `An error occurred while connecting to YOYO: ${error.message}`;
     }
 }
 
@@ -949,7 +949,7 @@ async function summarizeChatHistory() {
 
     let fullConversation = "";
     currentChatData.messages.forEach(msg => {
-        fullConversation += `${msg.isUser ? 'User' : 'Gemini'}: ${msg.text}\n`;
+        fullConversation += `${msg.isUser ? 'User' : 'YOYO'}: ${msg.text}\n`;
     });
 
     const prompt = `Please summarize the following conversation concisely:\n\n${fullConversation}`;
@@ -966,7 +966,7 @@ async function suggestNextQuestions() {
     }
 
     // Get last 5 messages for context, ignoring images for this specific prompt
-    const recentMessages = currentChatData.messages.slice(-5).map(msg => `${msg.isUser ? 'User' : 'Gemini'}: ${msg.text}`).join('\n');
+    const recentMessages = currentChatData.messages.slice(-5).map(msg => `${msg.isUser ? 'User' : 'YOYO'}: ${msg.text}`).join('\n');
 
     const prompt = `Based on the following recent conversation, suggest 3 concise, relevant follow-up questions to ask:\n\n${recentMessages}\n\nProvide the questions as a numbered list.`;
     const suggestions = await getGeminiResponse(prompt);
@@ -986,7 +986,7 @@ async function elaborateOnTopic() {
     const lastGeminiMessage = currentChatData.messages.slice().reverse().find(msg => !msg.isUser);
 
     if (!lastGeminiMessage || lastGeminiMessage.text.trim() === "") {
-        addMessage("I need a previous Gemini response to elaborate on.", false);
+        addMessage("I need a previous YOYO response to elaborate on.", false);
         return;
     }
 
@@ -1007,7 +1007,7 @@ async function changeTone() {
     const lastGeminiMessage = currentChatData.messages.slice().reverse().find(msg => !msg.isUser);
 
     if (!lastGeminiMessage || lastGeminiMessage.text.trim() === "") {
-        addMessage("I need a previous Gemini response to change the tone of.", false);
+        addMessage("I need a previous YOYO response to change the tone of.", false);
         return;
     }
 

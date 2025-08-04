@@ -156,7 +156,7 @@ const Display = async (event) => {
                 Delete all
             </button>` : '';
 
-        let print = savedInfoData.length > 0 ? '<p class="font-semibold mb-2">Saved today</p>' : `<p id="info-p" class="text-[--sidebar-text] text-center">You haven't asked Gemini to save anything about you yet</p>`
+        let print = savedInfoData.length > 0 ? '<p class="font-semibold mb-2">Saved today</p>' : `<p id="info-p" class="text-[--sidebar-text] text-center">You haven't asked YOYO to save anything about you yet</p>`
 
         savedInfoData.map((v, index) => {
             const onlyOne = savedInfoData.length === 1;
