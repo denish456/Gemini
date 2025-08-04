@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./Gemini.css">
+    <link rel="stylesheet" href="./Yoyo.css">
     <title>New Gem</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -262,7 +262,7 @@
                     <div class="drawer" id="drawer">
                         <ul class="drawer-data ">
                             <li id="new-chat-button">
-                                <a href="Gemini.html" class="items-center flex gap-5"> <span
+                                <a href="Yoyo.html" class="items-center flex gap-5"> <span
                                         class="material-symbols-outlined">edit_square</span>
                                     <span>New Chat</span>
                                 </a>
@@ -1150,7 +1150,7 @@
             if (accounts.length > 0) {
                 const nextUser = accounts[0]; // First saved user
                 localStorage.setItem('login', JSON.stringify(nextUser));
-                window.location.href = 'Gemini.html'; // Auto redirect to app
+                window.location.href = 'Yoyo.html'; // Auto redirect to app
             } else {
                 // No user left, go to login page
                 localStorage.removeItem('login');

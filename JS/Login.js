@@ -5,7 +5,7 @@ const isAddAccount = urlParams.get('add'); // check for add flag
 const alreadyLoggedIn = JSON.parse(localStorage.getItem('login'));
 
 if (alreadyLoggedIn && !isAddAccount) {
-    window.location.href = 'Gemini.html'; // redirect ONLY if not adding account
+    window.location.href = 'Yoyo.html'; // redirect ONLY if not adding account
 }
 
 
@@ -66,7 +66,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             }
 
             localStorage.setItem('login', JSON.stringify(user));
-            window.location.href = 'Gemini.html';
+            window.location.href = 'Yoyo.html';
         }else {
             alert('Invalid email or password');
         }
@@ -84,7 +84,7 @@ function switchAccount(email) {
     const user = allAccounts.find(acc => acc.email === email);
     if (user) {
         localStorage.setItem('login', JSON.stringify(user));
-        window.location.href = 'Gemini.html';
+        window.location.href = 'Yoyo.html';
     }
 }
 

@@ -104,7 +104,7 @@ document.getElementById('signInForm').addEventListener('submit', function (e) {
                 localStorage.setItem('accounts', JSON.stringify(existingAccounts));
             }
 
-            window.location.href = 'gemini.html';
+            window.location.href = 'Yoyo.html';
 
 
 

@@ -291,9 +291,9 @@ function renderRecentChats() {
 
         });
 
-        const [ renameBtn, deleteBtn] = kebabDropdown.querySelectorAll('button');
+        const [renameBtn, deleteBtn] = kebabDropdown.querySelectorAll('button');
 
-        
+
         renameBtn.addEventListener('click', () => {
 
             const newTitle = prompt('Enter new name for chat:', chat.title);
@@ -504,9 +504,7 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
         <button class="h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="copy">
             <i class="text-base fa-regular fa-copy"></i>
         </button>
-        <button class="relative h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="more">
-            <i class="text-base fa-solid fa-ellipsis-vertical"></i>
-        </button>
+       
     `;
     feedbackAndIconsContainer.appendChild(iconsDiv);
 
@@ -521,15 +519,6 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
     moreDropdown.style.backgroundColor = 'var(--dropdown2-bg)'; // Fallback color
     moreDropdown.style.color = 'var(--dropdown-text)'; // Fallback color
 
-    moreDropdown.innerHTML = `
-       
-        <li>
-            <button class="flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item" data-action-type="copy-from-dropdown">
-                <i class="fa-regular fa-copy"></i> Copy
-            </button>
-        </li>
-        
-    `;
     feedbackAndIconsContainer.appendChild(moreDropdown);
 
 
@@ -539,7 +528,6 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
     const likeButton = iconsDiv.querySelector('[data-feedback-type="like"]');
     const dislikeButton = iconsDiv.querySelector('[data-feedback-type="dislike"]');
     const copyButton = iconsDiv.querySelector('[data-action-type="copy"]');
-    const moreButton = iconsDiv.querySelector('[data-action-type="more"]'); // Get the ellipsis button
 
     // --- Like/Dislike Button Logic ---
     likeButton.addEventListener('click', () => {
@@ -597,89 +585,7 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
     });
 
 
-    moreButton.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent the document click listener from immediately closing it
 
-        // Hide any other open dropdowns first
-        document.querySelectorAll('.gemini-dropdown-menu').forEach(dropdown => {
-            if (dropdown !== moreDropdown) {
-                dropdown.classList.add('hidden');
-            }
-        });
-
-        // Toggle visibility *before* measuring for accurate offsetWidth/offsetHeight
-        moreDropdown.classList.toggle('hidden');
-
-        // If dropdown is now hidden, we're done for this click
-        if (moreDropdown.classList.contains('hidden')) {
-            return;
-        }
-
-        const buttonRect = moreButton.getBoundingClientRect();
-        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-        const padding = 10; // Minimum padding from viewport edges
-
-        // Check if screen width is 425px or less for mobile-specific behavior
-        const isMobileScreen = window.matchMedia('(max-width: 425px)').matches;
-
-        // Ensure fixed positioning for accurate viewport relative placement
-        moreDropdown.style.position = 'fixed';
-        // Clear previous positioning to prevent conflicts
-        moreDropdown.style.left = 'auto';
-        moreDropdown.style.right = 'auto';
-        moreDropdown.style.top = 'auto';
-        moreDropdown.style.bottom = 'auto';
-        moreDropdown.style.width = ''; // Clear inline width for desktop behavior (Tailwind w-56 will apply)
-        moreDropdown.style.height = ''; // Clear inline height
-        moreDropdown.style.overflowY = ''; // Clear overflow-y
-
-        if (isMobileScreen) {
-            // --- Mobile Specific Behavior (<= 425px) ---
-
-            // Force open from bottom
-            moreDropdown.style.top = `${buttonRect.bottom + 8}px`; // 8px below the button
-
-            // 100% width with padding
-            moreDropdown.style.width = `${viewportWidth - (2 * padding)}px`;
-            moreDropdown.style.left = `${padding}px`; // Align with left padding
-            moreDropdown.style.right = `${padding}px`; // Align with right padding
-
-            // Ensure dropdown doesn't go off screen bottom if it opens downwards
-            const currentDropdownBottom = moreDropdown.getBoundingClientRect().bottom;
-            if (currentDropdownBottom > viewportHeight) {
-                // If it goes off bottom, adjust top to keep it on screen
-                moreDropdown.style.top = `${viewportHeight - moreDropdown.offsetHeight - padding}px`;
-
-                if (moreDropdown.getBoundingClientRect().top < padding) {
-                    moreDropdown.style.top = `${padding}px`;
-                    moreDropdown.style.height = `${viewportHeight - (2 * padding)}px`;
-                    moreDropdown.style.overflowY = 'auto';
-                }
-            }
-
-        } else {
-
-            const dropdownWidth = moreDropdown.offsetWidth;
-            const dropdownHeight = moreDropdown.offsetHeight;
-
-            moreDropdown.style.top = `${buttonRect.top - dropdownHeight - 8}px`;
-            moreDropdown.style.left = `${buttonRect.left - 5}px`;
-
-            const currentLeft = moreDropdown.getBoundingClientRect().left;
-            const currentRight = moreDropdown.getBoundingClientRect().right;
-
-            if (currentLeft < padding) { // Goes off left
-                moreDropdown.style.left = `${padding}px`;
-            } else if (currentRight > viewportWidth - padding) { // Goes off right
-                moreDropdown.style.left = `${viewportWidth - dropdownWidth - padding}px`;
-            }
-
-            if (moreDropdown.getBoundingClientRect().top < 0) {
-                moreDropdown.style.top = `${buttonRect.bottom + 5}px`;
-            }
-        }
-    });
 
     if (!window.geminiFeedbackDropdownOutsideClickListenerAdded) {
         document.addEventListener('click', (e) => {
@@ -697,17 +603,7 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
         window.geminiFeedbackDropdownOutsideClickListenerAdded = true;
     }
 
-    // --- Copy from Dropdown Logic ---
-    moreDropdown.querySelector('[data-action-type="copy-from-dropdown"]').addEventListener('click', async () => {
-        const textToCopy = messageBubbleElement.querySelector('span') ? messageBubbleElement.querySelector('span').textContent : messageBubbleElement.textContent;
-        try {
-            await navigator.clipboard.writeText(textToCopy);
-            console.log("Text copied from dropdown!");
-            moreDropdown.classList.add('hidden'); // Hide dropdown after copying
-        } catch (err) {
-            console.error('Failed to copy text from dropdown: ', err);
-        }
-    });
+
 
     // Scroll to the bottom to make sure icons are visible
     chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
@@ -869,8 +765,16 @@ async function sendMessage() {
     // Rest of your existing sendMessage code...
     addMessage(message, true, imageUrl, true, true);
 
-    const geminiResponse = await getGeminiResponse(message, imageUrl);
-    addMessage(geminiResponse, false, null, true, false);
+const geminiResponse = await getGeminiResponse(message, imageUrl);
+addMessage(geminiResponse, false, null, true, false);
+
+// ✅ Clear image preview AFTER response is added
+previewImg.src = '';
+previewContainer.classList.add("hidden");
+fileInput.value = '';
+hasImage = false;
+
+
 
     let data = getChatData();
     let currentChat = data.chats.find(chat => chat.id === currentChatId);
@@ -905,10 +809,12 @@ async function sendMessage() {
     userInput.value = '';
     updateSendButtonState();
     userInput.style.height = 'auto';
+    // ✅ Clear image preview AFTER response is added
     previewImg.src = '';
     previewContainer.classList.add("hidden");
     fileInput.value = '';
     hasImage = false;
+
 }
 
 
@@ -1081,7 +987,7 @@ document.addEventListener('DOMContentLoaded', function () {
     triggerUpload = document.getElementById('trigger-upload');
     recentChatsUl = document.getElementById('recent-chats');
 
-    greetingDiv = document.getElementById('greeting');
+    greetingDiv = document.getElementById('greeting-div');
 
     plusButton = document.getElementById('plus-button');
     plusDropdown = document.getElementById('plus-dropdown');
