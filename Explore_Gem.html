@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="Gemini.css">
+    <link rel="stylesheet" href="Yoyo.css">
     <style>
         :root {
             --bg-main: #ffffff;
@@ -266,7 +266,7 @@
                     <div class="drawer" id="drawer">
                         <ul class="drawer-data ">
                             <li id="new-chat-button">
-                                <a href="Gemini.html" class="items-center flex gap-5"> <span
+                                <a href="Yoyo.html" class="items-center flex gap-5"> <span
                                         class="material-symbols-outlined">edit_square</span>
                                     <span>New Chat</span>
                                 </a>
@@ -1034,7 +1034,7 @@
             if (accounts.length > 0) {
                 const nextUser = accounts[0]; // First saved user
                 localStorage.setItem('login', JSON.stringify(nextUser));
-                window.location.href = 'Gemini.html'; // Auto redirect to app
+                window.location.href = 'Yoyo.html'; // Auto redirect to app
             } else {
                 // No user left, go to login page
                 localStorage.removeItem('login');
@@ -1211,7 +1211,7 @@
                                     </button>
                                     <div id="gemx-menu-${v.id}" class="gemx-dropdown absolute right-0 bottom-full mb-2 w-56 rounded-xl shadow-xl bg-[--bg-main] text-[--text-main] hidden z-10">
                                         <ul class="py-1 text-sm">
-                                            <li> <a  href="Gemini.html" class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover]"><i class="fa-regular fa-comment text-[20px]"></i> New chat </a></li>
+                                            <li> <a  href="Yoyo.html" class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover]"><i class="fa-regular fa-comment text-[20px]"></i> New chat </a></li>
                                             <li > <a onclick='copyGem(${JSON.stringify(v)})' class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover]"><i class="fa-regular fa-copy text-[20px]"></i> Make a copy </a></li>
                                             <li > <a onclick="handleDeleteGem('${v.id}')" class="flex cursor-pointer items-center gap-2 px-4 py-4 text-[16px] hover:bg-[--model-hover] "><i class="fa-regular fa-trash-can text-[20px]"></i> Delete </a></li>
                                         </ul>
