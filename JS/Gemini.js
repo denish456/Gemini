@@ -264,9 +264,7 @@ function renderRecentChats() {
 <ul class="kebab-dropdown hidden absolute right-[100%] top-[0] mt-1 w-32 rounded-lg shadow-lg z-30 text-sm py-1"
 
                 style="background-color: var(--dropdown-bg); color: var(--dropdown-text); border: 1px solid var(--dropdown-border);">
-<li class="hover:bg-[var(--bg-hover)] hover:rounded-none py-1">
-<button class="block w-full text-left px-3 py-1">Pin</button>
-</li>
+
 <li class="hover:bg-[var(--bg-hover)] hover:rounded-none">
 <button class="block w-full text-left px-3 py-1">Rename</button>
 </li>
@@ -293,16 +291,9 @@ function renderRecentChats() {
 
         });
 
-        const [pinBtn, renameBtn, deleteBtn] = kebabDropdown.querySelectorAll('button');
+        const [ renameBtn, deleteBtn] = kebabDropdown.querySelectorAll('button');
 
-        pinBtn.addEventListener('click', () => {
-
-            console.log('Pin clicked for chat:', chat.id);
-
-            kebabDropdown.classList.add('hidden');
-
-        });
-
+        
         renameBtn.addEventListener('click', () => {
 
             const newTitle = prompt('Enter new name for chat:', chat.title);
@@ -426,15 +417,15 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
     } else {
         // Gemini response logic
         const inlineContainer = document.createElement('div');
-        inlineContainer.className = 'flex items-center gap-4';
+        inlineContainer.className = 'flex items-start gap-4 ';
 
-        const avatar = document.createElement('img');
-        avatar.src = 'https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png';
-        avatar.alt = 'YOYO';
-        avatar.className = 'w-6 h-6 rounded-full';
+        // Replace avatar with Font Awesome icon
+        const icon = document.createElement('i');
+        icon.className = 'fa-solid fa-arrow-right ';
 
-        inlineContainer.appendChild(avatar);
+        inlineContainer.appendChild(icon);
         bubble.appendChild(inlineContainer); // Append inlineContainer here
+
 
         if (instantDisplay) {
             messageTextElement.textContent = text; // Display instantly for loaded history
@@ -509,12 +500,7 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
         <button class="feedback-button h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-feedback-type="dislike">
            <i class="text-base fa-regular fa-thumbs-down"></i>
         </button>
-        <button class="h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="regenerate">
-            <i class="text-base fa-solid fa-rotate-right"></i>
-        </button>
-        <button class="h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="share">
-            <i class="text-base fa-solid fa-share-alt"></i>
-        </button>
+        
         <button class="h-9 w-9 text-[--text-muted] rounded-full text-sm hover:bg-[--sidebar-hover] transition-colors duration-200" data-action-type="copy">
             <i class="text-base fa-regular fa-copy"></i>
         </button>
@@ -536,26 +522,13 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
     moreDropdown.style.color = 'var(--dropdown-text)'; // Fallback color
 
     moreDropdown.innerHTML = `
-        <li>
-            <button class="flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item">
-                <i class="fa-solid fa-check-double"></i> Double-check response
-            </button>
-        </li>
+       
         <li>
             <button class="flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item" data-action-type="copy-from-dropdown">
                 <i class="fa-regular fa-copy"></i> Copy
             </button>
         </li>
-        <li>
-            <button class="flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item">
-                <i class="fa-solid fa-volume-up"></i> Listen
-            </button>
-        </li>
-        <li>
-            <button class=" flex items-center gap-4 w-full text-left px-5 py-2 hover:bg-[var(--sidebar-hover)] gemini-dropdown-item">
-                <i class="fa-solid fa-flag"></i> Report legal issue
-            </button>
-        </li>
+        
     `;
     feedbackAndIconsContainer.appendChild(moreDropdown);
 
