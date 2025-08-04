@@ -594,9 +594,16 @@ a {
 .collapse,
 .keep-menu-expanded,
 .search-span {
-  bottom: -25px;
+  bottom: -30px;
   left: -45%;
   transform: translateX(10px);
+}
+.search-span {
+  left: -77%;
+}
+
+.collapse,.expand {
+  left: -15%;
 }
 
 .new-chat,
