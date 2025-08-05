@@ -8,6 +8,13 @@ let plusButton, plusDropdown, summarizeChatButton, suggestQuestionsButton,
 let currentChatId = null; // Stores the ID of the currently active chat
 let hasImage = false; // Moved to global to be consistent with other flags
 
+
+
+// =================================================
+
+
+// =====================================================
+
 // Helper to generate unique IDs (simple timestamp-based)
 function generateUniqueId() {
     return 'chat-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
@@ -454,8 +461,11 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
     }
 }
 
+
+let isTypingInProgress = false;
 // Modify typewriterEffect to accept a callback for completion
 function typewriterEffect(element, fullText, autoScroll, callback = null) {
+    isTypingInProgress = true; // Set flag when typing starts
     let i = 0;
     const speed = 20; // typing speed in milliseconds per character
 
@@ -464,15 +474,14 @@ function typewriterEffect(element, fullText, autoScroll, callback = null) {
             element.textContent += fullText.charAt(i);
             i++;
             if (autoScroll) {
-                chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight; // Scroll during typing
+                chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
             }
             setTimeout(type, speed);
         } else {
-            // Once typing is complete, ensure final scroll
             if (autoScroll) {
                 chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
             }
-            // Execute the callback function if provided
+            isTypingInProgress = false; // Clear flag when typing completes
             if (callback && typeof callback === 'function') {
                 callback();
             }
@@ -653,7 +662,7 @@ async function getGeminiResponse(promptContent, imageData = null) {
 
     const payload = { contents: chatHistory };
 
-    const apiKey = "AIzaSyDMZvV2eF4oCYXOk8gaS9GWh2u0jLv1OcU";
+    const apiKey = "AIzaSyACVemh4DECvMqbIGJrl4RW3Xw6sVSPy4Q";
 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
@@ -678,15 +687,20 @@ async function getGeminiResponse(promptContent, imageData = null) {
             console.error("YOYO API error:", errorData);
             return `Error from YOYO: ${errorData.error ? errorData.error.message : 'Unknown error'}`;
         }
+        
 
         const result = await response.json();
         if (result.candidates && result.candidates.length > 0 &&
             result.candidates[0].content && result.candidates[0].content.parts &&
             result.candidates[0].content.parts.length > 0) {
+
             return result.candidates[0].content.parts[0].text;
         } else {
             return "No response from YOYO. Please try again.";
         }
+
+ 
+        
     } catch (error) {
 
         const loadingDiv = chatHistoryDiv.querySelector('.loading-indicator');
@@ -749,6 +763,11 @@ function loadChat(chatId) {
 
 // Send function for regular chat messages
 async function sendMessage() {
+    // Prevent sending if typing is in progress
+    if (isTypingInProgress) {
+        return;
+    }
+
     const message = userInput.value.trim();
     const imageUrl = hasImage && previewImg.src ? previewImg.src : null;
 
@@ -756,26 +775,19 @@ async function sendMessage() {
         return;
     }
 
-    // Hide the greeting div when sending a message
-    const greetingDiv = document.getElementById('greeting-div');
-    if (greetingDiv) {
-        greetingDiv.style.display = 'none';
-    }
-
     // Rest of your existing sendMessage code...
     addMessage(message, true, imageUrl, true, true);
 
-const geminiResponse = await getGeminiResponse(message, imageUrl);
-addMessage(geminiResponse, false, null, true, false);
+    const geminiResponse = await getGeminiResponse(message, imageUrl);
+    addMessage(geminiResponse, false, null, true, false);
 
-// ✅ Clear image preview AFTER response is added
-previewImg.src = '';
-previewContainer.classList.add("hidden");
-fileInput.value = '';
-hasImage = false;
+    // Clear image preview AFTER response is added
+    previewImg.src = '';
+    previewContainer.classList.add("hidden");
+    fileInput.value = '';
+    hasImage = false;
 
-
-
+    // Save to chat history
     let data = getChatData();
     let currentChat = data.chats.find(chat => chat.id === currentChatId);
 
@@ -809,12 +821,6 @@ hasImage = false;
     userInput.value = '';
     updateSendButtonState();
     userInput.style.height = 'auto';
-    // ✅ Clear image preview AFTER response is added
-    previewImg.src = '';
-    previewContainer.classList.add("hidden");
-    fileInput.value = '';
-    hasImage = false;
-
 }
 
 
@@ -1090,13 +1096,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (userInput) {
-        userInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
+    userInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            if (!isTypingInProgress) { // Only send if no typing in progress
                 e.preventDefault();
                 sendMessage();
             }
-        });
-    }
+        }
+    });
+}
 
     if (removePreviewBtn) {
         removePreviewBtn.addEventListener('click', function (e) {
