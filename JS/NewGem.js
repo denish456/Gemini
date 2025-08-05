@@ -260,51 +260,6 @@ redoBtn.addEventListener('click', () => {
     }
 });
 
-const toggleBtnNewgems = document.getElementById('toggleDropdown');
-const dropdownMenu = document.getElementById('dropdownMenuknowlage');
-const uploadOption = document.getElementById('uploadOption');
-const fileInput = document.getElementById('fileInput');
-const fileText = document.getElementById('fileText');
-const previewImage = document.getElementById('previewImage');
-const imageWrapper = document.getElementById('imageWrapper');
-const removeImage = document.getElementById('removeImage');
-
-uploadOption.addEventListener('click', () => {
-    fileInput.click();
-});
-
-fileInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            previewImage.src = e.target.result;
-            imageWrapper.classList.remove('hidden');
-            fileText.classList.add('hidden');
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-removeImage.addEventListener('click', () => {
-    previewImage.src = '';
-    imageWrapper.classList.add('hidden');
-    fileText.classList.remove('hidden');
-    fileInput.value = '';
-});
-
-if (toggleBtnNewgems) {
-    toggleBtnNewgems.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevents default button behavior (like form submission)
-        dropdownMenu.classList.toggle('hidden'); // Toggles visibility of dropdown
-    });
-}
-
-document.addEventListener('click', (e) => {
-    if (!dropdownMenu.contains(e.target) && !toggleBtnNewgems.contains(e.target)) {
-        dropdownMenu.classList.add('hidden');
-    }
-});
 
 const icon = document.getElementById('infoIcon');
 const tooltip = document.getElementById('tooltip');
@@ -320,19 +275,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-const knowledgeIcon = document.getElementById('knowledgeIcon');
-const knowledgeTooltip = document.getElementById('knowledgeTooltip');
 
-knowledgeIcon.addEventListener('click', (e) => {
-    e.stopPropagation();
-    knowledgeTooltip.classList.toggle('hidden');
-});
-
-document.addEventListener('click', (e) => {
-    if (!knowledgeIcon.contains(e.target)) {
-        knowledgeTooltip.classList.add('hidden');
-    }
-});
 
 window.addEventListener('beforeunload', () => {
     localStorage.removeItem('editingGem');

@@ -13,7 +13,6 @@ let hasImage = false; // Moved to global to be consistent with other flags
 // =================================================
 
 
-// =====================================================
 
 // Helper to generate unique IDs (simple timestamp-based)
 function generateUniqueId() {
@@ -768,8 +767,12 @@ async function sendMessage() {
         return;
     }
 
+
+
     const message = userInput.value.trim();
     const imageUrl = hasImage && previewImg.src ? previewImg.src : null;
+
+    userInput.value = '';
 
     if (!message && !imageUrl) {
         return;
@@ -818,7 +821,7 @@ async function sendMessage() {
     setChatData(data);
     renderRecentChats();
 
-    userInput.value = '';
+    
     updateSendButtonState();
     userInput.style.height = 'auto';
 }

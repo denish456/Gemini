@@ -331,25 +331,33 @@
                                     <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( 'Affordable and creative gift ideas for my friend’s birthday. ')"
+                                    >
                                         Affordable and creative gift ideas for my friend’s birthday.
                                     </div>
                                     <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( 'How to decorate an office space to look cozier yet professional?')"
+                                    >
                                         How to decorate an office space to look cozier yet professional?
                                     </div>
                                     <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( ' Help me plan a large family reunion to host at my house. ')"
+                                    >
                                         Help me plan a large family reunion to host at my house.
                                     </div>
                                     <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( 'What are some fun picnic ideas for kids? ')"
+                                    >
                                         What are some fun picnic ideas for kids?
                                     </div>
                                 </div>
@@ -359,25 +367,33 @@
                                 <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( 'Affordable and creative gift ideas for my friend’s birthday. ')"
+                                    >
                                     Affordable and creative gift ideas for my friend’s birthday.
                                 </div>
                                 <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( 'How to decorate an office space to look cozier yet professional?')"
+                                    >
                                     How to decorate an office space to look cozier yet professional?
                                 </div>
                                 <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( ' Help me plan a large family reunion to host at my house. ')"
+                                    >
                                     Help me plan a large family reunion to host at my house.
                                 </div>
                                 <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( 'What are some fun picnic ideas for kids? ')"
+                                    >
                                     What are some fun picnic ideas for kids?
                                 </div>
                             </div>
@@ -828,6 +844,26 @@
                 toggleBtn.classList.add("rounded-b-3xl");
             }
         });
+
+    </script>
+
+    <script>
+        function handleGuidline(prompt) {
+            // First ensure localStorage is available
+            try {
+                localStorage.setItem('guideline', prompt);
+                console.log('Guideline set in localStorage:', prompt);
+
+                // Add small delay to ensure localStorage is committed
+                setTimeout(() => {
+                    window.location.href = "Yoyo.html";
+                }, 50);
+            } catch (e) {
+                console.error('Error setting localStorage:', e);
+                // Fallback to URL parameter if localStorage fails
+                window.location.href = "Yoyo.html?guideline=" + encodeURIComponent(prompt);
+            }
+        }
 
     </script>
     <script src="JS/index.js"></script>

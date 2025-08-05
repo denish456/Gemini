@@ -193,7 +193,7 @@
                                             features</div>
                                     </div>
                                     <div class="pl-5">
-                                        <a href="Upgrad.html"
+                                        <a href="Upgrad.html" target="_blank"
                                             class="h-9 rounded-full justify-center flex items-center text-sm  w-[100px]"
                                             style="background-color: var(--sidebar-hover); color: var(--accent-blue);">
                                             Upgrade
@@ -206,7 +206,7 @@
                 </div>
 
                 <div class="flex space-x-2 items-center">
-                    <a href="Upgrad.html"
+                    <a href="Upgrad.html" target="_blank"
                         class="h-9 block cursor-pointer rounded-md flex items-center justify-center text-xs font-semibold px-6 mr-3"
                         style="background-color: var(--sidebar-hover);">
 
@@ -232,7 +232,7 @@
 
 
 
-                           
+
                         </div>
                     </div>
 
@@ -699,7 +699,7 @@
                     </div>
                     </div>`
 
-                    document.getElementById('yoyo-user-name').innerHTML = `
+            document.getElementById('yoyo-user-name').innerHTML = `
                              <h1
                                 class="text-3xl bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
                                 
@@ -722,7 +722,7 @@
         </button>`;
 
 
-        document.getElementById('yoyo-user-name').innerHTML = `
+            document.getElementById('yoyo-user-name').innerHTML = `
                              <h1
                                 class="text-3xl bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text">
                                 <span class="text-[--text-main] ">Meet</span>
@@ -818,6 +818,53 @@
             } else {
                 toggleBtn.classList.add("rounded-b-3xl");
             }
+        });
+
+    </script>
+
+    <script>
+
+        // Put this at the TOP of your Gemini.js file, before DOMContentLoaded
+        function checkForGuideline() {
+            // Try localStorage first
+            let guideline = localStorage.getItem('guideline');
+
+            // If not found in localStorage, check URL parameters
+            if (!guideline) {
+                const urlParams = new URLSearchParams(window.location.search);
+                guideline = urlParams.get('guideline');
+            }
+
+            if (guideline) {
+                console.log('Found guideline:', guideline);
+
+                // Wait for input field to be available
+                const checkInput = setInterval(() => {
+                    const input = document.getElementById('user-input');
+                    if (input) {
+                        clearInterval(checkInput);
+                        input.value = guideline;
+                        console.log('Guideline set in input field');
+
+                        // Clean up
+                        localStorage.removeItem('guideline');
+                        // Clean URL without reloading
+                        window.history.replaceState({}, document.title, window.location.pathname);
+
+                        // Optional: Focus and position cursor
+                        input.focus();
+                        input.selectionStart = input.selectionEnd = input.value.length;
+                    }
+                }, 100);
+            }
+        }
+
+        // Call this function immediately when the script loads
+        checkForGuideline();
+
+        // Then continue with your existing DOMContentLoaded code...
+        document.addEventListener('DOMContentLoaded', function () {
+            // Your existing initialization code...
         });
 
     </script>
