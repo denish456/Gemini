@@ -195,7 +195,7 @@
                         </li>
                         <div class="dropdown-menu" id="dropdownMenu">
                             <ul class="pb-2">
-                                
+
                                 <li>
                                     <a href="SavedInfo.html " class="w-[100%] items-center flex gap-5">
                                         <span class="material-symbols-outlined"> person </span>
@@ -203,7 +203,7 @@
                                     </a>
                                     <!-- <span class="dot"></span> -->
                                 </li>
-                                
+
                                 <li>
                                     <a href="Public_Links.html" class="w-[100%] items-center flex gap-5">
                                         <span class="material-symbols-outlined"> link </span>
@@ -323,7 +323,7 @@
                     <a href="Upgrad.html"
                         class="h-9 block cursor-pointer rounded-md flex items-center justify-center text-xs font-semibold px-6 mr-3"
                         style="background-color: var(--sidebar-hover);">
-                       
+
                         Upgrade
                     </a>
                     <div id="account"></div>
@@ -356,28 +356,35 @@
                             <!-- Scroll wrapper only for small screens -->
                             <div class="block md:hidden overflow-x-auto">
                                 <div class="flex gap-4 w-max">
-                                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start suggestion-card"
+                                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline('I’d like to improve my presentation skills.')">
                                         I’d like to improve my presentation skills.
                                     </div>
-                                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start suggestion-card"
+                                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( 'Help me figure out how to advocate with my manager for a promotion.')"
+                                    >
                                         Help me figure out how to advocate with my manager for a promotion.
                                     </div>
-                                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start suggestion-card"
+                                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'" 
+                                    onclick="handleGuidline( 'How do I prepare for a job interview with behavioral questions?')"
+                                    >
                                         How do I prepare for a job interview with behavioral questions?
                                     </div>
-                                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start  suggestion-card"
+                                    <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( 'Give me advice on how to find a mentor.')"
+                                    >
                                         Give me advice on how to find a mentor.
                                     </div>
                                 </div>
@@ -385,28 +392,35 @@
 
                             <!-- Grid layout for medium and up -->
                             <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start suggestion-card"
+                                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline('I’d like to improve my presentation skills.')">
                                     I’d like to improve my presentation skills.
                                 </div>
-                                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start suggestion-card"
+                                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'" 
+                                    onclick="handleGuidline( 'Help me figure out how to advocate with my manager for a promotion.')"
+                                    >
                                     Help me figure out how to advocate with my manager for a promotion.
                                 </div>
-                                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start suggestion-card"
+                                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'" 
+                                    onclick="handleGuidline( 'How do I prepare for a job interview with behavioral questions?')"
+                                    >
                                     How do I prepare for a job interview with behavioral questions?
                                 </div>
-                                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start suggestion-card"
+                                <div class="h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'" 
+                                    onclick="handleGuidline( 'Give me advice on how to find a mentor.')"
+                                    >
                                     Give me advice on how to find a mentor.
                                 </div>
                             </div>
@@ -615,7 +629,27 @@
     </script>
     <!---------------------------------------------->
 
-  
+    <script>
+        function handleGuidline(prompt) {
+            // First ensure localStorage is available
+            try {
+                localStorage.setItem('guideline', prompt);
+                console.log('Guideline set in localStorage:', prompt);
+
+                // Add small delay to ensure localStorage is committed
+                setTimeout(() => {
+                    window.location.href = "Yoyo.html";
+                }, 50);
+            } catch (e) {
+                console.error('Error setting localStorage:', e);
+                // Fallback to URL parameter if localStorage fails
+                window.location.href = "Yoyo.html?guideline=" + encodeURIComponent(prompt);
+            }
+        }
+
+    </script>
+
+
     <script>
         const accountData = JSON.parse(localStorage.getItem('login'))
 
@@ -833,7 +867,7 @@
         }
 
 
-  
+
 
     </script>
     <script>

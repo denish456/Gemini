@@ -353,25 +353,33 @@
                                     <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( '  What are binary numbers?')"
+                                    >
                                         What are binary numbers?
                                     </div>
                                     <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( ' Explain what factors led to the fall of the Roman Empire.')"
+                                    >
                                         Explain what factors led to the fall of the Roman Empire.
                                     </div>
                                     <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( ' How does photosynthesis work?')"
+                                    >
                                         How does photosynthesis work?
                                     </div>
                                     <div class="w-[180px] h-[160px] p-3 rounded-xl cursor-pointer text-sm flex items-start"
                                         style="background-color: var(--card-bg); color: var(--text-main);"
                                         onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                        onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                        onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( ' I just finished reading Pride and Prejudice. Can we review the key themes and characters?')"
+                                    >
                                         I just finished reading Pride and Prejudice. Can we review the key themes and
                                         characters?
                                     </div>
@@ -382,25 +390,33 @@
                                 <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( '  What are binary numbers?')"
+                                    >
                                     What are binary numbers?
                                 </div>
                                 <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( ' Explain what factors led to the fall of the Roman Empire.')"
+                                    >
                                     Explain what factors led to the fall of the Roman Empire.
                                 </div>
                                 <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( ' How does photosynthesis work?')"
+                                    >
                                     How does photosynthesis work?
                                 </div>
                                 <div class="h-[160px] p-4 rounded-xl cursor-pointer text-sm"
                                     style="background-color: var(--card-bg); color: var(--text-main);"
                                     onmouseover="this.style.backgroundColor='var(--card-hover-bg)'"
-                                    onmouseout="this.style.backgroundColor='var(--card-bg)'">
+                                    onmouseout="this.style.backgroundColor='var(--card-bg)'"
+                                    onclick="handleGuidline( ' I just finished reading Pride and Prejudice. Can we review the key themes and characters?')"
+                                    >
                                     I just finished reading Pride and Prejudice. Can we review the key themes and
                                     characters?
                                 </div>
@@ -850,6 +866,26 @@
                 toggleBtn.classList.add("rounded-b-3xl");
             }
         });
+
+    </script>
+
+    <script>
+        function handleGuidline(prompt) {
+            // First ensure localStorage is available
+            try {
+                localStorage.setItem('guideline', prompt);
+                console.log('Guideline set in localStorage:', prompt);
+
+                // Add small delay to ensure localStorage is committed
+                setTimeout(() => {
+                    window.location.href = "Yoyo.html";
+                }, 50);
+            } catch (e) {
+                console.error('Error setting localStorage:', e);
+                // Fallback to URL parameter if localStorage fails
+                window.location.href = "Yoyo.html?guideline=" + encodeURIComponent(prompt);
+            }
+        }
 
     </script>
     <script src="./JS/index.js"></script>
