@@ -32,13 +32,13 @@ function toggleSections(showEditor) {
         if (showEditor) {
             editorSection.classList.add('active');
             previewSection.classList.remove('active');
-            editorToggle.classList.add('border-b-2','border-[--add-btn]');
-            previewToggle.classList.remove('border-b-2','border-[--add-btn]');
+            editorToggle.classList.add('border-b-2', 'border-[--add-btn]');
+            previewToggle.classList.remove('border-b-2', 'border-[--add-btn]');
         } else {
             previewSection.classList.add('active');
             editorSection.classList.remove('active');
-            previewToggle.classList.add('border-b-2','border-[--add-btn]');
-            editorToggle.classList.remove('border-b-2','border-[--add-btn]');
+            previewToggle.classList.add('border-b-2', 'border-[--add-btn]');
+            editorToggle.classList.remove('border-b-2', 'border-[--add-btn]');
         }
     } else {
         // For desktop, always show both sections
@@ -361,32 +361,32 @@ document.addEventListener('DOMContentLoaded', () => {
         saveBtn.disabled = false;
         previewSectionChat.style.display = "none"
 
-         const trimmedValue = input.value.trim();
-    gemTitle.textContent = trimmedValue || 'New Gem';
+        const trimmedValue = input.value.trim();
+        gemTitle.textContent = trimmedValue || 'New Gem';
 
-    // Update icon
-    if (gemIcon) {
-        if (!trimmedValue) {
-            // Show diamond icon if empty
-            gemIcon.textContent = 'diamond';
-            gemIcon.classList.add('material-symbols-outlined');
-        } else {
-            // Show first character (number or letter)
-            gemIcon.textContent = trimmedValue[0].toUpperCase();
-            gemIcon.classList.remove('material-symbols-outlined');
+        // Update icon
+        if (gemIcon) {
+            if (!trimmedValue) {
+                // Show diamond icon if empty
+                gemIcon.textContent = 'diamond';
+                gemIcon.classList.add('material-symbols-outlined');
+            } else {
+                // Show first character (number or letter)
+                gemIcon.textContent = trimmedValue[0].toUpperCase();
+                gemIcon.classList.remove('material-symbols-outlined');
+            }
         }
-    }
 
-    // Rest of your existing code...
-    if (trimmedValue) {
-        previewText.textContent = trimmedValue;
-        previewText.style.color = "var(--text-main)";
-    } else {
-        previewText.textContent = 'To preview your Gem start by giving it a name';
-        previewText.style.color = "var(--text-muted)";
-    }
+        // Rest of your existing code...
+        if (trimmedValue) {
+            previewText.textContent = trimmedValue;
+            previewText.style.color = "var(--text-main)";
+        } else {
+            previewText.textContent = 'To preview your Gem start by giving it a name';
+            previewText.style.color = "var(--text-muted)";
+        }
 
-      
+
     } else {
         previewSectionChat.style.display = "block"
         previewSectionChat.style.backgroundColor = "var(--bg-previewSectionChat)"

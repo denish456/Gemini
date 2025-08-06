@@ -87,6 +87,12 @@
       "name": "denish",
       "email": "denish.kalathiyainfotech@gmail.com",
       "password": "123321"
+    },
+    {
+      "id": "226c",
+      "name": "denish",
+      "email": "denish.kalathiyainfotech@gmail.com",
+      "password": "111111"
     }
   ],
   "newGems": [
@@ -99,6 +105,11 @@
       "id": "41ad",
       "gemsName": "vaibhavvv",
       "gemsDescription": ""
+    },
+    {
+      "id": "b2fd",
+      "gemsName": "Copy of vaibhav",
+      "gemsDescription": "dddwddw3d3d"
     }
   ]
 }

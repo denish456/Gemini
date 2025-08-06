@@ -67,10 +67,9 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
             localStorage.setItem('login', JSON.stringify(user));
             window.location.href = 'Yoyo.html';
-        }else {
+        } else {
             alert('Invalid email or password');
         }
-
 
 
     } catch (error) {
@@ -87,4 +86,3 @@ function switchAccount(email) {
         window.location.href = 'Yoyo.html';
     }
 }
-
