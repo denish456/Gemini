@@ -133,14 +133,14 @@
                             <span>Setting & Help</span>
                             <span class="seting-span">Setting & Help</span>
                         </li>
-                         <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="dropdown-menu" id="dropdownMenu">
                             <ul class="pb-2">
                                 <li>
                                     <a href="SavedInfo.html " class="w-[100%] items-center flex gap-5">
                                         <span class="material-symbols-outlined"> person </span>
                                         Saved info
                                     </a>
-                                   
+
                                 </li>
                                 <li>
                                     <a href="Public_Links.html" class="w-[100%] items-center flex gap-5">
@@ -165,7 +165,7 @@
                                     <span class="material-symbols-outlined"> feedback</span>
                                     Send feedback
                                 </li>
-                               <li id="open_help_center">
+                                <li id="open_help_center">
                                     <span class="material-symbols-outlined"> quiz </span>
                                     Help
                                 </li>
@@ -261,7 +261,7 @@
                     <a href="Upgrad.html"
                         class="h-9 block cursor-pointer rounded-md flex items-center justify-center text-xs font-semibold px-6 mr-3"
                         style="background-color: var(--sidebar-hover);">
-                        
+
                         Upgrade
                     </a>
                     <div id="account"></div>
@@ -534,7 +534,7 @@
     </script>
     <!---------------------------------------------->
 
-   <script>
+    <script>
         const accountData = JSON.parse(localStorage.getItem('login'))
 
         console.log(accountData);
@@ -701,8 +701,6 @@
             window.location.href = 'login.html?add=true'; // or wherever your login page is
         }
 
-
-
         function handleRemoveLogin() {
             const current = JSON.parse(localStorage.getItem('login'));
             let accounts = JSON.parse(localStorage.getItem('accounts')) || [];
@@ -751,7 +749,7 @@
         }
 
 
-  
+
 
     </script>
     <script>

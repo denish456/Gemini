@@ -10,10 +10,6 @@ let hasImage = false; // Moved to global to be consistent with other flags
 
 
 
-// =================================================
-
-
-
 // Helper to generate unique IDs (simple timestamp-based)
 function generateUniqueId() {
     return 'chat-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
@@ -87,7 +83,6 @@ function saveCurrentChatSession() {
         });
     }
 
-    // Ensure we don't exceed a reasonable number of saved chats
     if (data.chats.length > 50) {
         data.chats = data.chats.slice(-50); // Keep only the 50 most recent
     }
@@ -155,7 +150,6 @@ function loadChatSession(chatId, shouldAnimate = false) {
     }
 }
 
-
 function updateActiveChatUI(activeChatId) {
     document.querySelectorAll('#recent-chats li').forEach(li => {
         li.classList.remove('active-chat');
@@ -164,7 +158,6 @@ function updateActiveChatUI(activeChatId) {
         }
     });
 }
-
 
 function createNewChat() {
     saveCurrentChatSession();
@@ -208,8 +201,6 @@ function resetChatUI() {
     }
 }
 
-
-// Add this outside the function to avoid multiple listeners
 if (!window.kebabOutsideClickInitialized) {
     document.addEventListener('click', () => {
         document.querySelectorAll('.kebab-dropdown').forEach(dropdown => {
@@ -220,7 +211,6 @@ if (!window.kebabOutsideClickInitialized) {
 }
 
 // Renders the list of recent chats in the sidebar
-
 let showAllChats = false; // default state
 function renderRecentChats() {
     if (!recentChatsUl) return;
@@ -453,8 +443,6 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
         chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
     }
 
-    // If it's a Gemini message and it's being displayed instantly (e.g., from loading history),
-    // append the icons immediately. For new messages, it's done via typewriterEffect callback.
     if (!isUser && instantDisplay) {
         appendGeminiFeedbackIcons(bubble);
     }
@@ -462,30 +450,47 @@ function addMessage(text, isUser, imageUrl = null, autoScroll = true, instantDis
 
 
 let isTypingInProgress = false;
-// Modify typewriterEffect to accept a callback for completion
+
 function typewriterEffect(element, fullText, autoScroll, callback = null) {
-    isTypingInProgress = true; // Set flag when typing starts
+    isTypingInProgress = true;
     let i = 0;
-    const speed = 20; // typing speed in milliseconds per character
+    const speed = 10; // Keep this low but we'll optimize the implementation
+    const chunkSize = 5; // Process multiple characters at once
+    const contentLength = fullText.length;
+
+    // Use textContent buffer to minimize DOM operations
+    let buffer = '';
+    element.textContent = '';
 
     function type() {
-        if (i < fullText.length) {
-            element.textContent += fullText.charAt(i);
-            i++;
-            if (autoScroll) {
-                chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        const remaining = contentLength - i;
+        if (remaining > 0) {
+            // Process chunks of text at a time
+            const processSize = Math.min(chunkSize, remaining);
+            buffer += fullText.substr(i, processSize);
+            i += processSize;
+
+            // Update DOM less frequently than every character
+            if (i % chunkSize === 0 || i === contentLength) {
+                element.textContent = buffer;
+                if (autoScroll) {
+                    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+                }
             }
+
             setTimeout(type, speed);
         } else {
+            if (element.textContent !== buffer) {
+                element.textContent = buffer;
+            }
             if (autoScroll) {
                 chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
             }
-            isTypingInProgress = false; // Clear flag when typing completes
-            if (callback && typeof callback === 'function') {
-                callback();
-            }
+            isTypingInProgress = false;
+            callback?.();
         }
     }
+
     type();
 }
 
@@ -593,8 +598,6 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
     });
 
 
-
-
     if (!window.geminiFeedbackDropdownOutsideClickListenerAdded) {
         document.addEventListener('click', (e) => {
             document.querySelectorAll('.gemini-dropdown-menu').forEach(dropdown => {
@@ -610,13 +613,9 @@ function appendGeminiFeedbackIcons(messageBubbleElement) {
         });
         window.geminiFeedbackDropdownOutsideClickListenerAdded = true;
     }
-
-
-
     // Scroll to the bottom to make sure icons are visible
     chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
 }
-
 
 // Function to call Gemini API
 async function getGeminiResponse(promptContent, imageData = null) {
@@ -651,7 +650,6 @@ async function getGeminiResponse(promptContent, imageData = null) {
         });
     }
 
-    // Ensure there's at least one part, otherwise API might reject
     if (parts.length === 0) {
         console.warn("No content to send to YOYO API.");
         return "I need more information to respond. Please provide text or an image.";
@@ -661,7 +659,7 @@ async function getGeminiResponse(promptContent, imageData = null) {
 
     const payload = { contents: chatHistory };
 
-    const apiKey = "AIzaSyACVemh4DECvMqbIGJrl4RW3Xw6sVSPy4Q";
+    const apiKey = "AIzaSyAxZ_5rUmaaVDr_CquqgyTcIk4Rto4ggsQ";
 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
@@ -686,7 +684,6 @@ async function getGeminiResponse(promptContent, imageData = null) {
             console.error("YOYO API error:", errorData);
             return `Error from YOYO: ${errorData.error ? errorData.error.message : 'Unknown error'}`;
         }
-        
 
         const result = await response.json();
         if (result.candidates && result.candidates.length > 0 &&
@@ -698,8 +695,6 @@ async function getGeminiResponse(promptContent, imageData = null) {
             return "No response from YOYO. Please try again.";
         }
 
- 
-        
     } catch (error) {
 
         const loadingDiv = chatHistoryDiv.querySelector('.loading-indicator');
@@ -713,11 +708,9 @@ async function getGeminiResponse(promptContent, imageData = null) {
 
 const chatHistory = document.getElementById('chat-history');
 
-
 function getChatData() {
     return JSON.parse(localStorage.getItem('chatData')) || { chats: [] };
 }
-
 
 function setChatData(data) {
     localStorage.setItem('chatData', JSON.stringify(data));
@@ -766,8 +759,6 @@ async function sendMessage() {
     if (isTypingInProgress) {
         return;
     }
-
-
 
     const message = userInput.value.trim();
     const imageUrl = hasImage && previewImg.src ? previewImg.src : null;
@@ -821,11 +812,9 @@ async function sendMessage() {
     setChatData(data);
     renderRecentChats();
 
-    
     updateSendButtonState();
     userInput.style.height = 'auto';
 }
-
 
 // LLM Feature: Summarize Chat History
 async function summarizeChatHistory() {
@@ -934,7 +923,6 @@ async function changeTone() {
     });
 }
 
-// New function to clear all chat history
 function clearAllHistory() {
     // Using a custom modal-like confirmation instead of `confirm()`
     const confirmClear = document.createElement('div');
@@ -978,13 +966,9 @@ document.addEventListener('DOMContentLoaded', function () {
     search_icon = document.getElementById('search-icon');
     setting_help = document.getElementById('setting-help');
     geminiData = document.querySelector('.gemini-data');
-
     backdrop = document.getElementById('backdrop');
-
     newChatButton = document.getElementById('new-chat-button');
-
     chatHistoryDiv = document.getElementById('chat-history');
-
     userInput = document.getElementById('user-input');
     sendButton = document.getElementById('send-button');
     sendIconContainer = document.getElementById('send-icon');
@@ -995,9 +979,7 @@ document.addEventListener('DOMContentLoaded', function () {
     removePreviewBtn = document.getElementById('remove-preview');
     triggerUpload = document.getElementById('trigger-upload');
     recentChatsUl = document.getElementById('recent-chats');
-
     greetingDiv = document.getElementById('greeting-div');
-
     plusButton = document.getElementById('plus-button');
     plusDropdown = document.getElementById('plus-dropdown');
 
@@ -1099,15 +1081,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (userInput) {
-    userInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            if (!isTypingInProgress) { // Only send if no typing in progress
-                e.preventDefault();
-                sendMessage();
+        userInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                if (!isTypingInProgress) { // Only send if no typing in progress
+                    e.preventDefault();
+                    sendMessage();
+                }
             }
-        }
-    });
-}
+        });
+    }
 
     if (removePreviewBtn) {
         removePreviewBtn.addEventListener('click', function (e) {
@@ -1189,8 +1171,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-
-
         profileDropdown.addEventListener('click', function (e) {
             e.stopPropagation();
         });
@@ -1232,7 +1212,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
     // Sidebar hover logic (if needed)
     if (mainContent && geminiData) {
         mainContent.addEventListener('mouseenter', () => {
@@ -1259,7 +1238,6 @@ document.addEventListener('DOMContentLoaded', function () {
         clearHistoryButton.addEventListener('click', clearAllHistory);
     }
 
-
     if (mainContent) {
         const observer = new MutationObserver(() => {
             if (!mainContent.classList.contains('pinned')) {
@@ -1273,7 +1251,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
 // Toggle settings dropdown only when pinned
 function toggleDropdown() {
     const menu = document.getElementById('dropdownMenu');
@@ -1281,18 +1258,15 @@ function toggleDropdown() {
     const mainContent = document.getElementById('main-content');
 
     if (menu && settingHelp && mainContent) {
-        // ✅ Force add pinned class if not present
         if (!mainContent.classList.contains('pinned')) {
             mainContent.classList.add('pinned');
         }
 
-        // ✅ Toggle menu display
         const isVisible = menu.style.display === 'block';
         menu.style.display = isVisible ? 'none' : 'block';
         settingHelp.classList.toggle('setingbackgroundChange', !isVisible);
     }
 }
-
 
 // Auto-close settings on document click
 document.addEventListener('click', function (e) {
@@ -1399,8 +1373,6 @@ document.addEventListener('DOMContentLoaded', function () {
     renderRecentChats();
 });
 
-
-
 function loadChatWithHistoryAnimation(chatId) {
     if (currentChatId === chatId) return;
 
@@ -1488,5 +1460,3 @@ function selectOption(clickedElement) {
     const clickedCheckIcon = clickedElement.querySelector('.fa-circle-check');
     if (clickedCheckIcon) clickedCheckIcon.classList.remove('hidden');
 }
-
-

@@ -13,7 +13,7 @@
   --sidebar-text: #575b5f;
   --sidebar-hover: #e1e4ea;
   --dropdown-bg: #f0f4f9;
-  --dropdown2-bg:#F0F4F9;
+  --dropdown2-bg: #F0F4F9;
   --dropdown-border: #DADCE0;
   --dropdown-text: #1F1F1F;
   --dropdown-hover: #dfe3e7;
@@ -33,11 +33,11 @@
   --add-diseble-btn-text: #9c9c9c;
   --textarea-text: #1f1f1f;
   --model-hover: #dfe3e7;
-   --box-Shadow: rgb(60, 64, 67);
-   --active-focus-bg:#D3E3FD;
-   --gems-bg-hover:#E9EEF6;
-   --account-hover: #dce1e8;
-   --bg-previewSectionChat:#FFFFFF;
+  --box-Shadow: rgb(60, 64, 67);
+  --active-focus-bg: #D3E3FD;
+  --gems-bg-hover: #E9EEF6;
+  --account-hover: #dce1e8;
+  --bg-previewSectionChat: #FFFFFF;
 }
 
 body.dark {
@@ -75,11 +75,11 @@ body.dark {
   --add-diseble-btn-text: #9c9c9c;
   --textarea-text: #e3e3e3;
   --model-hover: #393b3d;
-    --box-Shadow: #080808;
-     --active-focus-bg:#003355;
-     --gems-bg-hover:#333537;
-     --account-hover: #37393b;
-     --bg-previewSectionChat: #1a1b1c;
+  --box-Shadow: #080808;
+  --active-focus-bg: #003355;
+  --gems-bg-hover: #333537;
+  --account-hover: #37393b;
+  --bg-previewSectionChat: #1a1b1c;
 }
 
 
@@ -97,7 +97,7 @@ body {
   position: absolute;
   left: 0;
   top: 100%;
-  display: none ;
+  display: none;
 }
 
 .submenu:hover .theme-options {
@@ -322,8 +322,8 @@ a {
   display: block !important;
 }
 
-.x-flex{
-    display: flex !important;
+.x-flex {
+  display: flex !important;
 }
 
 .main-content {
@@ -598,11 +598,13 @@ a {
   left: -45%;
   transform: translateX(10px);
 }
+
 .search-span {
   left: -77%;
 }
 
-.collapse,.expand {
+.collapse,
+.expand {
   left: -15%;
 }
 
@@ -690,7 +692,7 @@ a {
   /* background-color: var(--bg-main); */
   z-index: 100;
 }
- 
+
 
 @media (min-width: 768px) {
   .dropdown-menu {
@@ -705,30 +707,31 @@ a {
     padding: 10px 0;
   }
 }
- 
+
 /* Mobile Style (≤768px) */
 @media (max-width: 767px) {
   .dropdown-toggle {
     position: unset !important;
   }
- 
+
   /* #dropdownMenu ul{
     gap: 3px !important;
     
     flex-direction: column;
   } */
 
-  .dropdown-menu li{
+  .dropdown-menu li {
     background-color: var(--bg-main);
     border-radius: 0;
     margin-bottom: 3px;
   }
 
-  .dropdown-menu .first{
+  .dropdown-menu .first {
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
   }
-  .dropdown-menu .last{
+
+  .dropdown-menu .last {
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
@@ -743,7 +746,7 @@ a {
     padding: 15px;
   }
 
-  .theme-options{
+  .theme-options {
     left: 80% !important;
   }
 }
@@ -1314,12 +1317,13 @@ main {
     padding-top: 0 !important;
   }
 
-#infoIcon #tooltip{
-  left: -115px !important;
-}
-#knowledgeIcon #knowledgeTooltip{
-  left: -115px !important;
-}
+  #infoIcon #tooltip {
+    left: -115px !important;
+  }
+
+  #knowledgeIcon #knowledgeTooltip {
+    left: -115px !important;
+  }
 
   .gemini-header a {
     padding: 5px 10px;
@@ -1367,7 +1371,8 @@ main {
   }
 
 
-  .theme-options,.help-options {
+  .theme-options,
+  .help-options {
     left: 62% !important;
   }
 
@@ -1391,18 +1396,20 @@ main {
     justify-content: space-between;
   }
 
-    .items-center .p-2{
-  font-size: 12px !important;
+  .items-center .p-2 {
+    font-size: 12px !important;
   }
- 
-  .text-center .text-sm{
+
+  .text-center .text-sm {
     font-size: 12px;
   }
- 
+
 }
 
 @media (max-width: 320px) {
-  .theme-options,.help-options {
+
+  .theme-options,
+  .help-options {
     left: 48% !important;
   }
 }
@@ -1494,26 +1501,27 @@ main {
     display: block;
   }
 
-   .pt-40 .mx-auto{
+  .pt-40 .mx-auto {
     width: 70% !important;
   }
- 
+
 }
 
 .hidden {
   display: none;
 }
 
-.pl-5 .h-9{
+.pl-5 .h-9 {
   font-size: 15px;
 }
 
-#recent-chats li:hover .kebab-menu-wrapper{
+#recent-chats li:hover .kebab-menu-wrapper {
   display: flex;
 }
 
 
-#feedback-data, #help_Data {
+#feedback-data,
+#help_Data {
   z-index: 999;
 }
 
@@ -1521,7 +1529,7 @@ main {
   color: var(--add-btn);
 }
 
-.mb-25imp{
+.mb-25imp {
   margin-bottom: 25px !important;
 }
 
@@ -1534,7 +1542,7 @@ main {
 }
 
 .gemini-dropdown-menu {
-  min-width: 150px; 
+  min-width: 150px;
 }
 
 .gemini-dropdown-item {
@@ -1543,20 +1551,18 @@ main {
   gap: 0.5rem;
   width: 100%;
   text-align: left;
-  padding: 0.5rem 0.75rem; 
+  padding: 0.5rem 0.75rem;
 }
 
+#inputWrapper .hidden {
+  display: none !important;
+}
 
-#inputWrapper .hidden{
+.space-y-2 .hidden {
   display: none !important;
 }
- 
-.space-y-2 .hidden{
-  display: none !important;
-}
- 
+
 #toggleAccountsBtn {
   justify-content: space-between !important;
-  padding: 16px ;
+  padding: 16px;
 }
-
